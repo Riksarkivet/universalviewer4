@@ -7,8 +7,10 @@
     "limitLocales": false,
     "overrideFullScreen": false,
     "pagingEnabled": true,
+    "rightContainerPanelEnabled": true,
     "preferMediaElementExtension": false,
     "rightPanelEnabled": true,
+    "textRightPanelEnabled": true,
     "clickToZoomEnabled": false,
     "saveUserSettings": true
   },

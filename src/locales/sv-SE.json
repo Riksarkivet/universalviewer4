@@ -154,5 +154,10 @@
   "$contrast": "Kontrast",
   "$saturation": "Färgmättnad",
   "$reset": "Återställ",
-  "$remember": "Kom ihåg mina inställningar"
+  "$remember": "Kom ihåg mina inställningar",
+  "$transcribedText": "Transkriberad text",
+  "$expandTranscribedText": "Expandera transkriberad text",
+  "$collapseTranscribedText": "Fäll ihop transkriberad text",
+  "$transcribedTextLeftPage": "Vänstra sidan",
+  "$transcribedTextRightPage": "Högra sidan"
 }

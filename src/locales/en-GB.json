@@ -154,5 +154,10 @@
   "$contrast": "Contrast",
   "$saturation": "Saturation",
   "$reset": "Reset",
-  "$remember": "Remember my settings"
+  "$remember": "Remember my settings",
+  "$transcribedText": "Transcribed text",
+  "$expandTranscribedText": "Expand transcribed text",
+  "$collapseTranscribedText": "Collapse transcribed text",
+  "$transcribedTextLeftPage": "Left page",
+  "$transcribedTextRightPage": "Right page"
 }
