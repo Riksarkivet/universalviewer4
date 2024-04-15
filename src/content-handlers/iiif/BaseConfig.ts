@@ -485,6 +485,7 @@ type TextRightPanelContent = DialogueContent &
     title: string;
     leftPage: string;
     rightPage: string;
+    textNotFound: string;
   };
 
 export type TextRightPanel = ModuleConfig & {
