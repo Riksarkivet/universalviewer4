@@ -24,6 +24,7 @@ import { AnnotationGroup } from "@iiif/manifold";
 import { AnnotationResults } from "../../modules/uv-shared-module/AnnotationResults";
 import { Config } from "./config/Config";
 import { RightContainerPanel } from "../../modules/uv-shared-module/RightContainerPanel";
+import { LeftContainerPanel } from "../../modules/uv-shared-module/LeftContainerPanel";
 
 export default class ModelViewerExtension extends BaseExtension<Config> {
   $downloadDialogue: JQuery;
@@ -36,6 +37,7 @@ export default class ModelViewerExtension extends BaseExtension<Config> {
   footerPanel: FooterPanel<Config["modules"]["footerPanel"]>;
   headerPanel: HeaderPanel<Config["modules"]["headerPanel"]>;
   helpDialogue: HelpDialogue;
+  leftContainerPanel: LeftContainerPanel<Config["modules"]["leftContainerPanel"]>;
   leftPanel: ContentLeftPanel;
   mobileFooterPanel: FooterPanel<Config["modules"]["footerPanel"]>;
   moreInfoDialogue: MoreInfoDialogue;
@@ -82,6 +84,10 @@ export default class ModelViewerExtension extends BaseExtension<Config> {
       this.headerPanel = new HeaderPanel(this.shell.$headerPanel);
     } else {
       this.shell.$headerPanel.hide();
+    }
+
+    if (this.isLeftContainerPanelEnabled()){
+      this.leftContainerPanel = new LeftContainerPanel(this.shell.$leftContainerPanel);
     }
 
     if (this.isLeftPanelEnabled()) {
