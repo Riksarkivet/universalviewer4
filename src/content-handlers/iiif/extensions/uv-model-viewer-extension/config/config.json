@@ -8,6 +8,7 @@
     "footerPanelEnabled": true,
     "headerPanelEnabled": true,
     "leftPanelEnabled": true,
+    "leftSearchPanelEnabled": true,
     "limitLocales": false,
     "metrics": [
       {
@@ -158,6 +159,10 @@
         "title": "$help"
       }
     },
+    "leftContainerPanel": {
+      "options": {},
+      "content": {}
+    },
     "rightContainerPanel": {
       "options": {},
       "content": {}
@@ -250,6 +255,21 @@
       }
     },
     "leftPanel": {
+      "options": {
+        "expandFullEnabled": false,
+        "panelAnimationDuration": 250,
+        "panelCollapsedWidth": 30,
+        "panelExpandedWidth": 255,
+        "panelOpen": false
+      },
+      "content": {
+        "collapse": "$collapse",
+        "collapseFull": "$collapseFull",
+        "expand": "$expandContents",
+        "expandFull": "$expandGallery"
+      }
+    },
+    "leftSearchPanel": {
       "options": {
         "expandFullEnabled": false,
         "panelAnimationDuration": 250,

@@ -55,7 +55,9 @@ import { merge } from "../../../../Utils";
 import defaultConfig from "./config/config.json";
 import { Config } from "./config/Config";
 import { TextRightPanel } from "../../modules/uv-textrightpanel-module/TextRightPanel";
+import { LeftSearchPanel } from "../../modules/uv-leftsearchpanel-module/LeftSearchPanel";
 import { RightContainerPanel } from "../../modules/uv-shared-module/RightContainerPanel";
+import { LeftContainerPanel } from "../../modules/uv-shared-module/LeftContainerPanel";
 
 export default class OpenSeadragonExtension extends BaseExtension<Config> {
   $downloadDialogue: JQuery;
@@ -74,7 +76,9 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
   headerPanel: PagingHeaderPanel;
   helpDialogue: HelpDialogue;
   isAnnotating: boolean = false;
+  leftContainerPanel: LeftContainerPanel<Config["modules"]["leftContainerPanel"]>;
   leftPanel: ContentLeftPanel;
+  leftSearchPanel: LeftSearchPanel<Config["modules"]["leftPanel"]>;
   mobileFooterPanel: MobileFooterPanel;
   mode: Mode;
   moreInfoDialogue: MoreInfoDialogue;
@@ -522,10 +526,22 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
       this.shell.$headerPanel.hide();
     }
 
+    if (this.isLeftContainerPanelEnabled()) {
+      this.leftContainerPanel = new LeftContainerPanel(this.shell.$leftContainerPanel);
+    } else {
+      this.shell.$leftContainerPanel.hide();
+    }
+
     if (this.isLeftPanelEnabled()) {
       this.leftPanel = new ContentLeftPanel(this.shell.$leftPanel);
     } else {
       this.shell.$leftPanel.hide();
+    }
+
+    if (this.isLeftSearchPanelEnabled()) {
+      this.leftSearchPanel = new LeftSearchPanel(this.shell.$leftSearchPanel);
+    } else {
+      this.shell.$leftSearchPanel.hide();
     }
 
     this.centerPanel = new OpenSeadragonCenterPanel(this.shell.$centerPanel);

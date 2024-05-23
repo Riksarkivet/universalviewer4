@@ -1064,6 +1064,10 @@ export class BaseExtension<T extends BaseConfig> implements IExtension {
     return Bools.getBool(this.data.config!.options.headerPanelEnabled, true);
   }
 
+  isLeftContainerPanelEnabled(): boolean {
+    return Bools.getBool(this.data.config!.options.leftContainerPanelEnabled, true);
+  }
+
   isLeftPanelEnabled(): boolean {
     if (Bools.getBool(this.data.config!.options.leftPanelEnabled, true)) {
       if (this.helper.hasParentCollection()) {
@@ -1081,6 +1085,10 @@ export class BaseExtension<T extends BaseConfig> implements IExtension {
     }
 
     return false;
+  }
+
+  isLeftSearchPanelEnabled(): boolean {
+    return Bools.getBool(this.data.config!.options.leftSearchPanelEnabled, true);
   }
 
   isRightContainerPanelEnabled(): boolean {

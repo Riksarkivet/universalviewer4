@@ -7,6 +7,7 @@ import { HelpDialogue } from "../../modules/uv-dialogues-module/HelpDialogue";
 import { IDefaultExtension } from "./IDefaultExtension";
 import { MoreInfoRightPanel } from "../../modules/uv-moreinforightpanel-module/MoreInfoRightPanel";
 import { TextRightPanel } from "../../modules/uv-textrightpanel-module/TextRightPanel";
+import { LeftSearchPanel } from "../../modules/uv-leftsearchpanel-module/LeftSearchPanel";
 import { ResourcesLeftPanel } from "../../modules/uv-resourcesleftpanel-module/ResourcesLeftPanel";
 import { SettingsDialogue } from "./SettingsDialogue";
 import { ShareDialogue } from "./ShareDialogue";
@@ -15,6 +16,7 @@ import "./theme/theme.less";
 import defaultConfig from "./config/config.json";
 import { Config } from "./config/Config";
 import { RightContainerPanel } from "../../modules/uv-shared-module/RightContainerPanel";
+import { LeftContainerPanel } from "../../modules/uv-shared-module/LeftContainerPanel";
 
 export default class Extension extends BaseExtension<Config>
   implements IDefaultExtension {
@@ -28,7 +30,9 @@ export default class Extension extends BaseExtension<Config>
   headerPanel: HeaderPanel<Config["modules"]["headerPanel"]>;
   helpDialogue: HelpDialogue;
   leftPanel: ResourcesLeftPanel;
+  leftSearchPanel: LeftSearchPanel<Config["modules"]["leftPanel"]>;
   rightContainerPanel: RightContainerPanel<Config["modules"]["rightContainerPanel"]>;
+  leftContainerPanel: LeftContainerPanel<Config["modules"]["leftContainerPanel"]>;
   rightPanel: MoreInfoRightPanel;
   textRightPanel: TextRightPanel;
   settingsDialogue: SettingsDialogue;
@@ -61,8 +65,16 @@ export default class Extension extends BaseExtension<Config>
       this.shell.$headerPanel.hide();
     }
 
+    if (this.isLeftContainerPanelEnabled()) {
+      this.leftContainerPanel = new LeftContainerPanel(this.shell.$leftContainerPanel);
+    }
+
     if (this.isLeftPanelEnabled()) {
       this.leftPanel = new ResourcesLeftPanel(this.shell.$leftPanel);
+    }
+
+    if (this.isLeftSearchPanelEnabled()) {
+      this.leftSearchPanel = new LeftSearchPanel(this.shell.$leftSearchPanel);
     }
 
     this.centerPanel = new FileLinkCenterPanel(this.shell.$centerPanel);
@@ -103,8 +115,16 @@ export default class Extension extends BaseExtension<Config>
     this.shell.$overlays.append(this.$settingsDialogue);
     this.settingsDialogue = new SettingsDialogue(this.$settingsDialogue);
 
+    if (this.isLeftContainerPanelEnabled()) {
+      this.leftContainerPanel.init();
+    }
+
     if (this.isLeftPanelEnabled()) {
       this.leftPanel.init();
+    }
+
+    if (this.isLeftSearchPanelEnabled()) {
+      this.leftSearchPanel.init();
     }
 
     if (this.isRightContainerPanelEnabled()) {

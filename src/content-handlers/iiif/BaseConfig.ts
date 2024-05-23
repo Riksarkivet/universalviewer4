@@ -34,8 +34,14 @@ export type Options = {
   /** Determines if the header panel is enabled */
   headerPanelEnabled?: boolean;
 
+  /** Determines if the left container panel is enabled */
+  leftContainerPanelEnabled?: boolean;
+
   /** Determines if the left panel is enabled */
   leftPanelEnabled?: boolean;
+
+  /** Determines if the left search panel is enabled */
+  leftSearchPanelEnabled?: boolean;
 
   /** Determines if locales are limited */
   limitLocales?: boolean;
@@ -70,7 +76,7 @@ export type Options = {
   /** Determines if viewport is preserved */
   preserveViewport?: boolean;
   
-  /** Determines if the more info right panel is enabled */
+  /** Determines if the right container panel is enabled */
   rightContainerPanelEnabled?: boolean;
   
   /** Determines if the more info right panel is enabled */
@@ -148,7 +154,14 @@ type HeaderPanel = ModuleConfig & {
   content: HeaderPanelContent;
 };
 
+export type LeftContainerPanel = ModuleConfig & {
+  options: ModuleOptions,
+  content: ModuleContent
+};
+
 type LeftPanel = ExpandPanel & {};
+
+export type LeftSearchPanel = ExpandPanel & {};
 
 export type CenterPanelOptions = {
   titleEnabled: boolean;
@@ -498,7 +511,9 @@ export type BaseConfig = {
     genericDialogue: GenericDialogue;
     headerPanel: HeaderPanel;
     helpDialogue: HelpDialogue;
+    leftContainerPanel: LeftContainerPanel;
     leftPanel: LeftPanel;
+    leftSearchPanel: LeftSearchPanel;
     loginDialogue: LoginDialogue;
     mobileFooterPanel: FooterPanel;
     rightContainerPanel: RightContainerPanel;
