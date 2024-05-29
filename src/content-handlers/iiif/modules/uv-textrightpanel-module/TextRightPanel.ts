@@ -2,6 +2,8 @@ const $ = require("jquery");
 import { RightPanel } from "../uv-shared-module/RightPanel";
 import { TextRightPanel as TextRightPanelConfig } from "../../BaseConfig";
 import { Events } from "../../../../Events";
+import OpenSeadragonExtension from "../../extensions/uv-openseadragon-extension/Extension";
+import OpenSeadragon from "openseadragon";
 
 export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
   $transcribedText: JQuery;
@@ -28,6 +30,7 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
         } else if (i === 1 && canvases.length > 1) {
           header = this.content.rightPage;
         }
+
         // We need to see if seeAlso contains an ALTO file and maybe allow for other HTR/OCR formats in the future
         // and make sure which version of IIIF Presentation API is used
         if (seeAlso.length === undefined) { // This is IIIF Presentation API < 3
@@ -73,10 +76,34 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
       const textLines = altoDoc.querySelectorAll('TextLine');
       let lines = Array.from(textLines).map((e, i) => {
         const strings = e.querySelectorAll('String');
-        var t = Array.from(strings).map((e, i) => {
+        let t = Array.from(strings).map((e, i) => {
           return e.getAttribute("CONTENT")
         });
-        let line = $('<p>' + t.join(' ') + '</p>');
+        const x = Number(e.getAttribute("HPOS"));
+        const y = Number(e.getAttribute("VPOS"));
+        const width = Number(e.getAttribute("WIDTH"));
+        const height = Number(e.getAttribute("HEIGHT"));
+        
+        let line = $('<p id="line-annotation-' + i + '" class="lineAnnotation">' + t.join(' ') + '</p>');
+        let div = $('<div id="line-annotation-' + i + '" class="lineAnnotationRect"></div>');
+
+        $(div).on("click", (e: any) => {
+          this.clearLineAnnotationRects();
+          this.clearLineAnnotations();
+          this.setCurrentLineAnnotation(e, true);
+          this.setCurrentLineAnnotationRect(e);
+        });
+        // Add overlay to OpenSeadragon canvas
+        const osRect = new OpenSeadragon.Rect(x, y, width, height);
+        (<OpenSeadragonExtension>(this.extension)).centerPanel.viewer.addOverlay(div[0], osRect);
+
+        // Sync line click with line annotation
+        line.on("click", (e: any) => {
+          this.clearLineAnnotationRects();
+          this.clearLineAnnotations();
+          this.setCurrentLineAnnotation(e, false);
+          this.setCurrentLineAnnotationRect(e);
+        });
         return line;
       });
       this.$transcribedText = $('<div class="transcribed-text"></div>');
@@ -92,6 +119,43 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
     } catch (error) {
       throw new Error('Unable to fetch Alto file: ' + error.message);
     }
+  }
+
+  setCurrentLineAnnotationRect(e: any): void {
+    $("div.lineAnnotationRect").each((i: Number, lineAnnotationRect: any) => {
+      if ($(lineAnnotationRect).hasClass("current")) {
+        $(lineAnnotationRect).removeClass("current");
+      }
+    });
+    $("div#" + e.target.getAttribute("id")).addClass("current");
+  }
+
+  setCurrentLineAnnotation(e: any, scrollIntoView: Boolean): void {
+    $(".lineAnnotation").each((i: Number, lineAnnotation: any) => {
+      if ($(lineAnnotation).hasClass("current")) {
+        $(lineAnnotation).removeClass("current");
+      }
+    });
+    $("p#" + e.target.getAttribute("id")).addClass("current");
+    if (scrollIntoView) {
+      $("p#" + e.target.getAttribute("id"))[0].scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
+    }
+  }
+
+  clearLineAnnotationRects(): void {
+    $("div.lineAnnotationRect").each((i: Number, lineAnnotationRect: any) => {
+      if ($(lineAnnotationRect).hasClass("current")) {
+        $(lineAnnotationRect).removeClass("current");
+      }
+    });
+  }
+
+  clearLineAnnotations(): void {
+    $(".lineAnnotation").each((i: Number, lineAnnotation: any) => {
+      if ($(lineAnnotation).hasClass("current")) {
+        $(lineAnnotation).removeClass("current");
+      }
+    });
   }
 
 }
