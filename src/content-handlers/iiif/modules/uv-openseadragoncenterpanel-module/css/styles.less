@@ -187,6 +187,18 @@
                 }
             }
 
+            .lineAnnotationRect{
+                .opacity(.5);
+                &.current {
+                    @col: rgb(120, 251, 185);
+                    background-color: saturate(@col, 100%);
+                }
+                &:hover {
+                    @col: lighten(rgb(120, 251, 185), 20%);
+                    background-color: saturate(@col, 80%);
+                }
+            }
+
             .annotationPin{
                 // background-color: white;
                 background-image: data-uri('../img/pin.svg') !important;
