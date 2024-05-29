@@ -7,7 +7,7 @@ import { HelpDialogue } from "../../modules/uv-dialogues-module/HelpDialogue";
 import { IDefaultExtension } from "./IDefaultExtension";
 import { MoreInfoRightPanel } from "../../modules/uv-moreinforightpanel-module/MoreInfoRightPanel";
 import { TextRightPanel } from "../../modules/uv-textrightpanel-module/TextRightPanel";
-import { LeftSearchPanel } from "../../modules/uv-leftsearchpanel-module/LeftSearchPanel";
+import { SearchLeftPanel } from "../../modules/uv-searchleftpanel-module/SearchLeftPanel";
 import { ResourcesLeftPanel } from "../../modules/uv-resourcesleftpanel-module/ResourcesLeftPanel";
 import { SettingsDialogue } from "./SettingsDialogue";
 import { ShareDialogue } from "./ShareDialogue";
@@ -30,7 +30,7 @@ export default class Extension extends BaseExtension<Config>
   headerPanel: HeaderPanel<Config["modules"]["headerPanel"]>;
   helpDialogue: HelpDialogue;
   leftPanel: ResourcesLeftPanel;
-  leftSearchPanel: LeftSearchPanel<Config["modules"]["leftPanel"]>;
+  searchLeftPanel: SearchLeftPanel;
   rightContainerPanel: RightContainerPanel<Config["modules"]["rightContainerPanel"]>;
   leftContainerPanel: LeftContainerPanel<Config["modules"]["leftContainerPanel"]>;
   rightPanel: MoreInfoRightPanel;
@@ -73,8 +73,8 @@ export default class Extension extends BaseExtension<Config>
       this.leftPanel = new ResourcesLeftPanel(this.shell.$leftPanel);
     }
 
-    if (this.isLeftSearchPanelEnabled()) {
-      this.leftSearchPanel = new LeftSearchPanel(this.shell.$leftSearchPanel);
+    if (this.isSearchLeftPanelEnabled()) {
+      this.searchLeftPanel = new SearchLeftPanel(this.shell.$searchLeftPanel);
     }
 
     this.centerPanel = new FileLinkCenterPanel(this.shell.$centerPanel);
@@ -123,8 +123,8 @@ export default class Extension extends BaseExtension<Config>
       this.leftPanel.init();
     }
 
-    if (this.isLeftSearchPanelEnabled()) {
-      this.leftSearchPanel.init();
+    if (this.isSearchLeftPanelEnabled()) {
+      this.searchLeftPanel.init();
     }
 
     if (this.isRightContainerPanelEnabled()) {

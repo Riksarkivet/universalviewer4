@@ -1087,8 +1087,8 @@ export class BaseExtension<T extends BaseConfig> implements IExtension {
     return false;
   }
 
-  isLeftSearchPanelEnabled(): boolean {
-    return Bools.getBool(this.data.config!.options.leftSearchPanelEnabled, true);
+  isSearchLeftPanelEnabled(): boolean {
+    return Bools.getBool(this.data.config!.options.searchLeftPanelEnabled, true);
   }
 
   isRightContainerPanelEnabled(): boolean {

@@ -8,7 +8,7 @@
     "footerPanelEnabled": true,
     "headerPanelEnabled": true,
     "leftPanelEnabled": true,
-    "leftSearchPanelEnabled": true,
+    "searchLeftPanelEnabled": true,
     "limitLocales": false,
     "metrics": [
       {
@@ -269,19 +269,46 @@
         "expandFull": "$expandGallery"
       }
     },
-    "leftSearchPanel": {
+    "searchLeftPanel": {
       "options": {
+        "canvasDisplayOrder": "",
+        "canvasExclude": "",
+        "copyToClipboardEnabled": false,
         "expandFullEnabled": false,
+        "limitToRange": false,
+        "manifestDisplayOrder": "",
+        "manifestExclude": "",
         "panelAnimationDuration": 250,
         "panelCollapsedWidth": 30,
         "panelExpandedWidth": 255,
-        "panelOpen": false
+        "panelOpen": false,
+        "rtlLanguageCodes": "ar, ara, dv, div, he, heb, ur, urd",
+        "showAllLanguages": false,
+        "textLimit": 4,
+        "textLimitType": "lines",
+        "topCloseButtonEnabled": false
       },
       "content": {
+        "attribution": "$attribution",
+        "canvasHeader": "$aboutTheImage",
+        "close": "$close",
         "collapse": "$collapse",
         "collapseFull": "$collapseFull",
+        "copiedToClipboard": "$copiedToClipboard",
+        "copyToClipboard": "$copyToClipboard",
+        "description": "$description",
         "expand": "$expandContents",
-        "expandFull": "$expandGallery"
+        "expandFull": "$expandGallery",
+        "holdingText": "$moduleGoesHere",
+        "less": "$less",
+        "license": "$license",
+        "logo": "$logo",
+        "manifestHeader": "$aboutTheItem",
+        "more": "$more",
+        "noData": "$noDataToDisplay",
+        "page": "$page",
+        "rangeHeader": "$aboutThisSection",
+        "title": "$search"
       }
     },
     "contentLeftPanel": {

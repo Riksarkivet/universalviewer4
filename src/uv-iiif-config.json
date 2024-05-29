@@ -5,7 +5,7 @@
     "headerPanelEnabled": true,
     "leftContainerPanelEnabled": true,
     "leftPanelEnabled": true,
-    "leftSearchPanelEnabled": true,
+    "searchLeftPanelEnabled": true,
     "limitLocales": false,
     "overrideFullScreen": false,
     "pagingEnabled": true,
