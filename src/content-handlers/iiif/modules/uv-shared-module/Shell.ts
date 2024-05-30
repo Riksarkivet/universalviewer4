@@ -11,7 +11,9 @@ export class Shell extends BaseView<BaseConfig> {
   public $footerPanel: JQuery;
   public $genericDialogue: JQuery;
   public $headerPanel: JQuery;
+  public $leftContainerPanel: JQuery;
   public $leftPanel: JQuery;
+  public $searchLeftPanel: JQuery;
   public $mainPanel: JQuery;
   public $mobileFooterPanel: JQuery;
   public $overlays: JQuery;
@@ -55,8 +57,14 @@ export class Shell extends BaseView<BaseConfig> {
     );
     this.$mainPanel.append(this.$centerPanel);
 
+    this.$leftContainerPanel = $('<div class="leftContainerPanel"></div>');
+    this.$mainPanel.append(this.$leftContainerPanel);
+
     this.$leftPanel = $('<div class="leftPanel"></div>');
-    this.$mainPanel.append(this.$leftPanel);
+    this.$leftContainerPanel.append(this.$leftPanel);
+
+    this.$searchLeftPanel = $('<div class="leftPanel"></div>');
+    this.$leftContainerPanel.append(this.$searchLeftPanel);
 
     this.$rightContainerPanel = $('<div class="rightContainerPanel"></div>');
     this.$mainPanel.append(this.$rightContainerPanel);

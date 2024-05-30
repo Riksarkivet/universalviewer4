@@ -34,8 +34,14 @@ export type Options = {
   /** Determines if the header panel is enabled */
   headerPanelEnabled?: boolean;
 
+  /** Determines if the left container panel is enabled */
+  leftContainerPanelEnabled?: boolean;
+
   /** Determines if the left panel is enabled */
   leftPanelEnabled?: boolean;
+
+  /** Determines if the search left panel is enabled */
+  searchLeftPanelEnabled?: boolean;
 
   /** Determines if locales are limited */
   limitLocales?: boolean;
@@ -70,7 +76,7 @@ export type Options = {
   /** Determines if viewport is preserved */
   preserveViewport?: boolean;
   
-  /** Determines if the more info right panel is enabled */
+  /** Determines if the right container panel is enabled */
   rightContainerPanelEnabled?: boolean;
   
   /** Determines if the more info right panel is enabled */
@@ -148,7 +154,64 @@ type HeaderPanel = ModuleConfig & {
   content: HeaderPanelContent;
 };
 
+export type LeftContainerPanel = ModuleConfig & {
+  options: ModuleOptions,
+  content: ModuleContent
+};
+
 type LeftPanel = ExpandPanel & {};
+
+type SearchLeftPanelOptions = DialogueOptions &
+  ExpandPanelOptions & {
+    /** Order in which canvases are displayed */
+    canvasDisplayOrder: string;
+    /** Canvases to exclude from display */
+    canvasExclude: string;
+    /** Determines if copying to clipboard is enabled */
+    copyToClipboardEnabled: boolean;
+    /** Determines if download is enabled */
+    limitToRange: boolean;
+    /** Order in which manifests are displayed */
+    manifestDisplayOrder: string;
+    /** Manifests to exclude from display */
+    manifestExclude: string;
+    /** Language codes for right-to-left languages */
+    rtlLanguageCodes: string;
+    /** Determines if all languages should be shown */
+    showAllLanguages: boolean;
+    /** Limit for the text */
+    textLimit: number;
+    /** Type of the text limit */
+    textLimitType: string;
+  };
+
+type SearchLeftPanelContent = DialogueContent &
+  ExpandPanelContent & {
+    attribution: string;
+    canvasHeader: string;
+    collapse: string;
+    collapseFull: string;
+    copiedToClipboard: string;
+    copyToClipboard: string;
+    description: string;
+    expand: string;
+    expandFull: string;
+    holdingText: string;
+    less: string;
+    license: string;
+    logo: string;
+    manifestHeader: string;
+    more: string;
+    noData: string;
+    page: string;
+    rangeHeader: string;
+    title: string;
+  };
+
+export type SearchLeftPanel = ModuleConfig & {
+  options: SearchLeftPanelOptions;
+  content: SearchLeftPanelContent;
+};
 
 export type CenterPanelOptions = {
   titleEnabled: boolean;
@@ -498,7 +561,9 @@ export type BaseConfig = {
     genericDialogue: GenericDialogue;
     headerPanel: HeaderPanel;
     helpDialogue: HelpDialogue;
+    leftContainerPanel: LeftContainerPanel;
     leftPanel: LeftPanel;
+    searchLeftPanel: SearchLeftPanel;
     loginDialogue: LoginDialogue;
     mobileFooterPanel: FooterPanel;
     rightContainerPanel: RightContainerPanel;

@@ -150,5 +150,6 @@
     "$collapseTranscribedText": "Collapse transcribed text",
     "$transcribedTextLeftPage": "Left page",
     "$transcribedTextRightPage": "Right page",
-    "$noTranscribedTextFound": "Couldn't find any transcriptions for this page."
+    "$noTranscribedTextFound": "Couldn't find any transcriptions for this page.",
+    "$search": "Recherche"
 }
