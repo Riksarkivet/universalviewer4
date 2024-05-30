@@ -83,27 +83,30 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
         const y = Number(e.getAttribute("VPOS"));
         const width = Number(e.getAttribute("WIDTH"));
         const height = Number(e.getAttribute("HEIGHT"));
-        
+
         let line = $('<p id="line-annotation-' + i + '" class="lineAnnotation">' + t.join(' ') + '</p>');
-        let div = $('<div id="line-annotation-' + i + '" class="lineAnnotationRect"></div>');
 
-        $(div).on("click", (e: any) => {
-          this.clearLineAnnotationRects();
-          this.clearLineAnnotations();
-          this.setCurrentLineAnnotation(e, true);
-          this.setCurrentLineAnnotationRect(e);
-        });
-        // Add overlay to OpenSeadragon canvas
-        const osRect = new OpenSeadragon.Rect(x, y, width, height);
-        (<OpenSeadragonExtension>(this.extension)).centerPanel.viewer.addOverlay(div[0], osRect);
+        console.log(this.extension.isMobile());
+        if (!this.extension.isMobile()) {
+          let div = $('<div id="line-annotation-' + i + '" class="lineAnnotationRect"></div>');
+          $(div).on("click", (e: any) => {
+            this.clearLineAnnotationRects();
+            this.clearLineAnnotations();
+            this.setCurrentLineAnnotation(e, true);
+            this.setCurrentLineAnnotationRect(e);
+          });
+          // Add overlay to OpenSeadragon canvas
+          const osRect = new OpenSeadragon.Rect(x, y, width, height);
+          (<OpenSeadragonExtension>(this.extension)).centerPanel.viewer.addOverlay(div[0], osRect);
 
-        // Sync line click with line annotation
-        line.on("click", (e: any) => {
-          this.clearLineAnnotationRects();
-          this.clearLineAnnotations();
-          this.setCurrentLineAnnotation(e, false);
-          this.setCurrentLineAnnotationRect(e);
-        });
+          // Sync line click with line annotation
+          line.on("click", (e: any) => {
+            this.clearLineAnnotationRects();
+            this.clearLineAnnotations();
+            this.setCurrentLineAnnotation(e, false);
+            this.setCurrentLineAnnotationRect(e);
+          });
+        }
         return line;
       });
       this.$transcribedText = $('<div class="transcribed-text"></div>');
