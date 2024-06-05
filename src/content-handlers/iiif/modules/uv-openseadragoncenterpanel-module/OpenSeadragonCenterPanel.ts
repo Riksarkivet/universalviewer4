@@ -1070,9 +1070,11 @@ export class OpenSeadragonCenterPanel extends CenterPanel<
     if (!this.viewer || !this.viewer.viewport) return null;
 
     const canvas: Canvas = this.extension.helper.getCurrentCanvas();
-    const dimensions: CroppedImageDimensions | null = (
-      this.extension as OpenSeadragonExtension
-    ).getCroppedImageDimensions(canvas, this.viewer);
+    const dimensions: CroppedImageDimensions | null = (this
+      .extension as OpenSeadragonExtension).getCroppedImageDimensions(
+        canvas,
+        this.viewer
+      );
 
     if (dimensions) {
       const bounds: XYWHFragment = new XYWHFragment(
@@ -1114,7 +1116,26 @@ export class OpenSeadragonCenterPanel extends CenterPanel<
   }
 
   clearAnnotations(): void {
+    // Due to a bug(?) in OpenSeadragon, we're it moves all line annotations as children directly under the body node in the DOM,
+    // we need to readd our line annotation rects after a clear
+    let lineAnnotationRects = $('div > div.lineAnnotationRect');
     this.viewer.clearOverlays();
+    let parentNodeName = "";
+    if (lineAnnotationRects[0]) {
+      parentNodeName = lineAnnotationRects[0].parentNode.nodeName.toLowerCase();
+      if (parentNodeName === 'body') {
+        $(lineAnnotationRects).each((i: number, e: any) => {
+          console.log('adding overlay');
+          const x = Number(e.getAttribute("data-x"));
+          const y = Number(e.getAttribute("data-y"));
+          const width = Number(e.getAttribute("data-width"));
+          const height = Number(e.getAttribute("data-height"));
+          const osRect = new OpenSeadragon.Rect(x, y, width, height);
+          (<OpenSeadragonExtension>(this.extension)).centerPanel.viewer.addOverlay(e, osRect);
+          e.style.display = "block";
+        });
+      }
+    }
   }
 
   getAnnotationsForCurrentImages(): AnnotationGroup[] {

@@ -4,9 +4,11 @@ import { TextRightPanel as TextRightPanelConfig } from "../../BaseConfig";
 import { Events } from "../../../../Events";
 import OpenSeadragonExtension from "../../extensions/uv-openseadragon-extension/Extension";
 import OpenSeadragon from "openseadragon";
+import { IIIFEvents } from "../../IIIFEvents";
 
 export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
   $transcribedText: JQuery;
+  $existingAnnotation: JQuery = $();
 
   constructor($element: JQuery) {
     super($element);
@@ -17,8 +19,13 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
 
     super.create();
 
-    this.extensionHost.on(Events.LOAD, async () => {
+    this.extensionHost.on(IIIFEvents.CLEAR_ANNOTATIONS, async () => {
+      this.$existingAnnotation = $('.lineAnnotation.current');
+    });
+
+    this.extensionHost.on(Events.LOAD, async (e) => {
       this.$main.html('');
+      this.removeLineAnnotationRects();
       let canvases = this.extension.getCurrentCanvases();
       canvases.sort((a, b) => (a.index as number - b.index as number));
       for (let i = 0; i < canvases.length; i++) {
@@ -37,7 +44,7 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
           if (seeAlso.profile.includes('alto')) {
             await this.processAltoFile(seeAlso['@id'], header);
           }
-        } else { // This is IIIF Presentation API 3
+        } else { // This is IIIF Presentation API >= 3
           if (seeAlso[0].profile.includes('alto')) {
             await this.processAltoFile(seeAlso[0]['id'], header);
           }
@@ -74,10 +81,11 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
       const data = await response.text();
       const altoDoc = new DOMParser().parseFromString(data, 'application/xml');
       const textLines = altoDoc.querySelectorAll('TextLine');
+
       let lines = Array.from(textLines).map((e, i) => {
         const strings = e.querySelectorAll('String');
         let t = Array.from(strings).map((e, i) => {
-          return e.getAttribute("CONTENT")
+          return e.getAttribute("CONTENT");
         });
         const x = Number(e.getAttribute("HPOS"));
         const y = Number(e.getAttribute("VPOS"));
@@ -86,14 +94,13 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
 
         let line = $('<p id="line-annotation-' + i + '" class="lineAnnotation">' + t.join(' ') + '</p>');
 
-        console.log(this.extension.isMobile());
         if (!this.extension.isMobile()) {
-          let div = $('<div id="line-annotation-' + i + '" class="lineAnnotationRect"></div>');
+          let div = $('<div id="line-annotation-' + i + '" class="lineAnnotationRect" data-x="' + x + '" data-y="' + y + '" data-width="' + width + '" data-height="' + height + '"></div>');
           $(div).on("click", (e: any) => {
             this.clearLineAnnotationRects();
             this.clearLineAnnotations();
-            this.setCurrentLineAnnotation(e, true);
-            this.setCurrentLineAnnotationRect(e);
+            this.setCurrentLineAnnotation(e.target, true);
+            this.setCurrentLineAnnotationRect(e.target);
           });
           // Add overlay to OpenSeadragon canvas
           const osRect = new OpenSeadragon.Rect(x, y, width, height);
@@ -103,12 +110,13 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
           line.on("click", (e: any) => {
             this.clearLineAnnotationRects();
             this.clearLineAnnotations();
-            this.setCurrentLineAnnotation(e, false);
-            this.setCurrentLineAnnotationRect(e);
+            this.setCurrentLineAnnotation(e.target, false);
+            this.setCurrentLineAnnotationRect(e.target);
           });
         }
         return line;
       });
+
       this.$transcribedText = $('<div class="transcribed-text"></div>');
       if (header) {
         this.$transcribedText.append($('<div class="label">' + header + '</div>'));
@@ -119,6 +127,15 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
         this.$transcribedText.append($('<div>' + this.content.textNotFound + '</div>'));
       }
       this.$main.append(this.$transcribedText);
+
+      // If we already have a selected line annotation, make sure it's selected again after load
+      if (this.$existingAnnotation[0] !== undefined) {
+        let id = $(this.$existingAnnotation).attr('id');
+        this.setCurrentLineAnnotation($(this.$existingAnnotation)[0], true);
+        this.setCurrentLineAnnotationRect($('div#' + id)[0]);
+        this.$existingAnnotation = $();
+      }
+
     } catch (error) {
       throw new Error('Unable to fetch Alto file: ' + error.message);
     }
@@ -130,7 +147,7 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
         $(lineAnnotationRect).removeClass("current");
       }
     });
-    $("div#" + e.target.getAttribute("id")).addClass("current");
+    $("div#" + e.getAttribute("id")).addClass("current");
   }
 
   setCurrentLineAnnotation(e: any, scrollIntoView: Boolean): void {
@@ -139,9 +156,9 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
         $(lineAnnotation).removeClass("current");
       }
     });
-    $("p#" + e.target.getAttribute("id")).addClass("current");
+    $("p#" + e.getAttribute("id")).addClass("current");
     if (scrollIntoView) {
-      $("p#" + e.target.getAttribute("id"))[0].scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
+      $("p#" + e.getAttribute("id"))[0].scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
     }
   }
 
@@ -159,6 +176,10 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
         $(lineAnnotation).removeClass("current");
       }
     });
+  }
+
+  removeLineAnnotationRects(): void {
+    $('div.lineAnnotationRect').remove();
   }
 
 }
