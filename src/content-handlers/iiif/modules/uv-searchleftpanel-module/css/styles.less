@@ -21,13 +21,11 @@
       }
 
       .noData {
-        padding: 0 @padding-medium-horizontal (@padding-medium-vertical * 2)
-          @padding-medium-horizontal;
+        padding: 0 @padding-medium-horizontal (@padding-medium-vertical * 2) @padding-medium-horizontal;
       }
 
       .groups {
-        padding: @padding-medium-vertical @padding-medium-horizontal
-          (@padding-medium-vertical * 2) @padding-medium-horizontal;
+        padding: @padding-medium-vertical @padding-medium-horizontal (@padding-medium-vertical * 2) @padding-medium-horizontal;
 
         .group {
           .header {
@@ -68,13 +66,15 @@
         position: relative;
         background-color: @panel-dark-bg;
         height: 32px;
-        margin-left: 10px;
+        margin: 0 10px 0 10px;
 
         .searchTextContainer {
           background: #fff;
           float: left;
-          width: 200px;
+          width: 100%;
           position: relative;
+          display: flex;
+          align-items: flex-end;
 
           .autocomplete {
             position: absolute;
@@ -112,59 +112,89 @@
           }
 
           .searchText {
-            width: 175px;
-            margin: 1px 0 0 0;
+            position: relative;
             font-size: 12px;
-            height: 21px;
-            line-height: 22px;
+            margin-left: 4px;
+            height: 22px;
             padding: 0;
-            float: left;
             border: none;
+            display: flex;
+            flex: 1;
             color: black;
 
             &.searching {
               background: data-uri("../img/spinner.gif");
               background-repeat: no-repeat;
-              background-position: right 3px;
+              background-position: right 2px;
             }
           }
 
           .searchText:focus {
             outline: none;
-            border: none; /* Basic removal */
-            box-shadow: none; /* For modern browsers */
+            border: none;
+            box-shadow: none;
           }
 
           .clearButton {
-            background: lightgrey;
-            border: none;
-            border-radius: 14px; /* Makes the background oval */
-            color: gray;
-            cursor: pointer;
-            font-size: 14px;
-            padding: 0 7px;
-            margin: 0;
-            position: absolute;
-            right: 30px;
-            top: 50%;
-            transform: translateY(-50%);
-            transition: background 0.3s;
+            top: 3px;
+            right: 0;
+            display: flex;
+            position: relative;
+            width: 22px;
+            height: 22px;
+            font-size: 0;
+          }
 
-            &:hover {
-              background: darkgrey;
-              color: white;
-            }
+          .clearButton::before,
+          .clearButton::after {
+            position: absolute;
+            top: 8px;
+            left: 10px;
+            width: 2px;
+            height: 14px;
+            background-color: @gray-light;
+            transform: rotate(45deg) translate(-50%, -50%);
+            transform-origin: top left;
+            content: '';
+          }
+
+          .clearButton::after {
+            transform: rotate(-45deg) translate(-50%, -50%);
           }
 
           .imageButton.searchButton {
-            background: data-uri("../img/search.png");
-            background-repeat: no-repeat;
-            height: 18px;
-            width: 18px;
-            margin: 2px 2px 0 0;
-            border: 0;
-            float: right;
-            cursor: pointer;
+            top: 3px;
+            right: 0;
+            display: flex;
+            position: relative;
+            width: 22px;
+            height: 22px;
+            font-size: 0;
+          }
+
+          .imageButton.searchButton::before {
+            border-top: 2px solid @gray-light;
+            position: absolute;
+            top: 11px;
+            left: 11px;
+            width: 3px;
+            height: 5px;
+            background-color: @gray-light;
+            transform: rotate(-45deg);
+            transform-origin: top left;
+            content: '';
+          }
+
+          .imageButton.searchButton::after {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border: 2px solid @gray-light;
+            border-radius: 50%;
+            background: rgba(#000, 0);
+            left: 4px;
+            top: 2px;
           }
         }
       }
