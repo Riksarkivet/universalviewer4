@@ -13,6 +13,7 @@
     "rightPanelEnabled": true,
     "textRightPanelEnabled": true,
     "clickToZoomEnabled": false,
+    "searchWithinEnabled": false,
     "saveUserSettings": true
   },
   "modules": {
