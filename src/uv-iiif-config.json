@@ -12,7 +12,8 @@
     "rightContainerPanelEnabled": true,
     "rightPanelEnabled": true,
     "textRightPanelEnabled": true,
-    "clickToZoomEnabled": false
+    "clickToZoomEnabled": false,
+    "searchWithinEnabled": false
   },
   "modules": {
     "avCenterPanel": {
