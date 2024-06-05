@@ -58,17 +58,17 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
     this.$searchTextContainer.append(this.$searchText);
 
     this.$clearButton = $(
-      '<button class="clearButton">x</button>'
+      '<button class="clearButton"></button>'
     );
     this.$clearButton.on("click", () => {
-      this.$searchText.val('');
+      this.$searchText.val(this.content.enterKeyword);
     });
-    this.$searchTextContainer.append(this.$clearButton);
 
     this.$searchButton = $(
       '<button class="imageButton searchButton"></button>'
     );
     this.$searchTextContainer.append(this.$searchButton);
+    this.$searchTextContainer.append(this.$clearButton);
 
     // TODO: search results
 
