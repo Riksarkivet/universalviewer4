@@ -63,6 +63,112 @@
           }
         }
       }
+
+      .search {
+        position: relative;
+        background-color: @panel-dark-bg;
+        height: 32px;
+        margin-left: 10px;
+
+        .searchTextContainer {
+          background: #fff;
+          float: left;
+          width: 200px;
+          position: relative;
+
+          .autocomplete {
+            position: absolute;
+            background: #fff;
+            width: 270px;
+            border: 2px solid @brand-primary-lighter;
+            list-style-type: none;
+            -webkit-margin-before: 0px;
+            -webkit-margin-after: 0px;
+            -webkit-margin-start: 0px;
+            -webkit-margin-end: 0px;
+            -webkit-padding-start: 0px;
+            margin: 0;
+            padding: 0;
+            max-height: 300px;
+            overflow-y: auto;
+            overflow-x: hidden;
+
+            .result {
+              padding: 4px;
+              width: 270px;
+              overflow: hidden;
+
+              &.loading {
+                background-image: data-uri(@loader-white-bg);
+                background-repeat: no-repeat;
+                background-position: 4px 4px;
+                height: 25px;
+              }
+
+              &.selected {
+                background: @gray-lighter;
+              }
+            }
+          }
+
+          .searchText {
+            width: 175px;
+            margin: 1px 0 0 0;
+            font-size: 12px;
+            height: 21px;
+            line-height: 22px;
+            padding: 0;
+            float: left;
+            border: none;
+            color: black;
+
+            &.searching {
+              background: data-uri("../img/spinner.gif");
+              background-repeat: no-repeat;
+              background-position: right 3px;
+            }
+          }
+
+          .searchText:focus {
+            outline: none;
+            border: none; /* Basic removal */
+            box-shadow: none; /* For modern browsers */
+          }
+
+          .clearButton {
+            background: lightgrey;
+            border: none;
+            border-radius: 14px; /* Makes the background oval */
+            color: gray;
+            cursor: pointer;
+            font-size: 14px;
+            padding: 0 7px;
+            margin: 0;
+            position: absolute;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: background 0.3s;
+
+            &:hover {
+              background: darkgrey;
+              color: white;
+            }
+          }
+
+          .imageButton.searchButton {
+            background: data-uri("../img/search.png");
+            background-repeat: no-repeat;
+            height: 18px;
+            width: 18px;
+            margin: 2px 2px 0 0;
+            border: 0;
+            float: right;
+            cursor: pointer;
+          }
+        }
+      }
+
     }
   }
 }
