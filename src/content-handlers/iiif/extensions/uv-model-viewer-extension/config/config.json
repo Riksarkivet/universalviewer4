@@ -293,12 +293,14 @@
       "content": {
         "attribution": "$attribution",
         "canvasHeader": "$aboutTheImage",
+        "clearSearch": "$clearSearch",
         "close": "$close",
         "collapse": "$collapse",
         "collapseFull": "$collapseFull",
         "copiedToClipboard": "$copiedToClipboard",
         "copyToClipboard": "$copyToClipboard",
         "description": "$description",
+        "enterKeyword": "$enterKeyword",
         "expand": "$expandContents",
         "expandFull": "$expandGallery",
         "holdingText": "$moduleGoesHere",
@@ -310,6 +312,7 @@
         "noData": "$noDataToDisplay",
         "page": "$page",
         "rangeHeader": "$aboutThisSection",
+        "searchWithin": "$searchWithinItem",
         "title": "$search"
       }
     },

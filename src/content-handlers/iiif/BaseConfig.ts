@@ -212,6 +212,9 @@ type SearchLeftPanelContent = DialogueContent &
     page: string;
     rangeHeader: string;
     title: string;
+    enterKeyword: string;
+    searchWithin: string;
+    clearSearch: string;
   };
 
 export type SearchLeftPanel = ModuleConfig & {
