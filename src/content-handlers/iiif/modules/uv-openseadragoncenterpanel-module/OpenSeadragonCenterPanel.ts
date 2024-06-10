@@ -1004,7 +1004,6 @@ export class OpenSeadragonCenterPanel extends CenterPanel<
       parentNodeName = lineAnnotationRects[0].parentNode.nodeName.toLowerCase();
       if (parentNodeName === 'body') {
         $(lineAnnotationRects).each((i: number, e: any) => {
-          console.log('adding overlay');
           const x = Number(e.getAttribute("data-x"));
           const y = Number(e.getAttribute("data-y"));
           const width = Number(e.getAttribute("data-width"));
