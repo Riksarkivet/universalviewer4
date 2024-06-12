@@ -12,14 +12,6 @@ export class LeftPanel<T extends ExpandPanel> extends BaseExpandPanel<T> {
     super.create();
 
     this.$element.width(this.options.panelCollapsedWidth);
-
-    this.extensionHost.subscribe(IIIFEvents.TOGGLE_EXPAND_LEFT_PANEL, () => {
-      if (this.isFullyExpanded) {
-        this.collapseFull();
-      } else {
-        this.expandFull();
-      }
-    });
   }
 
   init(): void {
@@ -44,7 +36,7 @@ export class LeftPanel<T extends ExpandPanel> extends BaseExpandPanel<T> {
   }
 
   getFullTargetWidth(): number {
-    return this.$element.parent().width();
+    return this.$element.parent().parent().width();
   }
 
   toggleFinish(): void {
