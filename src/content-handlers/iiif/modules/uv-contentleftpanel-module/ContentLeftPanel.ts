@@ -62,6 +62,14 @@ export class ContentLeftPanel extends LeftPanel<ContentLeftPanelConfig> {
 
     super.create();
 
+    this.extensionHost.subscribe(IIIFEvents.TOGGLE_EXPAND_LEFT_PANEL, () => {
+      if (this.isFullyExpanded) {
+        this.collapseFull();
+      } else {
+        this.expandFull();
+      }
+    });
+
     this.extensionHost.subscribe(IIIFEvents.SETTINGS_CHANGE, () => {
       this.render();
     });

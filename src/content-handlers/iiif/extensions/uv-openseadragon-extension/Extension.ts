@@ -199,6 +199,8 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
       () => {
         if (this.isDesktopMetric()) {
           this.shell.$rightPanel.show();
+          this.shell.$textRightPanel.show();
+          this.shell.$searchLeftPanel.show();
         }
       }
     );
@@ -214,6 +216,8 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
     this.extensionHost.subscribe(IIIFEvents.LEFTPANEL_EXPAND_FULL_START, () => {
       this.shell.$centerPanel.hide();
       this.shell.$rightPanel.hide();
+      this.shell.$textRightPanel.hide();
+      this.shell.$searchLeftPanel.hide();
     });
 
     this.extensionHost.subscribe(IIIFEvents.MINUS, () => {
