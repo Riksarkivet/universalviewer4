@@ -58,6 +58,7 @@ import { TextRightPanel } from "../../modules/uv-textrightpanel-module/TextRight
 import { SearchLeftPanel } from "../../modules/uv-searchleftpanel-module/SearchLeftPanel";
 import { RightContainerPanel } from "../../modules/uv-shared-module/RightContainerPanel";
 import { LeftContainerPanel } from "../../modules/uv-shared-module/LeftContainerPanel";
+import { SearchHit } from "../../modules/uv-shared-module/SearchHit";
 
 export default class OpenSeadragonExtension extends BaseExtension<Config> {
   $downloadDialogue: JQuery;
@@ -90,6 +91,7 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
   settingsDialogue: SettingsDialogue;
   shareDialogue: ShareDialogue;
   defaultConfig: Config = defaultConfig;
+  searchHits: SearchHit[];
 
   create(): void {
     super.create();
@@ -786,9 +788,18 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
     }
   }
 
-  annotate(annotations: AnnotationGroup[], terms?: string): void {
-    this.annotations = annotations;
+  annotate(annotations: AnnotationGroup[], terms?: string, searchHits?: SearchHit[]): void {
+    if (searchHits !== undefined) {
+      this.searchHits = searchHits;
+      // sort the search hits by canvasIndex
+      this.searchHits = searchHits.sort(
+        (a: SearchHit, b: SearchHit) => {
+          return a.canvasIndex - b.canvasIndex;
+        }
+      );
+    }
 
+    this.annotations = annotations;
     // sort the annotations by canvasIndex
     this.annotations = annotations.sort(
       (a: AnnotationGroup, b: AnnotationGroup) => {
@@ -799,6 +810,7 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
     const annotationResults: AnnotationResults = new AnnotationResults();
     annotationResults.terms = terms;
     annotationResults.annotations = <AnnotationGroup[]>this.annotations;
+    annotationResults.searchHits = <SearchHit[]>this.searchHits;
 
     this.extensionHost.publish(IIIFEvents.ANNOTATIONS, annotationResults);
 
@@ -866,6 +878,44 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
     });
 
     return groupedAnnotations;
+  }
+
+  groupSearchHitsByTarget(searchHits: any): SearchHit[] {
+    const groupedSearchHits: SearchHit[] = [];
+    let currentIndex = 0;
+    let oldCanvasIndex: number | null = null;
+    
+    for (let i = 0; i < searchHits.resources.length; i++) {
+      const resource: any = searchHits.resources[i];
+      const hit: any = searchHits.hits[i];
+      const canvasId: string = resource.on.match(/(.*)#/)[1];
+      const canvasIndex: number | null = this.helper.getCanvasIndexById(
+        canvasId
+      );
+
+      if (canvasIndex !== oldCanvasIndex) {
+        currentIndex = 0;
+        oldCanvasIndex = canvasIndex;
+      } else {
+        currentIndex++;
+      }
+
+      //console.log(hit);
+      const searchHit: SearchHit = new SearchHit();
+      searchHit.canvasId = canvasId;
+      searchHit.canvasIndex = canvasIndex as number;
+      searchHit.before = hit.before;
+      searchHit.after = hit.after;
+      searchHit.match = hit.match;
+      searchHit.index = currentIndex;
+      groupedSearchHits.push(searchHit);
+    }
+
+    groupedSearchHits.sort((a, b) => {
+      return a.canvasIndex - b.canvasIndex;
+    });
+
+    return groupedSearchHits;
   }
 
   checkForSearchParam(): void {
@@ -1457,6 +1507,7 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
 
     // clear search results
     this.annotations = [];
+    this.searchHits = [];
 
     const that = this;
 
@@ -1472,11 +1523,11 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
       searchUri,
       terms,
       this.annotations,
-      (annotations: AnnotationGroup[]) => {
+      this.searchHits,
+      (annotations: AnnotationGroup[], searchHits: SearchHit[]) => {
         that.isAnnotating = false;
-
         if (annotations.length) {
-          that.annotate(annotations, terms);
+          that.annotate(annotations, terms, searchHits);
         } else {
           that.showMessage(
             that.data.config!.modules.genericDialogue.content.noMatches,
@@ -1493,7 +1544,8 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
     searchUri: string,
     terms: string,
     searchResults: AnnotationGroup[],
-    cb: (results: AnnotationGroup[]) => void
+    searchHits: SearchHit[],
+    cb: (results: AnnotationGroup[], searchHits: SearchHit[]) => void
   ): void {
     fetch(searchUri)
       .then((response) => response.json())
@@ -1502,12 +1554,15 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
           searchResults = searchResults.concat(
             this.groupOpenAnnotationsByTarget(results)
           );
+          searchHits = searchHits.concat(
+            this.groupSearchHitsByTarget(results)
+          );
         }
 
         if (results.next) {
-          this.getSearchResults(results.next, terms, searchResults, cb);
+          this.getSearchResults(results.next, terms, searchResults, searchHits, cb);
         } else {
-          cb(searchResults);
+          cb(searchResults, searchHits);
         }
       });
   }
@@ -1665,7 +1720,7 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
         }
       }
     }
-    
+
     return indices;
   }
 }

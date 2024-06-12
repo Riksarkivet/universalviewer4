@@ -30,7 +30,7 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
       canvases.sort((a, b) => (a.index as number - b.index as number));
       for (let i = 0; i < canvases.length; i++) {
         const c = canvases[i];
-        let seeAlso = c.getProperty("seeAlso");
+        let seeAlso = c.getProperty('seeAlso');
         let header;
         if (i === 0 && canvases.length > 1) {
           header = this.content.leftPage;
@@ -85,18 +85,23 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
       let lines = Array.from(textLines).map((e, i) => {
         const strings = e.querySelectorAll('String');
         let t = Array.from(strings).map((e, i) => {
-          return e.getAttribute("CONTENT");
+          return e.getAttribute('CONTENT');
         });
-        const x = Number(e.getAttribute("HPOS"));
-        const y = Number(e.getAttribute("VPOS"));
-        const width = Number(e.getAttribute("WIDTH"));
-        const height = Number(e.getAttribute("HEIGHT"));
+        const x = Number(e.getAttribute('HPOS'));
+        const y = Number(e.getAttribute('VPOS'));
+        const width = Number(e.getAttribute('WIDTH'));
+        const height = Number(e.getAttribute('HEIGHT'));
 
-        let line = $('<p id="line-annotation-' + i + '" class="lineAnnotation">' + t.join(' ') + '</p>');
+        let line = $('<p id="line-annotation-' + i + '" class="lineAnnotation" tabindex="0">' + t.join(' ') + '</p>');
 
         if (!this.extension.isMobile()) {
-          let div = $('<div id="line-annotation-' + i + '" class="lineAnnotationRect" data-x="' + x + '" data-y="' + y + '" data-width="' + width + '" data-height="' + height + '"></div>');
-          $(div).on("click", (e: any) => {
+          let div = $('<div id="line-annotation-' + i + '" class="lineAnnotationRect" data-x="' + x + '" data-y="' + y + '" data-width="' + width + '" data-height="' + height + '" tabindex="0"></div>');
+          $(div).on('keydown', (e: any) => {
+            if (e.keyCode === 13) {
+              $(e.target).trigger('click');
+            }
+          });
+          $(div).on('click', (e: any) => {
             this.clearLineAnnotationRects();
             this.clearLineAnnotations();
             this.setCurrentLineAnnotation(e.target, true);
@@ -106,8 +111,13 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
           const osRect = new OpenSeadragon.Rect(x, y, width, height);
           (<OpenSeadragonExtension>(this.extension)).centerPanel.viewer.addOverlay(div[0], osRect);
 
+          line.on('keydown', (e: any) => {
+            if (e.keyCode === 13) {
+              $(e.target).trigger('click');
+            }
+          });
           // Sync line click with line annotation
-          line.on("click", (e: any) => {
+          line.on('click', (e: any) => {
             this.clearLineAnnotationRects();
             this.clearLineAnnotations();
             this.setCurrentLineAnnotation(e.target, false);
@@ -142,38 +152,38 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
   }
 
   setCurrentLineAnnotationRect(e: any): void {
-    $("div.lineAnnotationRect").each((i: Number, lineAnnotationRect: any) => {
-      if ($(lineAnnotationRect).hasClass("current")) {
-        $(lineAnnotationRect).removeClass("current");
+    $('div.lineAnnotationRect').each((i: Number, lineAnnotationRect: any) => {
+      if ($(lineAnnotationRect).hasClass('current')) {
+        $(lineAnnotationRect).removeClass('current');
       }
     });
-    $("div#" + e.getAttribute("id")).addClass("current");
+    $('div#' + e.getAttribute('id')).addClass('current');
   }
 
   setCurrentLineAnnotation(e: any, scrollIntoView: Boolean): void {
-    $(".lineAnnotation").each((i: Number, lineAnnotation: any) => {
-      if ($(lineAnnotation).hasClass("current")) {
-        $(lineAnnotation).removeClass("current");
+    $('.lineAnnotation').each((i: Number, lineAnnotation: any) => {
+      if ($(lineAnnotation).hasClass('current')) {
+        $(lineAnnotation).removeClass('current');
       }
     });
-    $("p#" + e.getAttribute("id")).addClass("current");
+    $('p#' + e.getAttribute('id')).addClass('current');
     if (scrollIntoView) {
-      $("p#" + e.getAttribute("id"))[0].scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
+      $('p#' + e.getAttribute('id'))[0].scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
     }
   }
 
   clearLineAnnotationRects(): void {
-    $("div.lineAnnotationRect").each((i: Number, lineAnnotationRect: any) => {
-      if ($(lineAnnotationRect).hasClass("current")) {
-        $(lineAnnotationRect).removeClass("current");
+    $('div.lineAnnotationRect').each((i: Number, lineAnnotationRect: any) => {
+      if ($(lineAnnotationRect).hasClass('current')) {
+        $(lineAnnotationRect).removeClass('current');
       }
     });
   }
 
   clearLineAnnotations(): void {
-    $(".lineAnnotation").each((i: Number, lineAnnotation: any) => {
-      if ($(lineAnnotation).hasClass("current")) {
-        $(lineAnnotation).removeClass("current");
+    $('.lineAnnotation').each((i: Number, lineAnnotation: any) => {
+      if ($(lineAnnotation).hasClass('current')) {
+        $(lineAnnotation).removeClass('current');
       }
     });
   }

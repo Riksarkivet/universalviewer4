@@ -98,6 +98,7 @@
     "$zoomIn": "Closio",
     "$zoomOut": "Gwrthglosio",
     "$clearSearch": "Gwaredu",
+    "$doSearch": "Chwilio",
     "$displaying_A_of_B": "{0} {1} o {2}",
     "$enterKeyword": "Mewnosodwch allweddair",
     "$imageLowercase": "delwedd",

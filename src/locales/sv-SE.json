@@ -98,6 +98,7 @@
     "$zoomIn": "Zooma in",
     "$zoomOut": "Zooma ut",
     "$clearSearch": "Rensa sökning",
+    "$doSearch": "Sök",
     "$displaying_A_of_B": "{0} {1} av {2}",
     "$enterKeyword": "Ange sökord",
     "$imageLowercase": "bild",

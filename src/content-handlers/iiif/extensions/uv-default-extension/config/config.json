@@ -85,6 +85,7 @@
         "attribution": "$attribution",
         "canvasHeader": "$aboutTheImage",
         "clearSearch": "$clearSearch",
+        "doSearch": "$doSearch",
         "close": "$close",
         "collapse": "$collapse",
         "collapseFull": "$collapseFull",
