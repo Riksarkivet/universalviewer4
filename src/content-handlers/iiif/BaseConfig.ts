@@ -215,6 +215,7 @@ type SearchLeftPanelContent = DialogueContent &
     enterKeyword: string;
     searchWithin: string;
     clearSearch: string;
+    doSearch: string;
   };
 
 export type SearchLeftPanel = ModuleConfig & {

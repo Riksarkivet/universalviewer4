@@ -63,10 +63,14 @@
       }
 
       .search {
-        position: relative;
+        position: sticky;
+        display: flex;
         background-color: @panel-dark-bg;
-        height: 32px;
-        margin: 0 10px 0 10px;
+        top: 0;
+        border-bottom: 1px solid #343434;
+        margin: 0 10px 10px 10px;
+        padding-bottom: 10px;
+        height: auto;
 
         .searchTextContainer {
           background: #fff;
@@ -136,7 +140,7 @@
           }
 
           .clearButton {
-            top: 3px;
+            top: 0;
             right: 0;
             display: flex;
             position: relative;
@@ -148,10 +152,10 @@
           .clearButton::before,
           .clearButton::after {
             position: absolute;
-            top: 8px;
-            left: 10px;
+            top: 11px;
+            left: 11px;
             width: 2px;
-            height: 15px;
+            height: 13px;
             background-color: @gray-light;
             transform: rotate(45deg) translate(-50%, -50%);
             transform-origin: top left;
@@ -162,8 +166,8 @@
             transform: rotate(-45deg) translate(-50%, -50%);
           }
 
-          .imageButton.searchButton {
-            top: 3px;
+          .searchButton {
+            top: 0;
             right: 0;
             display: flex;
             position: relative;
@@ -172,29 +176,57 @@
             font-size: 0;
           }
 
-          .imageButton.searchButton::before {
+          .searchButton::before {
             border-top: 2px solid @gray-light;
             position: absolute;
-            top: 11px;
-            left: 11px;
+            top: 14px;
+            left: 10px;
             width: 3px;
             height: 6px;
             background-color: @gray-light;
-            transform: rotate(-45deg);
+            transform: rotate(-35deg);
             transform-origin: top left;
             content: '';
           }
 
-          .imageButton.searchButton::after {
+          .searchButton::after {
             content: '';
             position: absolute;
-            width: 10px;
-            height: 10px;
+            width: 11px;
+            height: 11px;
             border: 2px solid @gray-light;
             border-radius: 50%;
             background: rgba(#000, 0);
             left: 4px;
-            top: 2px;
+            top: 3px;
+          }
+        }
+      }
+
+      .searchResult {
+        height: auto;
+        width: auto;
+        margin: 10px 10px 10px 10px;
+
+        .searchHit {
+          margin: 10px 0 10px 0;
+          padding: 5px 5px 5px 5px;
+          border: 2px solid @panel-dark-bg;
+          cursor: pointer;
+
+          &.current {
+            border: 2px solid white;
+
+            span {
+              background-color: #11d4ff;
+              color: #000;
+            }
+          }
+
+          span {
+            font-weight: bold;
+            background-color: #10819A;
+            padding: 3px;
           }
         }
       }
