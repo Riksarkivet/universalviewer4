@@ -54,7 +54,7 @@ export class LeftPanel<T extends ExpandPanel> extends BaseExpandPanel<T> {
     super.resize();
 
     if (this.isFullyExpanded) {
-      this.$element.width(this.$element.parent().width());
+      this.$element.width(this.$element.parent().parent().width());
     }
   }
 }
