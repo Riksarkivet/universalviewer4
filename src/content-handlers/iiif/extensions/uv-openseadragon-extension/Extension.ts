@@ -858,7 +858,6 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
       );
       const annotationGroup: AnnotationGroup = new AnnotationGroup(canvasId);
       annotationGroup.canvasIndex = canvasIndex as number;
-
       const match: AnnotationGroup = groupedAnnotations.filter(
         (x) => x.canvasId === annotationGroup.canvasId
       )[0];
@@ -884,31 +883,42 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
     const groupedSearchHits: SearchHit[] = [];
     let currentIndex = 0;
     let oldCanvasIndex: number | null = null;
-    
-    for (let i = 0; i < searchHits.resources.length; i++) {
-      const resource: any = searchHits.resources[i];
-      const hit: any = searchHits.hits[i];
-      const canvasId: string = resource.on.match(/(.*)#/)[1];
-      const canvasIndex: number | null = this.helper.getCanvasIndexById(
-        canvasId
-      );
 
-      if (canvasIndex !== oldCanvasIndex) {
-        currentIndex = 0;
-        oldCanvasIndex = canvasIndex;
-      } else {
-        currentIndex++;
+    // loop all hits, match annotation on resource id and check on for canvasid
+
+    for (let i = 0; i < searchHits.hits.length; i++) {
+      const hit: any = searchHits.hits[i];
+
+      for (let x = 0; x < hit.annotations.length; x++) {
+        let canvasId = searchHits.resources.find((e) => { return e['@id'] == hit.annotations[x] }).on.match(/(.*)#/)[1];
+        const canvasIndex: number | null = this.helper.getCanvasIndexById(
+          canvasId
+        );
+
+        if (canvasIndex !== oldCanvasIndex) {
+          currentIndex = 0;
+          oldCanvasIndex = canvasIndex;
+        } else {
+          currentIndex++;
+        }
+
+        let matches = hit.match.split(' ');
+        const searchHit: SearchHit = new SearchHit();
+        searchHit.canvasId = canvasId;
+        searchHit.canvasIndex = canvasIndex as number;
+        searchHit.before = "";
+        searchHit.after = "";
+        if (hit.before !== undefined) {
+          searchHit.before = hit.before;
+        }
+        if (hit.after !== undefined) {
+          searchHit.after = hit.after;
+        }
+        searchHit.match = matches[x];
+        searchHit.index = currentIndex;
+        groupedSearchHits.push(searchHit);
       }
 
-      //console.log(hit);
-      const searchHit: SearchHit = new SearchHit();
-      searchHit.canvasId = canvasId;
-      searchHit.canvasIndex = canvasIndex as number;
-      searchHit.before = hit.before;
-      searchHit.after = hit.after;
-      searchHit.match = hit.match;
-      searchHit.index = currentIndex;
-      groupedSearchHits.push(searchHit);
     }
 
     groupedSearchHits.sort((a, b) => {

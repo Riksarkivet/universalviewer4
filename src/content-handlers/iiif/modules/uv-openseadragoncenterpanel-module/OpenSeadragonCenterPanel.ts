@@ -858,6 +858,7 @@ export class OpenSeadragonCenterPanel extends CenterPanel<
 
         this.viewer.addOverlay(div, rect);
       }
+      this.extensionHost.publish(IIIFEvents.ANNOTATIONS_LOADED, this.extension.helper.canvasIndex);
     }
   }
 
@@ -996,10 +997,10 @@ export class OpenSeadragonCenterPanel extends CenterPanel<
 
   clearAnnotations(): void {
     // Due to a bug(?) in OpenSeadragon, we're it moves all line annotations as children directly under the body node in the DOM,
-    // we need to readd our line annotation rects after a clear
-    let lineAnnotationRects = $('div > div.lineAnnotationRect');
+    // we need to readd our line annotation rects after a clear. But only if using footerpanel search.
     this.viewer.clearOverlays();
     let parentNodeName = "";
+    let lineAnnotationRects = $('div > div.lineAnnotationRect');
     if (lineAnnotationRects[0]) {
       parentNodeName = lineAnnotationRects[0].parentNode.nodeName.toLowerCase();
       if (parentNodeName === 'body') {

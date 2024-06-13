@@ -5,6 +5,7 @@ export class IIIFEvents {
   static ANNOTATIONS_CLEARED: string = "annotationsCleared";
   static ANNOTATIONS_EMPTY: string = "annotationsEmpty";
   static ANNOTATIONS: string = "annotations";
+  static ANNOTATIONS_LOADED: string = "annotationsLoaded";
   static BOOKMARK: string = "bookmark";
   static CANVAS_INDEX_CHANGE_FAILED: string = "canvasIndexChangeFailed";
   static CANVAS_INDEX_CHANGE: string = "canvasIndexChange";

@@ -1,7 +1,7 @@
 const $ = require("jquery");
 import { LeftPanel } from "../uv-shared-module/LeftPanel";
 import { SearchLeftPanel as SearchLeftPanelConfig } from "../../BaseConfig";
-import { Events } from "../../../../Events";
+//import { Events } from "../../../../Events";
 import { OpenSeadragonExtensionEvents } from "../../extensions/uv-openseadragon-extension/Events";
 import { IIIFEvents } from "../../IIIFEvents";
 import OpenSeadragonExtension from "../../extensions/uv-openseadragon-extension/Extension";
@@ -39,10 +39,8 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
       this.hideSearchSpinner();
     });
 
-    this.extensionHost.subscribe(Events.LOAD, () => {
-      setTimeout(() => {
-        this.setCurrentAnnotation(this.currentAnnotationRect?.canvasIndex, this.currentAnnotationRect?.index);
-      }, 100); // need this, can't find a suitable event for when annotations are completely loaded. :/
+    this.extensionHost.subscribe(IIIFEvents.ANNOTATIONS_LOADED, () => { // This is a new event so we can highlight the current annotation, after they're all loaded.
+      this.setCurrentAnnotation(this.currentAnnotationRect?.canvasIndex, this.currentAnnotationRect?.index);
     });
 
     this.extensionHost.subscribe(
@@ -197,7 +195,8 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
     if (searchHits !== undefined) {
       searchHits.forEach(searchHit => {
         let div = $('<div id="searchhit-' + searchHit.canvasIndex + '-' + searchHit.index + '" class="searchHit" data-canvas-index="' + searchHit.canvasIndex + '" data-index="' + searchHit.index + '" tabindex="0"></div>');
-        div.append(searchHit.before + '<span>' + searchHit.match + '</span>' + searchHit.after);
+        let span = $('<span>' + searchHit.match + '</span>');
+        div.append(searchHit.before + span[0].outerHTML + searchHit.after);
         $(div).on('keydown', (e: any) => {
           const originalEvent: KeyboardEvent = <KeyboardEvent>e.originalEvent;
           const charCode: number = Keyboard.getCharCode(originalEvent);
@@ -206,9 +205,17 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
             $(e.target).trigger('click');
           }
         });
-        $(div).on('click', (e: any) => {
-          let canvasIndex = $(e.target).attr('data-canvas-index');
-          let index = $(e.target).attr('data-index');
+
+        $(div, span).on('click', (e: any) => {
+          let canvasIndex = 0
+          let index = 0
+          if (e.target.tagName.toLowerCase() === 'span') {
+            canvasIndex = $(e.target).closest('div').attr('data-canvas-index');
+            index = $(e.target).closest('div').attr('data-index');
+          } else {
+            canvasIndex = $(e.target).attr('data-canvas-index');
+            index = $(e.target).attr('data-index');
+          }
           let currentRect = (<OpenSeadragonExtension>(this.extension)).annotations.find((e) => { return e["canvasIndex"] == canvasIndex })?.rects[index];
 
           if (currentRect !== undefined) {
@@ -222,6 +229,7 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
             ]);
           }
         });
+
         this.$searchResultContainer.append(div);
       });
     }
@@ -234,8 +242,8 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
   setCurrentAnnotation(canvasIndex: any, index: any): void {
     $('.annotationRect').each((i: number, annotation: any) => {
       if ($(annotation).hasClass('current')) {
-         $(annotation).removeClass('current');
-         return;
+        $(annotation).removeClass('current');
+        return;
       }
     });
     $('div#annotation-' + canvasIndex + '-' + index).addClass('current');
