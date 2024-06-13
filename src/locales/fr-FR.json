@@ -98,6 +98,7 @@
     "$zoomIn": "Zoomer",
     "$zoomOut": "Dézoomer",
     "$clearSearch": "Effacer",
+    "$doSearch": "Recherche",
     "$displaying_A_of_B": "{0} {1} de {2}",
     "$enterKeyword": "Saisir un mot",
     "$imageLowercase": "image",
