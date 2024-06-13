@@ -151,5 +151,7 @@
     "$transcribedTextLeftPage": "Vänstra sidan",
     "$transcribedTextRightPage": "Högra sidan",
     "$noTranscribedTextFound": "Hittade ingen transkriberad text för denna sida.",
-    "$search": "Sök"
+    "$search": "Sök",
+    "$expandSearch": "Expandera sök",
+    "$collapseSearch": "Fäll ihop sök"
 }

@@ -151,5 +151,7 @@
     "$transcribedTextLeftPage": "Left page",
     "$transcribedTextRightPage": "Right page",
     "$noTranscribedTextFound": "Couldn't find any transcriptions for this page.",
-    "$search": "Recherche"
+    "$search": "Recherche",
+    "$expandSearch": "Expand Search",
+    "$collapseSearch": "Collapse Search"
 }
