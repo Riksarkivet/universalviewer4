@@ -448,7 +448,6 @@ export class FooterPanel extends BaseFooterPanel<
     //if (configEnabled && printService && this.extension.isOnHomeDomain()){
     if (configEnabled) {
       this.$printButton.show();
-      console.log('show print button');
     } else {
       this.$printButton.hide();
     }

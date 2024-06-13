@@ -1539,6 +1539,7 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
         if (annotations.length) {
           that.annotate(annotations, terms, searchHits);
         } else {
+          this.extensionHost.publish(IIIFEvents.CLEAR_ANNOTATIONS);
           that.showMessage(
             that.data.config!.modules.genericDialogue.content.noMatches,
             () => {

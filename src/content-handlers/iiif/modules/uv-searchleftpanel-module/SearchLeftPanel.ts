@@ -135,7 +135,6 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
 
     this.$searchButton.on('click', (e: any) => {
       e.preventDefault();
-      this.$searchResultContainer.html('');
       this.search(this.$searchText.val());
     });
 
@@ -156,6 +155,7 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
     this.terms = terms;
 
     if (this.terms === "" || this.terms === this.content.enterKeyword) {
+      this.extensionHost.publish(IIIFEvents.CLEAR_ANNOTATIONS);
       this.extension.showMessage(
         this.extension.data.config!.modules.genericDialogue.content.emptyValue,
         function () {
