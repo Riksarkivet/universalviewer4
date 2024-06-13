@@ -37,6 +37,7 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
 
     this.extensionHost.subscribe(IIIFEvents.ANNOTATIONS_EMPTY, () => {
       this.hideSearchSpinner();
+      this.$searchText.focus();
     });
 
     this.extensionHost.subscribe(IIIFEvents.ANNOTATIONS_LOADED, () => { // This is a new event so we can highlight the current annotation, after they're all loaded.
@@ -84,7 +85,6 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
     });
 
     this.extensionHost.subscribe(IIIFEvents.CLEAR_ANNOTATIONS, () => {
-      this.$searchText.val('');
       this.$searchResultContainer.html('');
       this.$clearButton.hide();
       this.$searchText.focus();
