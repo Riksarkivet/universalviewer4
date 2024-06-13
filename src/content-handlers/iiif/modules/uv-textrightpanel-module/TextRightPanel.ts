@@ -9,7 +9,7 @@ import { IIIFEvents } from "../../IIIFEvents";
 export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
   $transcribedText: JQuery;
   $existingAnnotation: JQuery = $();
-
+  
   constructor($element: JQuery) {
     super($element);
   }
@@ -18,6 +18,9 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
     this.setConfig("textRightPanel");
 
     super.create();
+    this.extensionHost.subscribe(IIIFEvents.ANNOTATIONS_LOADED, (e) => {
+      this.$existingAnnotation = $('.lineAnnotation.current');
+    });
 
     this.extensionHost.on(IIIFEvents.CLEAR_ANNOTATIONS, async () => {
       this.$existingAnnotation = $('.lineAnnotation.current');
