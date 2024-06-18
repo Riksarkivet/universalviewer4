@@ -217,12 +217,14 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
 
     this.$searchPagerPrevButton.on('click', (e: any) => {
       this.currentHitIndex--;
+      $('.searchHitNumberSpan[data-index="' + this.currentHitIndex + '"]').closest('div')[0].scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
       $('.searchHitNumberSpan[data-index="' + this.currentHitIndex + '"]').closest('div').trigger('click');
       this.extensionHost.publish(Events.SEARCH_HIT_CHANGED, this.currentHitIndex);
     });
 
     this.$searchPagerNextButton.on('click', (e: any) => {
       this.currentHitIndex++;
+      $('.searchHitNumberSpan[data-index="' + this.currentHitIndex + '"]').closest('div')[0].scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
       $('.searchHitNumberSpan[data-index="' + this.currentHitIndex + '"]').closest('div').trigger('click');
       this.extensionHost.publish(Events.SEARCH_HIT_CHANGED, this.currentHitIndex);
     });
