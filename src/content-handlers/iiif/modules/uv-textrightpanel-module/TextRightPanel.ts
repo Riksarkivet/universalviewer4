@@ -9,7 +9,7 @@ import { IIIFEvents } from "../../IIIFEvents";
 export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
   $transcribedText: JQuery;
   $existingAnnotation: JQuery = $();
-  
+
   constructor($element: JQuery) {
     super($element);
   }
@@ -94,11 +94,12 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
         const y = Number(e.getAttribute('VPOS'));
         const width = Number(e.getAttribute('WIDTH'));
         const height = Number(e.getAttribute('HEIGHT'));
+        let text = t.join(' ');
 
-        let line = $('<p id="line-annotation-' + i + '" class="lineAnnotation" tabindex="0">' + t.join(' ') + '</p>');
+        let line = $('<p id="line-annotation-' + i + '" class="lineAnnotation" tabindex="0">' + text + '</p>');
 
         if (!this.extension.isMobile()) {
-          let div = $('<div id="line-annotation-' + i + '" class="lineAnnotationRect" data-x="' + x + '" data-y="' + y + '" data-width="' + width + '" data-height="' + height + '" tabindex="0"></div>');
+          let div = $('<div id="line-annotation-' + i + '" class="lineAnnotationRect" title="' + text + '" data-x="' + x + '" data-y="' + y + '" data-width="' + width + '" data-height="' + height + '" tabindex="0"></div>');
           $(div).on('keydown', (e: any) => {
             if (e.keyCode === 13) {
               $(e.target).trigger('click');
