@@ -154,5 +154,6 @@
     "$noTranscribedTextFound": "Hittade ingen transkriberad text för denna sida.",
     "$search": "Sök",
     "$expandSearch": "Expandera sök",
-    "$collapseSearch": "Fäll ihop sök"
+    "$collapseSearch": "Fäll ihop sök",
+    "$searchHitOf": "{0} av {1}"
 }

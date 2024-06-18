@@ -154,5 +154,6 @@
     "$noTranscribedTextFound": "Couldn't find any transcriptions for this page.",
     "$search": "Search",
     "$expandSearch": "Expand Search",
-    "$collapseSearch": "Collapse Search"
+    "$collapseSearch": "Collapse Search",
+    "$searchHitOf": "{0} o {1}"
 }

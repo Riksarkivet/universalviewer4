@@ -210,6 +210,12 @@ type SearchLeftPanelContent = DialogueContent &
     searchWithin: string;
     clearSearch: string;
     doSearch: string;
+    instanceFound: string,
+    instancesFound: string,
+    noMatches: string,
+    nextResult: string,
+    previousResult: string,
+    searchHitOf: string
   };
 
 export type SearchLeftPanel = ModuleConfig & {
