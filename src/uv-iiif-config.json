@@ -45,6 +45,11 @@
       "options": {
         "downloadEnabled": true
       }
+    },
+    "textRightPanel": {
+      "options": {
+        "panelExpandedWidth": 270
+      }
     }
   }
 }
