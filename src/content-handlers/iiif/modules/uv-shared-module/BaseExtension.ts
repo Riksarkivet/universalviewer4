@@ -1085,7 +1085,15 @@ export class BaseExtension<T extends BaseConfig> implements IExtension {
   }
 
   isSearchLeftPanelEnabled(): boolean {
-    return Bools.getBool(this.data.config!.options.searchLeftPanelEnabled, true);
+    if (!Bools.getBool(this.data.config!.options.searchLeftPanelEnabled, false)) {
+      return false;
+    }
+
+    if (!this.helper.getSearchService()) {
+      return false;
+    }
+
+    return true;
   }
 
   isRightContainerPanelEnabled(): boolean {
@@ -1097,7 +1105,15 @@ export class BaseExtension<T extends BaseConfig> implements IExtension {
   }
 
   isTextRightPanelEnabled(): boolean {
-    return Bools.getBool(this.data.config!.options.textRightPanelEnabled, true);
+    if (!Bools.getBool(this.data.config!.options.textRightPanelEnabled, false)) {
+      return false;
+    }
+
+    if (!this.helper.getSearchService()) {
+      return false;
+    }
+
+    return true;
   }
 
   isFooterPanelEnabled(): boolean {
