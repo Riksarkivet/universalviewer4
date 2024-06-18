@@ -108,7 +108,13 @@
         "page": "$page",
         "rangeHeader": "$aboutThisSection",
         "searchWithin": "$searchWithinItem",
-        "title": "$search"
+        "title": "$search",
+        "instanceFound": "$instanceFound",
+        "instancesFound": "$instancesFound",
+        "noMatches": "$noMatches",
+        "nextResult": "$nextResult",
+        "previousResult": "$previousResult",
+        "searchHitOf": "$searchHitOf"
       }
     },
     "contentLeftPanel": {
