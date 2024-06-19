@@ -366,6 +366,7 @@ export class OpenSeadragonCenterPanel extends CenterPanel<
     this.$zoomInButton.insertAfter($oldZoomIn);
     $oldZoomIn.remove();
     this.$zoomInButton.attr("tabindex", 0);
+    this.$zoomInButton.css('z-index', 1000);
     this.$zoomInButton.attr("title", this.content.zoomIn);
     this.$zoomInButton.attr("aria-label", this.content.zoomIn);
     this.$zoomInButton.addClass("zoomIn viewportNavButton");
@@ -379,6 +380,7 @@ export class OpenSeadragonCenterPanel extends CenterPanel<
     this.$zoomOutButton.insertAfter($oldZoomOut);
     $oldZoomIn.remove();
     this.$zoomOutButton.attr("tabindex", 0);
+    this.$zoomOutButton.css('z-index', 1000);
     this.$zoomOutButton.attr("title", this.content.zoomOut);
     this.$zoomOutButton.attr("aria-label", this.content.zoomOut);
     this.$zoomOutButton.addClass("zoomOut viewportNavButton");
@@ -388,6 +390,7 @@ export class OpenSeadragonCenterPanel extends CenterPanel<
     });
 
     let $oldGoHome = this.$viewer.find('div[title="Go home"]');
+    this.$goHomeButton.css('z-index', 1000);
     this.$goHomeButton = $("<button />").append($oldGoHome.contents());
     this.$goHomeButton.insertAfter($oldGoHome);
     $oldGoHome.remove();
@@ -401,6 +404,7 @@ export class OpenSeadragonCenterPanel extends CenterPanel<
     });
 
     let $oldRotate = this.$viewer.find('div[title="Rotate right"]');
+    this.$rotateButton.css('z-index', 1000);
     this.$rotateButton = $("<button />").append($oldRotate.contents());
     this.$rotateButton.insertAfter($oldRotate);
     $oldRotate.remove();
