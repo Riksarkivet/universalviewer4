@@ -65,12 +65,79 @@
       .search {
         position: sticky;
         display: flex;
+        flex-wrap: wrap;
         background-color: @panel-dark-bg;
         top: 0;
-        border-bottom: 1px solid #343434;
         margin: 0 10px 10px 10px;
         padding-bottom: 10px;
         height: auto;
+
+        .searchHitsContainer {
+          margin-top: 10px;
+          width: 100%;
+          display: flex;
+
+          .searchHitsLabel {
+            flex: 1;
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+          }
+        }
+
+        .searchPagerContainer {
+          margin-top: 5px;
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          button {
+            background-color: @gray;
+            width: 20px;
+            height: 20px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            &.prev::before, &.next::before {
+              content: '';
+              position: absolute;
+              top: 50%;
+              transform: translateY(-50%);
+              width: 0;
+              height: 0;
+              border-top: 5px solid transparent;
+              border-bottom: 5px solid transparent;
+            }
+
+            &.prev::before {
+              border-right: 5px solid white;
+            }
+
+            &.next::before {
+              border-left: 5px solid white;
+            }
+
+            &:hover {
+              background-color: @gray-dark;
+            }
+
+            &:disabled {
+              cursor: not-allowed;
+              pointer-events: none;
+              opacity: 0.65;
+              box-shadow: none;
+            }
+          }
+
+          span {
+            margin: 0 20px;
+            display: inline-flex;
+            align-items: center;
+          }
+        }
 
         .searchTextContainer {
           background: #fff;
@@ -142,11 +209,12 @@
           .clearButton {
             top: 0;
             right: 0;
-            display: flex;
             position: relative;
             width: 22px;
             height: 22px;
             font-size: 0;
+            border: none;
+            background-color: #fff;
           }
 
           .clearButton::before,
@@ -169,11 +237,12 @@
           .searchButton {
             top: 0;
             right: 0;
-            display: flex;
             position: relative;
             width: 22px;
             height: 22px;
             font-size: 0;
+            border: none;
+            background-color: #fff;
           }
 
           .searchButton::before {
@@ -203,6 +272,13 @@
         }
       }
 
+      .canvasTitle {
+        color: #9a9a9a;
+        border-bottom: 1px solid #343434;
+        margin: 0 10px 10px 0;
+        width: 100%;
+      }
+
       .searchResult {
         height: auto;
         width: auto;
@@ -217,16 +293,24 @@
           &.current {
             border: 2px solid white;
 
-            span {
+            .searchHitSpan {
               background-color: #11d4ff;
               color: #000;
             }
           }
 
-          span {
+          .searchHitSpan {
             font-weight: bold;
             background-color: #10819A;
             padding: 3px;
+          }
+
+          .searchHitNumberSpan {
+            border: none;
+            color: #fff;
+            margin: 0 0 5px 0;
+            display: block;
+            font-size: 12px;
           }
         }
       }
