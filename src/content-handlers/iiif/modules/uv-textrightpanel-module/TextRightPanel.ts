@@ -4,7 +4,6 @@ import { TextRightPanel as TextRightPanelConfig } from "../../BaseConfig";
 import { Events } from "../../../../Events";
 import OpenSeadragonExtension from "../../extensions/uv-openseadragon-extension/Extension";
 import OpenSeadragon from "openseadragon";
-import { IIIFEvents } from "../../IIIFEvents";
 
 export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
   $transcribedText: JQuery;
@@ -19,27 +18,15 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
     this.setConfig("textRightPanel");
 
     super.create();
-    this.extensionHost.subscribe(IIIFEvents.ANNOTATIONS_LOADED, (e) => {
-      if (this.currentCanvasIndex == e) {
-        this.$existingAnnotation = $('.lineAnnotation.current');
-      } else {
-        this.currentCanvasIndex = e;
-      }
-    });
-
-    this.extensionHost.on(IIIFEvents.CLEAR_ANNOTATIONS, (e) => {
-      this.$existingAnnotation = $('.lineAnnotation.current');
-    });
-
-    this.extensionHost.subscribe(IIIFEvents.THUMB_SELECTED, (e) => {
-      if (this.currentCanvasIndex == e.data.index) {
-        this.$existingAnnotation = $('.lineAnnotation.current');
-      } else {
-        this.currentCanvasIndex = e;
-      }
-    });
 
     this.extensionHost.on(Events.LOAD, async (e) => {
+      if (this.currentCanvasIndex == this.extension.helper.canvasIndex) {
+        this.$existingAnnotation = $('.lineAnnotation.current');
+      } else {
+        this.$existingAnnotation = $();
+      }
+      this.currentCanvasIndex = this.extension.helper.canvasIndex;
+
       this.$main.html('');
       this.removeLineAnnotationRects();
       let canvases = this.extension.getCurrentCanvases();
