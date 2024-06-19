@@ -858,8 +858,8 @@ export class OpenSeadragonCenterPanel extends CenterPanel<
 
         this.viewer.addOverlay(div, rect);
       }
-      this.extensionHost.publish(IIIFEvents.ANNOTATIONS_LOADED, this.extension.helper.canvasIndex);
     }
+    this.extensionHost.publish(IIIFEvents.ANNOTATIONS_LOADED, this.extension.helper.canvasIndex);
   }
 
   updateBounds(): void {
