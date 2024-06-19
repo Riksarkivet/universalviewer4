@@ -46,6 +46,7 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
 
     this.extensionHost.subscribe(IIIFEvents.ANNOTATIONS_EMPTY, () => {
       this.hideSearchSpinner();
+      this.$clearButton.show();
       this.$searchText.focus();
     });
 
