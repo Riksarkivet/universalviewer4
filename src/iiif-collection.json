@@ -34,6 +34,11 @@
           "@id": "https://lbiiif-acc.riksarkivet.se/arkis!A0068872/manifest",
           "@type": "sc:Manifest",
           "label": "Svea hovrätt huvudarkivet A I a 1:318"
+        },
+        {
+          "@id": "https://lbiiif-acc.riksarkivet.se/arkis!T0000013/manifest",
+          "@type": "sc:Manifest",
+          "label": "Big Buck Bunny (Video)"
         }
       ]
     },

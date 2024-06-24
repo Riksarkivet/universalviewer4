@@ -50,6 +50,11 @@
       "options": {
         "panelExpandedWidth": 270
       }
+    },
+    "moreInfoRightPanel": {
+      "options": {
+        "copyToClipboardEnabled": true
+      }
     }
   }
 }
