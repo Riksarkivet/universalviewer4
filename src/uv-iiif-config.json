@@ -57,7 +57,17 @@
     "moreInfoRightPanel": {
       "options": {
         "copyToClipboardEnabled": true
-      }
+      }    
+    },
+      "searchFooterPanel" :{
+        "options": {
+          "shareEnabled": false
+        }
+      },
+      "mobileFooterPanel": {
+        "options": {
+          "shareEnabled": false
+        }
     }
   }
 }
