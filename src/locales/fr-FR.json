@@ -97,6 +97,7 @@
     "$rotateRight": "Pivoter à droite",
     "$zoomIn": "Zoomer",
     "$zoomOut": "Dézoomer",
+    "$adjustImage": "Ajuster l'image",
     "$clearSearch": "Effacer",
     "$doSearch": "Recherche",
     "$displaying_A_of_B": "{0} {1} de {2}",
@@ -155,5 +156,10 @@
     "$search": "Recherche",
     "$expandSearch": "Expand Search",
     "$collapseSearch": "Collapse Search",
-    "$searchHitOf": "{0} de {1}"
+    "$searchHitOf": "{0} de {1}",
+    "$brightness": "Brightness",
+    "$contrast": "Contrast",
+    "$saturation": "Saturation",
+    "$reset": "Reset",
+    "$remember": "Remember my settings"
 }

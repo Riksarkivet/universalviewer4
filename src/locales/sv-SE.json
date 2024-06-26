@@ -97,6 +97,7 @@
     "$rotateRight": "Rotera höger",
     "$zoomIn": "Zooma in",
     "$zoomOut": "Zooma ut",
+    "$adjustImage": "Justera bild",
     "$clearSearch": "Rensa sökning",
     "$doSearch": "Sök",
     "$displaying_A_of_B": "{0} {1} av {2}",
@@ -155,5 +156,10 @@
     "$search": "Sök",
     "$expandSearch": "Expandera sök",
     "$collapseSearch": "Fäll ihop sök",
-    "$searchHitOf": "{0} av {1}"
+    "$searchHitOf": "{0} av {1}",
+    "$brightness": "Ljusstyrka",
+    "$contrast": "Kontrast",
+    "$saturation": "Färgmättnad",
+    "$reset": "Återställ",
+    "$remember": "Kom ihåg mina inställningar"
 }

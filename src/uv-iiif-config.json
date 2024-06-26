@@ -13,6 +13,7 @@
     "rightPanelEnabled": true,
     "textRightPanelEnabled": true,
     "clickToZoomEnabled": false,
+    "saveUserSettings": true,
     "searchWithinEnabled": false
   },
   "modules": {
@@ -38,7 +39,9 @@
     },
     "openSeadragonCenterPanel": {
       "options": {
-        "autoHideControls": false
+        "autoHideControls": false,
+        "showHomeControl": true,
+        "showAdjustImageControl": true
       }
     },
     "footerPanel": {
