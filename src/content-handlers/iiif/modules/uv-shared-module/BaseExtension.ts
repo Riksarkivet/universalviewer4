@@ -329,6 +329,10 @@ export class BaseExtension<T extends BaseConfig> implements IExtension {
       this.resize();
     });
 
+    this.extensionHost.subscribe(IIIFEvents.CLOSE_TEXT_RIGHT_PANEL, () => {
+      this.resize();
+    });
+
     this.extensionHost.subscribe(
       IIIFEvents.COLLECTION_INDEX_CHANGE,
       (collectionIndex: number) => {
@@ -1060,6 +1064,10 @@ export class BaseExtension<T extends BaseConfig> implements IExtension {
     return Bools.getBool(this.data.config!.options.headerPanelEnabled, true);
   }
 
+  isLeftContainerPanelEnabled(): boolean {
+    return Bools.getBool(this.data.config!.options.leftContainerPanelEnabled, true);
+  }
+
   isLeftPanelEnabled(): boolean {
     if (Bools.getBool(this.data.config!.options.leftPanelEnabled, true)) {
       if (this.helper.hasParentCollection()) {
@@ -1079,8 +1087,36 @@ export class BaseExtension<T extends BaseConfig> implements IExtension {
     return false;
   }
 
+  isSearchLeftPanelEnabled(): boolean {
+    if (!Bools.getBool(this.data.config!.options.searchLeftPanelEnabled, false)) {
+      return false;
+    }
+
+    if (!this.helper.getSearchService()) {
+      return false;
+    }
+
+    return true;
+  }
+
+  isRightContainerPanelEnabled(): boolean {
+    return Bools.getBool(this.data.config!.options.rightContainerPanelEnabled, true);
+  }
+
   isRightPanelEnabled(): boolean {
     return Bools.getBool(this.data.config!.options.rightPanelEnabled, true);
+  }
+
+  isTextRightPanelEnabled(): boolean {
+    if (!Bools.getBool(this.data.config!.options.textRightPanelEnabled, false)) {
+      return false;
+    }
+
+    if (!this.helper.getSearchService()) {
+      return false;
+    }
+
+    return true;
   }
 
   isFooterPanelEnabled(): boolean {

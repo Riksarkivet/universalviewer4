@@ -230,16 +230,24 @@ export class CenterPanel<
       ? Math.floor(this.extension.shell.$leftPanel.width())
       : 0;
 
+    const searchLeftPanelWidth: number = isVisible(this.extension.shell.$searchLeftPanel)
+    ? Math.floor(this.extension.shell.$searchLeftPanel.width())
+    : 0;
+
     const rightPanelWidth: number = isVisible(this.extension.shell.$rightPanel)
       ? Math.floor(this.extension.shell.$rightPanel.width())
       : 0;
 
+    const textRightPanelWidth: number = isVisible(this.extension.shell.$textRightPanel)
+      ? Math.floor(this.extension.shell.$textRightPanel.width())
+      : 0;
+
     const width: number = Math.floor(
-      this.$element.parent().width() - leftPanelWidth - rightPanelWidth
+      this.$element.parent().width() - leftPanelWidth - searchLeftPanelWidth - rightPanelWidth - textRightPanelWidth
     );
 
     this.$element.css({
-      left: leftPanelWidth,
+      left: leftPanelWidth + searchLeftPanelWidth,
       width: width,
     });
 

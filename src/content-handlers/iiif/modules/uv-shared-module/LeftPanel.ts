@@ -1,11 +1,9 @@
-import { BaseConfig } from "../../BaseConfig";
+import { ExpandPanel } from "../../extensions/config/ExpandPanel";
 import { IIIFEvents } from "../../IIIFEvents";
 import { BaseExpandPanel } from "./BaseExpandPanel";
 import { Bools } from "@edsilv/utils";
 
-export class LeftPanel<
-  T extends BaseConfig["modules"]["leftPanel"]
-> extends BaseExpandPanel<T> {
+export class LeftPanel<T extends ExpandPanel> extends BaseExpandPanel<T> {
   constructor($element: JQuery) {
     super($element);
   }
@@ -14,14 +12,6 @@ export class LeftPanel<
     super.create();
 
     this.$element.width(this.options.panelCollapsedWidth);
-
-    this.extensionHost.subscribe(IIIFEvents.TOGGLE_EXPAND_LEFT_PANEL, () => {
-      if (this.isFullyExpanded) {
-        this.collapseFull();
-      } else {
-        this.expandFull();
-      }
-    });
   }
 
   init(): void {
@@ -46,7 +36,7 @@ export class LeftPanel<
   }
 
   getFullTargetWidth(): number {
-    return this.$element.parent().width();
+    return this.$element.parent().parent().width();
   }
 
   toggleFinish(): void {
@@ -64,7 +54,7 @@ export class LeftPanel<
     super.resize();
 
     if (this.isFullyExpanded) {
-      this.$element.width(this.$element.parent().width());
+      this.$element.width(this.$element.parent().parent().width());
     }
   }
 }

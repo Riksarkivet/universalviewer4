@@ -346,23 +346,27 @@ export class OpenSeadragonCenterPanel extends CenterPanel<
 
     this.$zoomInButton = this.$viewer.find('div[title="Zoom in"]');
     this.$zoomInButton.attr("tabindex", 0);
+    this.$zoomInButton.css('z-index', 1000);
     this.$zoomInButton.prop("title", this.content.zoomIn);
     this.$zoomInButton.prop("aria-label", this.content.zoomIn);
     this.$zoomInButton.addClass("zoomIn viewportNavButton");
 
     this.$zoomOutButton = this.$viewer.find('div[title="Zoom out"]');
     this.$zoomOutButton.attr("tabindex", 0);
+    this.$zoomOutButton.css('z-index', 1000);
     this.$zoomOutButton.prop("title", this.content.zoomOut);
     this.$zoomOutButton.prop("aria-label", this.content.zoomOut);
     this.$zoomOutButton.addClass("zoomOut viewportNavButton");
 
     this.$goHomeButton = this.$viewer.find('div[title="Go home"]');
+    this.$goHomeButton.css('z-index', 1000);
     this.$goHomeButton.attr("tabindex", 0);
     this.$goHomeButton.prop("title", this.content.goHome);
     this.$goHomeButton.prop("aria-label", this.content.goHome);
     this.$goHomeButton.addClass("goHome viewportNavButton");
 
     this.$rotateButton = this.$viewer.find('div[title="Rotate right"]');
+    this.$rotateButton.css('z-index', 1000);
     this.$rotateButton.attr("tabindex", 0);
     this.$rotateButton.prop("title", this.content.rotateRight);
     this.$rotateButton.prop("aria-label", this.content.rotateRight);
@@ -885,6 +889,7 @@ export class OpenSeadragonCenterPanel extends CenterPanel<
         this.viewer.addOverlay(div, rect);
       }
     }
+    this.extensionHost.publish(IIIFEvents.ANNOTATIONS_LOADED, this.extension.helper.canvasIndex);
   }
 
   updateBounds(): void {
@@ -1021,7 +1026,25 @@ export class OpenSeadragonCenterPanel extends CenterPanel<
   }
 
   clearAnnotations(): void {
+    // Due to a bug(?) in OpenSeadragon, we're it moves all line annotations as children directly under the body node in the DOM,
+    // we need to readd our line annotation rects after a clear.
     this.viewer.clearOverlays();
+    let parentNodeName = "";
+    let lineAnnotationRects = $('div > div.lineAnnotationRect');
+    if (lineAnnotationRects[0]) {
+      parentNodeName = lineAnnotationRects[0].parentNode.nodeName.toLowerCase();
+      if (parentNodeName === 'body') {
+        $(lineAnnotationRects).each((i: number, e: any) => {
+          const x = Number(e.getAttribute("data-x"));
+          const y = Number(e.getAttribute("data-y"));
+          const width = Number(e.getAttribute("data-width"));
+          const height = Number(e.getAttribute("data-height"));
+          const osRect = new OpenSeadragon.Rect(x, y, width, height);
+          (<OpenSeadragonExtension>(this.extension)).centerPanel.viewer.addOverlay(e, osRect);
+          e.style.display = "block";
+        });
+      }
+    }
   }
 
   getAnnotationsForCurrentImages(): AnnotationGroup[] {

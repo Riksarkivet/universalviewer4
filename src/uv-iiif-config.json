@@ -3,13 +3,18 @@
     "dropEnabled": true,
     "footerPanelEnabled": true,
     "headerPanelEnabled": true,
+    "leftContainerPanelEnabled": true,
     "leftPanelEnabled": true,
+    "searchLeftPanelEnabled": true,
     "limitLocales": false,
     "overrideFullScreen": false,
     "pagingEnabled": true,
+    "rightContainerPanelEnabled": true,
     "rightPanelEnabled": true,
+    "textRightPanelEnabled": true,
     "clickToZoomEnabled": false,
-    "saveUserSettings": true
+    "saveUserSettings": true,
+    "searchWithinEnabled": false
   },
   "modules": {
     "avCenterPanel": {
@@ -42,6 +47,16 @@
     "footerPanel": {
       "options": {
         "downloadEnabled": true
+      }
+    },
+    "textRightPanel": {
+      "options": {
+        "panelExpandedWidth": 270
+      }
+    },
+    "moreInfoRightPanel": {
+      "options": {
+        "copyToClipboardEnabled": true
       }
     }
   }
