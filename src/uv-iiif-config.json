@@ -66,12 +66,14 @@
     },
       "searchFooterPanel" :{
         "options": {
-          "shareEnabled": false
+          "shareEnabled": false,
+          "printEnabled": true
         }
       },
       "mobileFooterPanel": {
         "options": {
-          "shareEnabled": false
+          "shareEnabled": false,
+          "printEnabled": true
         }
     }
   }
