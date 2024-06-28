@@ -40,6 +40,16 @@
       "options": {
         "downloadEnabled": true
       }
+    },
+    "searchFooterPanel": {
+      "options": {
+        "printEnabled": true
+      }
+    },
+    "mobileFooterPanel": {
+      "options": {
+        "printEnabled": true
+      }
     }
   }
 }
