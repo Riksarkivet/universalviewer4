@@ -60,6 +60,7 @@ import { SearchLeftPanel } from "../../modules/uv-searchleftpanel-module/SearchL
 import { RightContainerPanel } from "../../modules/uv-shared-module/RightContainerPanel";
 import { LeftContainerPanel } from "../../modules/uv-shared-module/LeftContainerPanel";
 import { SearchHit } from "../../modules/uv-shared-module/SearchHit";
+import { Print } from "../../modules/uv-shared-module/Print";
 
 export default class OpenSeadragonExtension extends BaseExtension<Config> {
   $downloadDialogue: JQuery;
@@ -1143,13 +1144,53 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
   }
 
   print(): void {
-    // var args: MultiSelectionArgs = new MultiSelectionArgs();
-    // args.manifestUri = this.helper.manifestUri;
-    // args.allCanvases = true;
-    // args.format = this.data.config!.options.printMimeType;
-    // args.sequence = this.helper.getCurrentSequence().id;
-    window.print();
+    var canvas = this.helper.getCurrentCanvas();
+    var viewer = this.getViewer();
+    var imageUri;
+    if (this.isImageZoomed(canvas, viewer)) {
+      imageUri = this.getCroppedImageUri(canvas, viewer);
+    }
+    else {
+      imageUri = canvas.getCanonicalImageUri(canvas.getWidth());
+      var uri_parts: string[] = imageUri.split('/');
+      var rotation: number | null = this.getViewerRotation();
+      uri_parts[uri_parts.length - 2] = String(rotation);
+      imageUri = uri_parts.join('/');
+    }
+    var title = this.helper.getLabel();
+    var imageId = canvas.getLabel().getValue();
+    var print: Print = new Print();
+    print.printImage(imageUri, title, imageId);
+
     this.fire(OpenSeadragonExtensionEvents.PRINT);
+  }
+
+  isImageZoomed(canvas: Canvas, viewer: any): boolean {
+    var dimensions: CroppedImageDimensions | null = (this.getCroppedImageDimensions(canvas, viewer));
+    if (!CroppedImageDimensions) {
+      return false;
+    }
+    var currentWidth: number = (<CroppedImageDimensions>dimensions).size.width;
+    var currentHeight: number = (<CroppedImageDimensions>dimensions).size.height;
+    var wholeWidth: number = canvas.getWidth();
+    var wholeHeight: number = canvas.getHeight();
+
+    var percentageWidth: number = (currentWidth / wholeWidth) * 100;
+    var percentageHeight: number = (currentHeight / wholeHeight) * 100;
+
+    var disabledPercentage: number = 90;
+    if (this.data.config!.modules.downloadDialogue &&
+      this.data.config!.modules.downloadDialogue.options &&
+      this.data.config!.modules.downloadDialogue.options.currentViewDisabledPercentage) {
+      disabledPercentage = this.data.config!.modules.downloadDialogue.options.currentViewDisabledPercentage;
+    }
+
+    // if over disabledPercentage of the size of whole image then not zoomed
+    if (percentageWidth >= disabledPercentage && percentageHeight >= disabledPercentage) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   getCroppedImageDimensions(

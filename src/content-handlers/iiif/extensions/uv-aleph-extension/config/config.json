@@ -459,7 +459,8 @@
         "feedback": "$feedback",
         "fullScreen": "$fullScreen",
         "open": "$open",
-        "share": "$share"
+        "share": "$share",
+        "print": "$print"
       }
     },
     "restrictedDialogue": {

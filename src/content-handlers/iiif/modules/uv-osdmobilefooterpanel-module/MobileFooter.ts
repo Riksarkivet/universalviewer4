@@ -2,6 +2,7 @@ const $ = require("jquery");
 import { FooterPanel as BaseFooterPanel } from "../uv-shared-module/FooterPanel";
 import { OpenSeadragonExtensionEvents } from "../../extensions/uv-openseadragon-extension/Events";
 import { Config } from "../../extensions/uv-openseadragon-extension/config/Config";
+import { Bools } from "@edsilv/utils";
 
 export class FooterPanel extends BaseFooterPanel<
   Config["modules"]["mobileFooterPanel"]
@@ -10,6 +11,7 @@ export class FooterPanel extends BaseFooterPanel<
   //$spacer: JQuery;
   $zoomInButton: JQuery;
   $zoomOutButton: JQuery;
+  $printButton: JQuery;
 
   constructor($element: JQuery) {
     super($element);
@@ -43,6 +45,13 @@ export class FooterPanel extends BaseFooterPanel<
             </button>
         `);
     this.$options.prepend(this.$zoomInButton);
+    
+    this.$printButton = $(`
+            <button class="print btn imageBtn" title="${this.content.print}">
+              <i class="uv-icon uv-icon-print" aria-hidden="true"></i>${this.content.print}
+            </button>
+  `      );
+    this.$printButton.insertAfter(this.$moreInfoButton);
 
     this.$zoomInButton.onPressed(() => {
       this.extensionHost.publish(OpenSeadragonExtensionEvents.ZOOM_IN);
@@ -55,6 +64,25 @@ export class FooterPanel extends BaseFooterPanel<
     this.$rotateButton.onPressed(() => {
       this.extensionHost.publish(OpenSeadragonExtensionEvents.ROTATE);
     });
+
+    this.$printButton.onPressed(() => {
+      this.extensionHost.publish(OpenSeadragonExtensionEvents.PRINT);
+    });
+
+    this.updatePrintButton();
+  }
+
+  updatePrintButton(): void {
+    const configEnabled: boolean = Bools.getBool(
+      this.options.printEnabled,
+      false
+    );
+
+    if (configEnabled) {
+      this.$printButton.show();
+    } else {
+      this.$printButton.hide();
+    }
   }
 
   resize(): void {
