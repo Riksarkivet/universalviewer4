@@ -34,7 +34,10 @@
     },
     "pagingHeaderPanel": {
       "options": {
-        "pagingToggleEnabled": true
+        "pagingToggleEnabled": true,
+        "imageSelectionBoxEnabled": true,
+        "autoCompleteBoxEnabled": false,
+        "modeOptionsEnabled": false
       }
     },
     "openSeadragonCenterPanel": {
