@@ -36,6 +36,11 @@
           "label": "Svea hovrätt huvudarkivet A I a 1:318"
         },
         {
+          "@id": "https://lbiiif-acc.riksarkivet.se/arkis!A0017399/manifest",
+          "@type": "sc:Manifest",
+          "label": "Ådals-Lidens kyrkoarkiv C:4"
+        },
+        {
           "@id": "https://lbiiif-acc.riksarkivet.se/arkis!T0000013/manifest",
           "@type": "sc:Manifest",
           "label": "Big Buck Bunny (Video)"
