@@ -48,7 +48,11 @@ export class AVCenterPanel extends CenterPanel<
       IIIFEvents.CANVAS_INDEX_CHANGE,
       (canvasIndex: number) => {
         if (this._lastCanvasIndex !== canvasIndex) {
-          this._viewCanvas(canvasIndex);
+          let range = this.extension.getCurrentCanvasRange()
+          this.extensionHost.publish(IIIFEvents.RANGE_CHANGE, range);
+          this._whenMediaReady(() => {
+            this._viewCanvas(canvasIndex);
+          });
         }
       }
     );
@@ -84,7 +88,6 @@ export class AVCenterPanel extends CenterPanel<
 
         this._whenMediaReady(() => {
           that._viewRange(range);
-          that._setTitle();
         });
       }
     );
@@ -384,7 +387,8 @@ export class AVCenterPanel extends CenterPanel<
         this.extension.helper.getCanvasByIndex(canvasIndex);
 
       if (this.avcomponent) {
-        this.avcomponent.showCanvas(canvas.id);
+        this._setTitle();
+       this.avcomponent.showCanvas(canvas.id);
       }
     });
   }
