@@ -103,6 +103,15 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
       this.canvasIndexChanged(currentCanvasIndex, index);
     });
 
+    this.extensionHost.subscribe(IIIFEvents.CANVAS_INDEX_CHANGE, (e) => {
+      let canvasIndex = this.extension.helper.canvasIndex;
+      if ($('div.searchHit[data-index="0"][data-canvas-index="' + canvasIndex + '"]')[0] !== undefined) {
+        $('div.searchHit[data-index="0"][data-canvas-index="' + canvasIndex + '"]')[0].scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
+      }
+      this.currentAnnotationRect = (<OpenSeadragonExtension>(this.extension)).annotations.find((e) => { return e["canvasIndex"] == canvasIndex })?.rects[0];
+      this.canvasIndexChanged(this.extension.helper.canvasIndex, 0);
+    });
+
     this.extensionHost.subscribe(IIIFEvents.THUMB_SELECTED, (e) => {
       if ($('div.searchHit[data-index="0"][data-canvas-index="' + e.data.index + '"]')[0] !== undefined) {
         $('div.searchHit[data-index="0"][data-canvas-index="' + e.data.index + '"]')[0].scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
