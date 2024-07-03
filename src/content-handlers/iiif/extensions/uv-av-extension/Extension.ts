@@ -178,6 +178,7 @@ export default class Extension extends BaseExtension<Config>
 
   viewRange(path: string): void {
     const range: Range | null = this.helper.getRangeByPath(path);
+
     if (!range) return;
     this.extensionHost.publish(IIIFEvents.RANGE_CHANGE, range);
 

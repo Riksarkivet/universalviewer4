@@ -143,7 +143,7 @@
         "thumbsExtraHeight": 8,
         "thumbsImageFadeInDuration": 300,
         "thumbsLoadRange": 15,
-        "treeEnabled": true,
+        "treeEnabled": false,
         "twoColThumbHeight": 150,
         "twoColThumbWidth": 90
       },
