@@ -161,5 +161,13 @@
   "$contrast": "Contrast",
   "$saturation": "Saturation",
   "$reset": "Reset",
-  "$remember": "Remember my settings"
+  "$remember": "Remember my settings",
+  "$ocrFiles": "OCR/HTR Files",
+  "$currentViewAsAlto": "Current view as Alto",
+  "$currentViewAsText": "Current view as text",
+  "$currentDocumentAsAlto": "Current document as Alto",
+  "$currentDocumentAsText": "Current document as text",
+  "$xml": "xml",
+  "$text": "text",
+  "$zip": "zip"
 }
