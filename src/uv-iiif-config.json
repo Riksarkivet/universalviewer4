@@ -24,7 +24,16 @@
     },
     "downloadDialogue": {
       "options": {
-        "selectionEnabled": true
+        "selectionEnabled": true,
+        "downloadOcrEnabled": true,
+        "downloadUrls": {
+          "currentAsXml": "https://lbiiif-acc.riksarkivet.se/download/current/alto/{0}?format=xml&imageid={1}",
+          "currentAsZippedXml": "https://lbiiif-acc.riksarkivet.se/download/current/alto/{0}?format=zip&imageid={1}",
+          "currentAsText": "https://lbiiif-acc.riksarkivet.se/download/current/text/{0}?format=text&imageid={1}",
+          "currentAsZippedText": "https://lbiiif-acc.riksarkivet.se/download/current/text/{0}?format=zip&imageid={1}",
+          "volumeAsZippedXml": "https://lbiiif-acc.riksarkivet.se/download/volume/alto/{0}",
+          "volumeAsZippedText": "https://lbiiif-acc.riksarkivet.se/download/volume/text/{0}"
+        }
       }
     },
     "headerPanel": {

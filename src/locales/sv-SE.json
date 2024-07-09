@@ -164,5 +164,13 @@
   "$search": "Sök",
   "$expandSearch": "Expandera sök",
   "$collapseSearch": "Fäll ihop sök",
-  "$searchHitOf": "{0} av {1}"
+  "$searchHitOf": "{0} av {1}",
+  "$ocrFiles": "OCR/HTR-filer",
+  "$currentViewAsAlto": "Aktuell vy som Alto",
+  "$currentViewAsText": "Aktuell vy som text",
+  "$currentDocumentAsAlto": "Aktuellt dokument som Alto",
+  "$currentDocumentAsText": "Aktuellt dokument som text",
+  "$xml": "xml",
+  "$text": "text",
+  "$zip": "zip"
 }

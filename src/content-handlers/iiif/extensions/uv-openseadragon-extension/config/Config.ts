@@ -219,6 +219,17 @@ type OSDDownloadDialogueOptions = DownloadDialogueOptions & {
   downloadWholeImageHighResEnabled: boolean;
   /** Determines if download of whole image in low resolution is enabled */
   downloadWholeImageLowResEnabled: boolean;
+  /** Determines if download of current view as OCR is enabled */
+  downloadOcrEnabled: boolean;
+  /** External download URLs */
+  downloadUrls: {
+    currentAsXml: string;
+    currentAsZippedXml: string;
+    currentAsText: string;
+    currentAsZippedText: string;
+    volumeAsZippedXml: string;
+    volumeAsZippedText: string;
+  }
   /** Maximum width of the image */
   maxImageWidth: number;
   /** Determines if explanatory text for options is enabled */
@@ -231,6 +242,11 @@ type OSDDownloadDialogueContent = DownloadDialogueContent & {
   allPages: string;
   currentViewAsJpg: string;
   currentViewAsJpgExplanation: string;
+  currentViewAsAlto: string;
+  currentViewAsText: string;
+  currentDocumentAsAlto: string;
+  currentDocumentAsText: string;
+  ocrFiles: string;
   download: string;
   downloadSelection: string;
   downloadSelectionExplanation: string;
@@ -251,6 +267,8 @@ type OSDDownloadDialogueContent = DownloadDialogueContent & {
   wholeImageLowResAsJpgExplanation: string;
   wholeImagesHighRes: string;
   wholeImagesHighResExplanation: string;
+  xml: string;
+  zip: string;
 };
 
 type OSDDownloadDialogue = ModuleConfig & {

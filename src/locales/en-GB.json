@@ -165,5 +165,13 @@
   "$search": "Search",
   "$expandSearch": "Expand Search",
   "$collapseSearch": "Collapse Search",
-  "$searchHitOf": "{0} of {1}"
+  "$searchHitOf": "{0} of {1}",
+  "$ocrFiles": "OCR/HTR Files",
+  "$currentViewAsAlto": "Current view as Alto",
+  "$currentViewAsText": "Current view as text",
+  "$currentDocumentAsAlto": "Current document as Alto",
+  "$currentDocumentAsText": "Current document as text",
+  "$xml": "xml",
+  "$text": "text",
+  "$zip": "zip"
 }

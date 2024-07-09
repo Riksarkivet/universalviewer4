@@ -698,6 +698,10 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
       config.options.selectionEnabled &&
       downloadService?.__jsonld.selectionEnabled;
 
+    let enableOcrDownload = false;
+    if (config.options.downloadOcrEnabled && this.helper.getSearchService())
+      enableOcrDownload = true;
+
     this.downloadDialogueRoot.render(
       createElement(DownloadDialogue, {
         canvases: canvases,
@@ -708,6 +712,8 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
           config.options.downloadWholeImageHighResEnabled,
         downloadWholeImageLowResEnabled:
           config.options.downloadWholeImageLowResEnabled,
+        downloadOcrEnabled: enableOcrDownload,
+        downloadUrls: config.options.downloadUrls,
         locale: this.getLocale(),
         manifest: this.helper.manifest as Manifest,
         maxImageWidth: config.options.maxImageWidth,

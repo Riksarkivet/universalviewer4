@@ -185,16 +185,30 @@
         "downloadCurrentViewEnabled": true,
         "downloadWholeImageHighResEnabled": true,
         "downloadWholeImageLowResEnabled": true,
+        "downloadOcrEnabled": false,
         "maxImageWidth": 5000,
         "optionsExplanatoryTextEnabled": false,
         "selectionEnabled": false,
-        "topCloseButtonEnabled": false
+        "topCloseButtonEnabled": false,
+        "downloadUrls": {
+          "currentAsXml": "",
+          "currentAsZippedXml": "",
+          "currentAsText": "",
+          "currentAsZippedText": "",
+          "volumeAsZippedXml": "",
+          "volumeAsZippedText": ""
+        }
       },
       "content": {
         "allPages": "$allPages",
         "close": "$close",
         "currentViewAsJpg": "$currentViewAsJpg",
         "currentViewAsJpgExplanation": "$openNewWindow",
+        "currentViewAsAlto": "$currentViewAsAlto",
+        "currentViewAsText": "$currentViewAsText",
+        "currentDocumentAsAlto": "$currentDocumentAsAlto",
+        "currentDocumentAsText": "$currentDocumentAsText",
+        "ocrFiles": "$ocrFiles",
         "download": "$download",
         "downloadSelection": "$downloadSelection",
         "downloadSelectionExplanation": "$downloadSelectionExplanation",
@@ -214,7 +228,10 @@
         "wholeImageLowResAsJpg": "$wholeImageLowResAsJpg",
         "wholeImageLowResAsJpgExplanation": "$openNewWindow",
         "wholeImagesHighRes": "$wholeImagesHighRes",
-        "wholeImagesHighResExplanation": "$wholeImagesHighResExplanation"
+        "wholeImagesHighResExplanation": "$wholeImagesHighResExplanation",
+        "xml": "$xml",
+        "zip": "$zip",
+        "text": "$text"
       }
     },
     "footerPanel": {
