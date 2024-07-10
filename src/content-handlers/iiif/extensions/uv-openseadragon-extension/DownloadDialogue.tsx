@@ -445,24 +445,29 @@ const DownloadDialogue = ({
         manifestId + "_" + imageId
       );
       return (
-        <div>
+        <>
           <h2>{content.ocrFiles}</h2>
-          {Strings.format(content.currentViewAsAlto)} (
-          <a href={currentAsXmlUrl}>{content.xml}</a>,{" "}
-          <a href={currentAsZippedXml}>{content.zip}</a>)
-          <br />
-          {Strings.format(content.currentViewAsText)} (
-          <a href={currentAsText}>{content.text}</a>,{" "}
-          <a href={currentAsZippedText}>{content.zip}</a>)
-          <br />
-          {Strings.format(content.currentDocumentAsAlto)} (
-          <a href={volumeAsZippedXml}>{content.zip}</a>
-          )
-          <br />
-          {Strings.format(content.currentDocumentAsText)} (
-          <a href={volumeAsZippedText}>{content.zip}</a>
-          )
-        </div>
+          <ol className="options">
+            <li className="option single">
+              {Strings.format(content.currentViewAsAlto)} (
+              <a href={currentAsXmlUrl}>{content.xml}</a>,{" "}
+              <a href={currentAsZippedXml}>{content.zip}</a>)
+            </li>
+            <li className="option single">
+              {Strings.format(content.currentViewAsText)} (
+              <a href={currentAsText}>{content.text}</a>,{" "}
+              <a href={currentAsZippedText}>{content.zip}</a>)
+            </li>
+            <li className="option single">
+              {Strings.format(content.currentDocumentAsAlto)} (
+              <a href={volumeAsZippedXml}>{content.zip}</a>)
+            </li>
+            <li className="option single">
+              {Strings.format(content.currentDocumentAsText)} (
+              <a href={volumeAsZippedText}>{content.zip}</a>)
+            </li>
+            </ol>
+          </>
       );
     }
 
@@ -672,11 +677,6 @@ const DownloadDialogue = ({
                 </button>
               </li>
             )}
-            {isDownloadOptionAvailable(DownloadOption.CURRENT_IMAGE_AS_OCR) && (
-              <li className="option single">
-                <OcrLabels />
-              </li>
-            )}
             {isDownloadOptionAvailable(DownloadOption.RANGE_RENDERINGS) && (
               <RangeRenderings />
             )}
@@ -687,6 +687,9 @@ const DownloadDialogue = ({
               <CanvasRenderings />
             )}
           </ol>
+          {isDownloadOptionAvailable(DownloadOption.CURRENT_IMAGE_AS_OCR) && (
+              <OcrLabels />
+          )}
           {(hasManifestRenderings() ||
             isDownloadOptionAvailable(DownloadOption.SELECTION)) && (
             <h2>{content.allPages}</h2>
