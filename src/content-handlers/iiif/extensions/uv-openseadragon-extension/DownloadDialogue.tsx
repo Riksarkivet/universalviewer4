@@ -27,6 +27,8 @@ const DownloadDialogue = ({
   downloadCurrentViewEnabled,
   downloadWholeImageHighResEnabled,
   downloadWholeImageLowResEnabled,
+  downloadOcrEnabled,
+  downloadUrls,
   getConfinedImageDimensions,
   getConfinedImageUri,
   getCroppedImageDimensions,
@@ -55,6 +57,8 @@ const DownloadDialogue = ({
   downloadCurrentViewEnabled: boolean;
   downloadWholeImageHighResEnabled: boolean;
   downloadWholeImageLowResEnabled: boolean;
+  downloadOcrEnabled: boolean;
+  downloadUrls: { [key: string]: string };
   getConfinedImageDimensions: (canvas: Canvas) => Size | null;
   getConfinedImageUri: (canvas: Canvas) => string | null;
   getCroppedImageDimensions: (canvas: Canvas) => CroppedImageDimensions | null;
@@ -251,6 +255,10 @@ const DownloadDialogue = ({
         return false;
       case DownloadOption.ENTIRE_FILE_AS_ORIGINAL:
         return mediaDownloadEnabled;
+      case DownloadOption.CURRENT_IMAGE_AS_OCR:
+        if (!downloadOcrEnabled) {
+          return false;
+        }
       default:
         return true;
     }
@@ -393,6 +401,77 @@ const DownloadDialogue = ({
     }
 
     return label;
+  }
+
+  // This needs to be heavily improved. Too bad there isn't a standard in IIIF Presentation for including
+  // a download service.
+  function OcrLabels() {
+    const canvas: Canvas = getSelectedCanvas();
+    const id: string =
+      canvas.externalResource.data["@id"] || canvas.externalResource.data.id;
+    const regex = /(\d+)_(\d+)/;
+    const match = id.match(regex);
+    if (match) {
+      const manifestId = match[1];
+      const imageId = match[2];
+      const currentAsXmlUrl = Strings.format(
+        downloadUrls["currentAsXml"],
+        manifestId,
+        manifestId + "_" + imageId
+      );
+      const currentAsZippedXml = Strings.format(
+        downloadUrls["currentAsZippedXml"],
+        manifestId,
+        manifestId + "_" + imageId
+      );
+      const currentAsText = Strings.format(
+        downloadUrls["currentAsText"],
+        manifestId,
+        manifestId + "_" + imageId
+      );
+      const currentAsZippedText = Strings.format(
+        downloadUrls["currentAsZippedText"],
+        manifestId,
+        manifestId + "_" + imageId
+      );
+      const volumeAsZippedXml = Strings.format(
+        downloadUrls["volumeAsZippedXml"],
+        manifestId,
+        manifestId + "_" + imageId
+      );
+      const volumeAsZippedText = Strings.format(
+        downloadUrls["volumeAsZippedText"],
+        manifestId,
+        manifestId + "_" + imageId
+      );
+      return (
+        <>
+          <h2>{content.ocrFiles}</h2>
+          <ol className="options">
+            <li className="option single">
+              {Strings.format(content.currentViewAsAlto)} (
+              <a href={currentAsXmlUrl}>{content.xml}</a>,{" "}
+              <a href={currentAsZippedXml}>{content.zip}</a>)
+            </li>
+            <li className="option single">
+              {Strings.format(content.currentViewAsText)} (
+              <a href={currentAsText}>{content.text}</a>,{" "}
+              <a href={currentAsZippedText}>{content.zip}</a>)
+            </li>
+            <li className="option single">
+              {Strings.format(content.currentDocumentAsAlto)} (
+              <a href={volumeAsZippedXml}>{content.zip}</a>)
+            </li>
+            <li className="option single">
+              {Strings.format(content.currentDocumentAsText)} (
+              <a href={volumeAsZippedText}>{content.zip}</a>)
+            </li>
+            </ol>
+          </>
+      );
+    }
+
+    return <></>;
   }
 
   function Renderings({
@@ -608,6 +687,9 @@ const DownloadDialogue = ({
               <CanvasRenderings />
             )}
           </ol>
+          {isDownloadOptionAvailable(DownloadOption.CURRENT_IMAGE_AS_OCR) && (
+              <OcrLabels />
+          )}
           {(hasManifestRenderings() ||
             isDownloadOptionAvailable(DownloadOption.SELECTION)) && (
             <h2>{content.allPages}</h2>
