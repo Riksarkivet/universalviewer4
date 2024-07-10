@@ -1,10 +1,37 @@
 ﻿@import "@iiif/iiif-metadata-component/dist-css/styles.less";
 
 .uv {
-  .rightPanel {
+  .rightTextPanel {
     .top {
+      display: flex;
+      
+      .copyText {
+        position: absolute;
+        background-image: data-uri('../img/copy_overlay.png') !important;
+        width: 15px;
+        height: 15px;
+        right: 40px;
+        top: 10px;
+        cursor: pointer;
+      }
+
+      .copiedText {
+        color: @text-color !important;
+        position: absolute;
+        top: 18px;
+        right: -10px;
+        white-space: nowrap;
+        padding: 4px;
+        text-transform: none;
+        background-color: #343434;
+        z-index: 1;
+        border: 1px solid #9a9a9a;
+        border-radius: 2px;
+      }
+
       .title {
         text-transform: uppercase;
+        position: relative;
       }
     }
 
@@ -21,13 +48,11 @@
       }
 
       .noData {
-        padding: 0 @padding-medium-horizontal (@padding-medium-vertical * 2)
-          @padding-medium-horizontal;
+        padding: 0 @padding-medium-horizontal (@padding-medium-vertical * 2) @padding-medium-horizontal;
       }
 
       .groups {
-        padding: @padding-medium-vertical @padding-medium-horizontal
-          (@padding-medium-vertical * 2) @padding-medium-horizontal;
+        padding: @padding-medium-vertical @padding-medium-horizontal (@padding-medium-vertical * 2) @padding-medium-horizontal;
 
         .group {
           .header {
