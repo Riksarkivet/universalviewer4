@@ -4,11 +4,15 @@ import { TextRightPanel as TextRightPanelConfig } from "../../BaseConfig";
 import { Events } from "../../../../Events";
 import OpenSeadragonExtension from "../../extensions/uv-openseadragon-extension/Extension";
 import OpenSeadragon from "openseadragon";
+import { Clipboard } from "@edsilv/utils";
 
 export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
   $transcribedText: JQuery;
   $existingAnnotation: JQuery = $();
+  $copyButton: JQuery;
+  $copiedText: JQuery;
   currentCanvasIndex: number = 0;
+  clipboardText: string = '';
 
   constructor($element: JQuery) {
     super($element);
@@ -19,6 +23,44 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
 
     super.create();
 
+    if (this.config.options.copyToClipboardEnabled && Clipboard.supportsCopy()) {
+      this.$copyButton = $(
+        '<div class="copyText" alt="' +
+        this.config.content.copyToClipboard +
+        '" title="' +
+        this.config.content.copyToClipboard +
+        '"></div>'
+      );
+
+      this.$copiedText = $(
+        '<div class="copiedText">' +
+        this.config.content.copiedToClipboard +
+        ' </div>'
+      );
+      this.$copiedText.hide();
+      this.$copyButton.hide();
+
+      this.$copyButton.append(this.$copiedText);
+
+      const that = this;
+      this.$top.on('mouseenter', () => {
+        that.$copyButton.show();
+      });
+      this.$top.on('mouseleave', () => {
+        that.$copyButton.hide();
+      });
+      this.$copyButton.on('mouseleave', () => {
+        that.$copiedText.hide();
+      });
+
+      this.$copyButton.on('click', () => {
+        let text = that.$transcribedText.attr('data-text');
+        this.copyText(text);
+      });
+
+      this.$top.append(this.$copyButton);
+    }
+
     this.extensionHost.on(Events.LOAD, async (e) => {
       if (this.currentCanvasIndex == this.extension.helper.canvasIndex) {
         this.$existingAnnotation = $('.lineAnnotation.current');
@@ -28,6 +70,7 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
       this.currentCanvasIndex = this.extension.helper.canvasIndex;
 
       this.$main.html('');
+      this.clipboardText = '';
       this.removeLineAnnotationRects();
       let canvases = this.extension.getCurrentCanvases();
       canvases.sort((a, b) => (a.index as number - b.index as number));
@@ -56,6 +99,7 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
     });
 
     this.setTitle(this.config.content.title);
+    this.$top.parent().addClass('rightTextPanel');
   }
 
   toggleFinish(): void {
@@ -95,6 +139,7 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
         const width = Number(e.getAttribute('WIDTH'));
         const height = Number(e.getAttribute('HEIGHT'));
         let text = t.join(' ');
+        this.clipboardText += text;
 
         let line = $('<p id="line-annotation-' + i + '" class="lineAnnotation" tabindex="0">' + text + '</p>');
 
@@ -137,6 +182,7 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
       }
       if (lines.length > 0) {
         this.$transcribedText.append(lines);
+        this.$transcribedText.attr('data-text', this.clipboardText);
       } else {
         this.$transcribedText.append($('<div>' + this.content.textNotFound + '</div>'));
       }
@@ -153,6 +199,16 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
     } catch (error) {
       throw new Error('Unable to fetch Alto file: ' + error.message);
     }
+  }
+
+  copyText(text: string): void {
+    Clipboard.copy(text);
+
+    this.$copiedText.show();
+
+    setTimeout(() => {
+      this.$copiedText.hide();
+    }, 2000);
   }
 
   setCurrentLineAnnotationRect(e: any): void {
