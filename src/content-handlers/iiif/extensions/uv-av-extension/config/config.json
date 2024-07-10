@@ -183,7 +183,7 @@
         "moreInfoEnabled": true,
         "openEnabled": false,
         "printEnabled": false,
-        "shareEnabled": true
+        "shareEnabled": false
       },
       "content": {
         "bookmark": "$add_to_bookmarks",
