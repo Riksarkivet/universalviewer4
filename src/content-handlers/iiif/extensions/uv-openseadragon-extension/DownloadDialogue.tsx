@@ -409,7 +409,8 @@ const DownloadDialogue = ({
     const canvas: Canvas = getSelectedCanvas();
     const id: string =
       canvas.externalResource.data["@id"] || canvas.externalResource.data.id;
-    const regex = /(\d+)_(\d+)/;
+    const regex = /([a-zA-Z0-9]+)_(\d+)/;
+    console.log(regex);
     const match = id.match(regex);
     if (match) {
       const manifestId = match[1];
@@ -466,8 +467,8 @@ const DownloadDialogue = ({
               {Strings.format(content.currentDocumentAsText)} (
               <a href={volumeAsZippedText}>{content.zip}</a>)
             </li>
-            </ol>
-          </>
+          </ol>
+        </>
       );
     }
 
@@ -688,7 +689,7 @@ const DownloadDialogue = ({
             )}
           </ol>
           {isDownloadOptionAvailable(DownloadOption.CURRENT_IMAGE_AS_OCR) && (
-              <OcrLabels />
+            <OcrLabels />
           )}
           {(hasManifestRenderings() ||
             isDownloadOptionAvailable(DownloadOption.SELECTION)) && (
