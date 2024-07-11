@@ -486,7 +486,7 @@ const DownloadDialogue = ({
     const canvas: Canvas = getSelectedCanvas();
     const id: string =
       canvas.externalResource.data["@id"] || canvas.externalResource.data.id;
-    const regex = /([a-zA-Z0-9]+)_(\d+)/;
+    const regex = /([a-zA-Z0-9]+)_([a-zA-Z0-9]+)/;
     console.log(regex);
     const match = id.match(regex);
     if (match) {
