@@ -349,6 +349,7 @@ export class ContentLeftPanel extends LeftPanel<ContentLeftPanelConfig> {
   renderTree(): void {
     if (!this.treeView) return;
     this.treeView.treeData = this.getTreeData();
+    this.treeView.setup();
     this.treeView.databind();
     this.selectCurrentTreeNode();
   }
@@ -778,20 +779,22 @@ export class ContentLeftPanel extends LeftPanel<ContentLeftPanelConfig> {
   selectCurrentTreeNode(): void {
     // todo: merge selectCurrentTreeNodeByCanvas and selectCurrentTreeNodeByRange
     // the openseadragon extension should keep track of the current range instead of using canvas index
-    if (this.extension.type?.name === "uv-openseadragon-extension") {
+   if (this.extension.type?.name === "uv-openseadragon-extension") {
       this.selectCurrentTreeNodeByCanvas();
     } else {
       this.selectCurrentTreeNodeByRange();
-    }
+    } 
   }
 
   selectCurrentTreeNodeByRange(): void {
     if (this.treeView) {
       const range: Range | null = this.extension.helper.getCurrentRange();
+      let node: TreeNode | null = null;
+   
       if (range && range.treeNode) {
-        const node = this.treeView.getNodeById(range.treeNode.id);
+        node = this.treeView.getNodeById(range.treeNode.id);
         if (node) {
-          this.treeView.selectNode(node);
+          this.treeView.selectNode(<TreeNode>node);
         } else {
           this.selectTreeNodeByManifest();
         }
@@ -808,16 +811,16 @@ export class ContentLeftPanel extends LeftPanel<ContentLeftPanelConfig> {
       const usingCorrectTree: boolean =
         currentCanvasTopRangeIndex === selectedTopRangeIndex;
       let range: Range | null = null;
-
-      if (currentCanvasTopRangeIndex !== -1) {
-        range = this.extension.getCurrentCanvasRange();
-        //range = this.extension.helper.getCurrentRange();
-
-        if (range && range.treeNode) {
-          node = this.treeView.getNodeById(range.treeNode.id);
-        }
+      this.treeView.databind();
+      
+       if (currentCanvasTopRangeIndex !== -1) {
+        //range = this.extension.getCurrentCanvasRange();
+        range = this.extension.helper.getCurrentRange();
+          if (range && range.treeNode) {
+            node = this.treeView.getNodeById(range.treeNode.id);
+          }
       }
-
+ 
       // use manifest root node
       // if (!node){
       //     id = this.extension.helper.manifest.defaultTree.id;
