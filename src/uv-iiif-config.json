@@ -72,6 +72,11 @@
         "copyToClipboardEnabled": true
       }    
     },
+    "contentLeftPanel": {
+      "options": {
+        "defaultToTreeEnabled": true
+      }
+     },
       "searchFooterPanel" :{
         "options": {
           "shareEnabled": false,
