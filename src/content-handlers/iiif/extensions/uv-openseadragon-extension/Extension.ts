@@ -569,7 +569,7 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
     }
 
     if (this.isTextRightPanelEnabled()) {
-      this.textRightPanel = new TextRightPanel(this.shell.$textRightPanel);
+      this.textRightPanel = new TextRightPanel(this.shell.$textRightPanel, this.shell);
     } else {
       this.shell.$textRightPanel.hide();
     }
