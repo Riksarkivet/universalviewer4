@@ -105,7 +105,7 @@ export default class ModelViewerExtension extends BaseExtension<Config> {
     }
 
     if (this.isTextRightPanelEnabled()) {
-      this.textRightPanel = new TextRightPanel(this.shell.$textRightPanel);
+      this.textRightPanel = new TextRightPanel(this.shell.$textRightPanel, this.shell);
     }
 
     if (this.isFooterPanelEnabled()) {

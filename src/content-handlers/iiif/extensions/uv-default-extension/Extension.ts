@@ -90,7 +90,7 @@ export default class Extension
     }
 
     if (this.isTextRightPanelEnabled()) {
-      this.textRightPanel = new TextRightPanel(this.shell.$textRightPanel);
+      this.textRightPanel = new TextRightPanel(this.shell.$textRightPanel, this.shell);
     }
 
     if (this.isFooterPanelEnabled()) {

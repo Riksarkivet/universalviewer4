@@ -5,6 +5,9 @@ import { Events } from "../../../../Events";
 import OpenSeadragonExtension from "../../extensions/uv-openseadragon-extension/Extension";
 import OpenSeadragon from "openseadragon";
 import { Clipboard } from "@edsilv/utils";
+import { IExternalImageResourceData } from "manifesto.js";
+import { OpenSeadragonCenterPanel } from "../../modules/uv-openseadragoncenterpanel-module/OpenSeadragonCenterPanel";
+import { Shell } from "../uv-shared-module/Shell";
 
 export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
   $transcribedText: JQuery;
@@ -12,10 +15,15 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
   $copyButton: JQuery;
   $copiedText: JQuery;
   currentCanvasIndex: number = 0;
+  offsetX: number = 0;
+  index: number = 0;
   clipboardText: string = '';
+  shell: Shell;
+  centerPanel: OpenSeadragonCenterPanel;
 
-  constructor($element: JQuery) {
+  constructor($element: JQuery, shell: Shell) {
     super($element);
+    this.shell = shell;
   }
 
   create(): void {
@@ -62,6 +70,8 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
     }
 
     this.extensionHost.on(Events.LOAD, async (e) => {
+      this.centerPanel = (<OpenSeadragonExtension>(this.extension)).centerPanel;
+
       if (this.currentCanvasIndex == this.extension.helper.canvasIndex) {
         this.$existingAnnotation = $('.lineAnnotation.current');
       } else {
@@ -78,21 +88,40 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
         const c = canvases[i];
         let seeAlso = c.getProperty('seeAlso');
         let header;
+
         if (i === 0 && canvases.length > 1) {
           header = this.content.leftPage;
         } else if (i === 1 && canvases.length > 1) {
           header = this.content.rightPage;
         }
 
+        // Find offset if showing more pages than one at once
+        let res = this.extension.resources;
+        this.offsetX = -1;
+        this.index = -1;
+        if (res !== null) {
+          let resource: any = res.filter(
+            (x) => x.index === c.index
+          )[0];
+          this.index = res.indexOf(resource);
+          this.offsetX = 0;
+  
+          if (this.index > 0) {
+            this.offsetX = (<IExternalImageResourceData>(
+              res[this.index - 1]
+            )).width;
+          }
+        }
+
         // We need to see if seeAlso contains an ALTO file and maybe allow for other HTR/OCR formats in the future
         // and make sure which version of IIIF Presentation API is used
         if (seeAlso.length === undefined) { // This is IIIF Presentation API < 3
           if (seeAlso.profile.includes('alto')) {
-            await this.processAltoFile(seeAlso['@id'], header);
+            await this.processAltoFile(seeAlso['@id'], c.index, header);
           }
         } else { // This is IIIF Presentation API >= 3
           if (seeAlso[0].profile.includes('alto')) {
-            await this.processAltoFile(seeAlso[0]['id'], header);
+            await this.processAltoFile(seeAlso[0]['id'], c.index, header);
           }
         }
       };
@@ -122,7 +151,7 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
   }
 
   // Let's load the ALTO file and do some parsing
-  processAltoFile = async (altoUrl, header?): Promise<void> => {
+  processAltoFile = async (altoUrl, canvasIndex, header?): Promise<void> => {
     try {
       const response = await fetch(altoUrl);
       const data = await response.text();
@@ -134,17 +163,19 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
         let t = Array.from(strings).map((e, i) => {
           return e.getAttribute('CONTENT');
         });
-        const x = Number(e.getAttribute('HPOS'));
+        let x = Number(e.getAttribute('HPOS'));
         const y = Number(e.getAttribute('VPOS'));
         const width = Number(e.getAttribute('WIDTH'));
         const height = Number(e.getAttribute('HEIGHT'));
+        x = x + this.offsetX + (this.index > 0 ? this.centerPanel.config.options.pageGap : 0);
+
         let text = t.join(' ');
         this.clipboardText += text;
 
-        let line = $('<p id="line-annotation-' + i + '" class="lineAnnotation" tabindex="0">' + text + '</p>');
+        let line = $('<div id="line-annotation-' + canvasIndex + '-' + i + '" class="lineAnnotation" tabindex="0">' + text + '</div>');
 
         if (!this.extension.isMobile()) {
-          let div = $('<div id="line-annotation-' + i + '" class="lineAnnotationRect" title="' + text + '" data-x="' + x + '" data-y="' + y + '" data-width="' + width + '" data-height="' + height + '" tabindex="0"></div>');
+          let div = $('<div id="line-annotation-' + canvasIndex + '-' + i + '" class="lineAnnotationRect" title="' + text + '" data-x="' + x + '" data-y="' + y + '" data-width="' + width + '" data-height="' + height + '" tabindex="0"></div>');
           $(div).on('keydown', (e: any) => {
             if (e.keyCode === 13) {
               $(e.target).trigger('click');
@@ -226,9 +257,9 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
         $(lineAnnotation).removeClass('current');
       }
     });
-    $('p#' + e.getAttribute('id')).addClass('current');
+    $('div#' + e.getAttribute('id')).addClass('current');
     if (scrollIntoView) {
-      $('p#' + e.getAttribute('id'))[0].scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
+      $('div#' + e.getAttribute('id'))[0].scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
     }
   }
 
