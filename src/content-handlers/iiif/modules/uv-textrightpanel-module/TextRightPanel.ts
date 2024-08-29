@@ -95,7 +95,7 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
           header = this.content.rightPage;
         }
 
-        // Find offset if showing more pages than one at once
+        // Find offset if showing more pages than one
         let res = this.extension.resources;
         this.offsetX = -1;
         this.index = -1;
@@ -105,7 +105,7 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
           )[0];
           this.index = res.indexOf(resource);
           this.offsetX = 0;
-  
+
           if (this.index > 0) {
             this.offsetX = (<IExternalImageResourceData>(
               res[this.index - 1]
@@ -222,8 +222,11 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
       // If we already have a selected line annotation, make sure it's selected again after load
       if (this.$existingAnnotation[0] !== undefined) {
         let id = $(this.$existingAnnotation).attr('id');
-        this.setCurrentLineAnnotation($(this.$existingAnnotation)[0], true);
-        this.setCurrentLineAnnotationRect($('div#' + id)[0]);
+        let canvasIndex = Number(id.split('-')[2]);
+        if (this.currentCanvasIndex === canvasIndex) {
+          this.setCurrentLineAnnotation($(this.$existingAnnotation)[0], true);
+          this.setCurrentLineAnnotationRect($('div#' + id)[0]);
+        }
         this.$existingAnnotation = $();
       }
 
