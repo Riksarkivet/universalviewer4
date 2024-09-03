@@ -8,6 +8,7 @@ import { Clipboard } from "@edsilv/utils";
 import { IExternalImageResourceData } from "manifesto.js";
 import { OpenSeadragonCenterPanel } from "../../modules/uv-openseadragoncenterpanel-module/OpenSeadragonCenterPanel";
 import { Shell } from "../uv-shared-module/Shell";
+import { IIIFEvents } from "../../IIIFEvents";
 
 export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
   $transcribedText: JQuery;
@@ -69,10 +70,18 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
       this.$top.append(this.$copyButton);
     }
 
+    this.extensionHost.subscribe(IIIFEvents.CLEAR_ANNOTATIONS, (e) => {
+      this.clearLineAnnotations();
+    });
+
     this.extensionHost.on(Events.LOAD, async (e) => {
       this.centerPanel = (<OpenSeadragonExtension>(this.extension)).centerPanel;
+      let canvases = this.extension.getCurrentCanvases();
+      canvases.sort((a, b) => (a.index as number - b.index as number));
 
-      if (this.currentCanvasIndex == this.extension.helper.canvasIndex) {
+      let canvasExists = canvases.some(x => x.index === this.currentCanvasIndex)
+
+      if (canvasExists) {
         this.$existingAnnotation = $('.lineAnnotation.current');
       } else {
         this.$existingAnnotation = $();
@@ -82,8 +91,6 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
       this.$main.html('');
       this.clipboardText = '';
       this.removeLineAnnotationRects();
-      let canvases = this.extension.getCurrentCanvases();
-      canvases.sort((a, b) => (a.index as number - b.index as number));
       for (let i = 0; i < canvases.length; i++) {
         const c = canvases[i];
         let seeAlso = c.getProperty('seeAlso');
@@ -182,6 +189,12 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
             }
           });
           $(div).on('click', (e: any) => {
+            let canvasIndex = Number(e.target.getAttribute('id').split('-')[2]);
+            // We change the current canvas index to the clicked page (if we're in two page view)
+            if (canvasIndex !== this.currentCanvasIndex) {
+              this.extension.helper.canvasIndex = canvasIndex;
+              this.currentCanvasIndex = canvasIndex;
+            }
             this.clearLineAnnotationRects();
             this.clearLineAnnotations();
             this.setCurrentLineAnnotation(e.target, true);
@@ -198,6 +211,12 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
           });
           // Sync line click with line annotation
           line.on('click', (e: any) => {
+            let canvasIndex = Number(e.target.getAttribute('id').split('-')[2]);
+            // We change the current canvas index to the clicked page (if we're in two page view)
+            if (canvasIndex !== this.currentCanvasIndex) {
+              this.extension.helper.canvasIndex = canvasIndex;
+              this.currentCanvasIndex = canvasIndex;
+            }
             this.clearLineAnnotationRects();
             this.clearLineAnnotations();
             this.setCurrentLineAnnotation(e.target, false);
@@ -222,12 +241,10 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
       // If we already have a selected line annotation, make sure it's selected again after load
       if (this.$existingAnnotation[0] !== undefined) {
         let id = $(this.$existingAnnotation).attr('id');
-        let canvasIndex = Number(id.split('-')[2]);
-        if (this.currentCanvasIndex === canvasIndex) {
-          this.setCurrentLineAnnotation($(this.$existingAnnotation)[0], true);
+        if ($('div#' + id).length > 0) { // Make sure the line annotation exists in the DOM
+          this.setCurrentLineAnnotation($('div#' + id)[0], true);
           this.setCurrentLineAnnotationRect($('div#' + id)[0]);
         }
-        this.$existingAnnotation = $();
       }
 
     } catch (error) {
@@ -251,7 +268,7 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
         $(lineAnnotationRect).removeClass('current');
       }
     });
-    $('div#' + e.getAttribute('id')).addClass('current');
+    $('div#' + e.getAttribute('id') + '.lineAnnotationRect').addClass('current');
   }
 
   setCurrentLineAnnotation(e: any, scrollIntoView: Boolean): void {
@@ -260,9 +277,9 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
         $(lineAnnotation).removeClass('current');
       }
     });
-    $('div#' + e.getAttribute('id')).addClass('current');
+    $('div#' + e.getAttribute('id') + '.lineAnnotation').addClass('current');
     if (scrollIntoView) {
-      $('div#' + e.getAttribute('id'))[0].scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
+      $('div#' + e.getAttribute('id') + '.lineAnnotation')[0].scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
     }
   }
 
