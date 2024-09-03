@@ -8,7 +8,6 @@ import { Clipboard } from "@edsilv/utils";
 import { IExternalImageResourceData } from "manifesto.js";
 import { OpenSeadragonCenterPanel } from "../../modules/uv-openseadragoncenterpanel-module/OpenSeadragonCenterPanel";
 import { Shell } from "../uv-shared-module/Shell";
-import { IIIFEvents } from "../../IIIFEvents";
 
 export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
   $transcribedText: JQuery;
@@ -69,10 +68,6 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
 
       this.$top.append(this.$copyButton);
     }
-
-    this.extensionHost.subscribe(IIIFEvents.CLEAR_ANNOTATIONS, (e) => {
-      this.clearLineAnnotations();
-    });
 
     this.extensionHost.on(Events.LOAD, async (e) => {
       this.centerPanel = (<OpenSeadragonExtension>(this.extension)).centerPanel;
