@@ -82,7 +82,6 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
     }
 
     this.extensionHost.on(Events.SEARCH_HIT_CHANGED, (e) => {
-      console.log(e)
       let index = e;
       let canvasIndex = this.extension.helper.canvasIndex;
       $('.transcribed-text .searchHitSpan').each((i: Number, searchHit: any) => {
