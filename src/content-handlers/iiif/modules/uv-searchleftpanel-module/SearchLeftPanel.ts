@@ -85,7 +85,7 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
           this.extensionHost.publish(IIIFEvents.ANNOTATION_CANVAS_CHANGE, [
             (<OpenSeadragonExtension>(this.extension)).annotations[0].rects[0],
           ]);
-          this.extensionHost.publish(Events.SEARCH_HIT_CHANGED, 1);
+          this.extensionHost.publish(Events.SEARCH_HIT_CHANGED, 0);
         } else {
           this.$searchHitsLabel.html(this.content.noMatches);
         }
@@ -307,11 +307,6 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
         $(div, searchHitSpan).on('click', (e: any) => {
           let canvasIndex: number = 0
           let index: number = 0
-          let hitIndex = $(e.target).closest('div').find('.searchHitNumberSpan').attr('data-index');
-
-          if (this.currentHitIndex != hitIndex) {
-            this.extensionHost.publish(Events.SEARCH_HIT_CHANGED, hitIndex);
-          }
 
           if (e.target.tagName.toLowerCase() === 'span') {
             canvasIndex = $(e.target).closest('div').attr('data-canvas-index');
@@ -321,6 +316,8 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
             index = $(e.target).attr('data-index');
           }
           let currentRect = (<OpenSeadragonExtension>(this.extension)).annotations.find((e) => { return e["canvasIndex"] == canvasIndex })?.rects[index];
+
+          this.extensionHost.publish(Events.SEARCH_HIT_CHANGED, Number(index));
 
           if (currentRect !== undefined) {
             if (this.currentAnnotationRect !== undefined && currentRect.canvasIndex == this.currentAnnotationRect.canvasIndex) {
