@@ -69,6 +69,33 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
       this.$top.append(this.$copyButton);
     }
 
+    function getIntersectionArea(rect1, rect2) {
+      const xOverlap = Math.max(0, Math.min(rect1.x + rect1.width, rect2.x + rect2.width) - Math.max(rect1.x, rect2.x));
+      const yOverlap = Math.max(0, Math.min(rect1.y + rect1.height, rect2.y + rect2.height) - Math.max(rect1.y, rect2.y));
+      return xOverlap * yOverlap;
+    }
+
+    function getIntersectionPercentage(rect1, rect2) {
+      const intersectionArea = getIntersectionArea(rect1, rect2);
+      const rect1Area = rect1.width * rect1.height;
+      return (intersectionArea / rect1Area) * 100;
+    }
+
+    this.extensionHost.on(Events.SEARCH_HIT_CHANGED, (e) => {
+      let index = e;
+      let canvasIndex = this.extension.helper.canvasIndex;
+      $('.transcribed-text .searchHitSpan').each((i: Number, searchHit: any) => {
+        if ($(searchHit).hasClass('current')) {
+          $(searchHit).removeClass('current');
+          return;
+        }
+      });
+      if ($('.transcribed-text .searchHitSpan[data-index="' + index + '"][data-canvas-index="' + canvasIndex + '"]')[0] !== undefined) {
+        $('.transcribed-text .searchHitSpan[data-index="' + index + '"][data-canvas-index="' + canvasIndex + '"]').addClass('current');
+        this.setCurrentAnnotation(canvasIndex, index);
+      }
+    });
+
     this.extensionHost.on(Events.LOAD, async (e) => {
       this.centerPanel = (<OpenSeadragonExtension>(this.extension)).centerPanel;
       let canvases = this.extension.getCurrentCanvases();
@@ -126,6 +153,26 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
             await this.processAltoFile(seeAlso[0]['id'], c.index, header);
           }
         }
+
+        let annotationRects = (<OpenSeadragonExtension>(this.extension)).getAnnotationRects().filter((rect) => { return rect["canvasIndex"] == c.index });
+        annotationRects.forEach((annotationRect) => {
+          let rect = { x: annotationRect.x, y: annotationRect.y, width: annotationRect.width, height: annotationRect.height };
+          $('div.lineAnnotationRect').each((i: Number, lineAnnotationRect: any) => {
+            let x = $(lineAnnotationRect).data('x');
+            let y = $(lineAnnotationRect).data('y');
+            let width = $(lineAnnotationRect).data('width');
+            let height = $(lineAnnotationRect).data('height');
+            let lineRect = { x: x, y: y, width: width, height: height };
+
+            let p = getIntersectionPercentage(rect, lineRect);
+            if (p > 50) {
+              let text = $('div#' + $(lineAnnotationRect).attr('id') + '.lineAnnotation').text();
+              text = text.replace(annotationRect.chars, '<span class="searchHitSpan" data-index="' + annotationRect.index + '" data-canvas-index="' + annotationRect.canvasIndex + '">' + annotationRect.chars + '</span>');
+              $('div#' + $(lineAnnotationRect).attr('id') + '.lineAnnotation').html(text);
+            }
+          });
+          this.extensionHost.publish(Events.SEARCH_HIT_CHANGED, 0);
+        });
       };
     });
 
@@ -206,7 +253,8 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
           });
           // Sync line click with line annotation
           line.on('click', (e: any) => {
-            let canvasIndex = Number(e.target.getAttribute('id').split('-')[2]);
+            let target = e.currentTarget;
+            let canvasIndex = Number(target.getAttribute('id').split('-')[2]);
             // We change the current canvas index to the clicked page (if we're in two page view)
             if (canvasIndex !== this.currentCanvasIndex) {
               this.extension.helper.canvasIndex = canvasIndex;
@@ -214,8 +262,8 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
             }
             this.clearLineAnnotationRects();
             this.clearLineAnnotations();
-            this.setCurrentLineAnnotation(e.target, false);
-            this.setCurrentLineAnnotationRect(e.target);
+            this.setCurrentLineAnnotation(target, false);
+            this.setCurrentLineAnnotationRect(target);
           });
         }
         return line;
@@ -298,4 +346,13 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
     $('div.lineAnnotationRect').remove();
   }
 
+  setCurrentAnnotation(canvasIndex: any, index: any): void {
+    $('.annotationRect').each((i: number, annotation: any) => {
+      if ($(annotation).hasClass('current')) {
+        $(annotation).removeClass('current');
+        return;
+      }
+    });
+    $('div#annotation-' + canvasIndex + '-' + index).addClass('current');
+  }
 }

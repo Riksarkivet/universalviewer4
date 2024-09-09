@@ -94,6 +94,17 @@
                         background-color: saturate(@col, 100%);
                     }
 
+                    .searchHitSpan {
+                        font-weight: bold;
+                        background-color: #10819A;
+                        padding: 3px;
+
+                        &.current {
+                            background-color: #11d4ff;
+                            color: #000;
+                        }
+                    }
+
                     &:hover {
                         color: #000;
                         @col: lighten(rgb(120, 251, 185), 20%);
