@@ -22,6 +22,7 @@ import { OpenSeadragonCenterPanel } from "../../modules/uv-openseadragoncenterpa
 import { SettingsDialogue } from "./SettingsDialogue";
 import { ShareDialogue } from "./ShareDialogue";
 import { Bools, Maths, Strings } from "@edsilv/utils";
+import { Riksarkivet } from "../../modules/uv-shared-module/Riksarkivet"
 import {
   IIIFResourceType,
   ExternalResourceType,
@@ -96,11 +97,13 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
   shareDialogue: ShareDialogue;
   defaultConfig: Config = defaultConfig;
   searchHits: SearchHit[];
+  riksarkivet: Riksarkivet;
 
   create(): void {
     super.create();
 
     this.store = createStore();
+    this.riksarkivet = new Riksarkivet();
 
     this.store.subscribe((_state) => {
       this.renderDownloadDialogue();
@@ -124,6 +127,10 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
         this.previousAnnotationRect = null;
         this.currentAnnotationRect = null;
         this.changeCanvas(canvasIndex);
+        if (this.getSettings().useRiksarkivetLegacyURLs) { // This is a special for us at Riksarkivet, and it's set to false as default.
+          let canvas = this.helper.getCanvasByIndex(canvasIndex);
+          this.riksarkivet.UpdateUrl(canvas)
+        }
       }
     );
 
