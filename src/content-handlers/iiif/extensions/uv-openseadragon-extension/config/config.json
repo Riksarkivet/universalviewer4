@@ -46,7 +46,8 @@
     "tokenStorage": "session",
     "useArrowKeysToNavigate": false,
     "zoomToSearchResultEnabled": true,
-    "zoomToBoundsEnabled": true
+    "zoomToBoundsEnabled": true,
+    "useRiksarkivetLegacyURLs": true
   },
   "modules": {
     "leftPanel": {
