@@ -46,7 +46,8 @@
         "pagingToggleEnabled": true,
         "imageSelectionBoxEnabled": true,
         "autoCompleteBoxEnabled": false,
-        "modeOptionsEnabled": false
+        "modeOptionsEnabled": false,
+        "galleryButtonEnabled": false
       }
     },
     "openSeadragonCenterPanel": {
@@ -79,7 +80,8 @@
     },
     "contentLeftPanel": {
       "options": {
-        "defaultToTreeEnabled": true
+        "defaultToTreeEnabled": true,
+        "thumbsEnabled": false
       }
      },
       "searchFooterPanel" :{
