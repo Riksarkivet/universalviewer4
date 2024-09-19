@@ -610,6 +610,10 @@ export class ContentLeftPanel extends LeftPanel<ContentLeftPanelConfig> {
       // hide the tabs if either tree or thumbs are disabled
       if (!treeEnabled || !thumbsEnabled) this.$tabs.hide();
 
+      if (!treeEnabled && !thumbsEnabled) {
+        this.extension.shell.$leftPanel.hide();
+      }
+
       if (thumbsEnabled && this.defaultToThumbsView()) {
         this.openThumbsView();
       } else if (treeEnabled) {
