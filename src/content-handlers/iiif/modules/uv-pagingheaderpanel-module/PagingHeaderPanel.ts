@@ -15,6 +15,7 @@ export class PagingHeaderPanel extends HeaderPanel<
   Config["modules"]["pagingHeaderPanel"]
 > {
   $autoCompleteBox: JQuery;
+  $logoElement: JQuery;
   $firstButton: JQuery;
   $galleryButton: JQuery;
   $imageModeLabel: JQuery;
@@ -77,6 +78,8 @@ export class PagingHeaderPanel extends HeaderPanel<
         this.closeGallery();
       }
     );
+    
+    this.$logoElement = $('.uv .headerPanel .options');
 
     this.$prevOptions = $('<div class="prevOptions"></div>');
     this.$centerOptions.append(this.$prevOptions);
@@ -418,6 +421,10 @@ export class PagingHeaderPanel extends HeaderPanel<
     if (this.options.modeOptionsEnabled === false) {
       this.$modeOptions.hide();
       this.$centerOptions.addClass("modeOptionsDisabled");
+    }
+
+    if (this.options.showLogo === false) {
+      this.$logoElement.css('background-image', 'none');
     }
 
     // Search is shown as default
