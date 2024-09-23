@@ -63,6 +63,8 @@ type PagingHeaderPanelOptions = HeaderPanelOptions & {
   pageModeEnabled: boolean;
   /** Determines if paging toggle is enabled */
   pagingToggleEnabled: boolean;
+  /** Determines if logotype (in left upper corner of header) is set to visible */
+  showLogo: boolean
 };
 
 type PagingHeaderPanelContent = HeaderPanelContent & {

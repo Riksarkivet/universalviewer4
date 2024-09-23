@@ -47,7 +47,8 @@
         "imageSelectionBoxEnabled": true,
         "autoCompleteBoxEnabled": false,
         "modeOptionsEnabled": false,
-        "galleryButtonEnabled": false
+        "galleryButtonEnabled": false,
+        "showLogo": true
       }
     },
     "openSeadragonCenterPanel": {

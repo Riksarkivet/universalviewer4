@@ -421,7 +421,8 @@
         "localeToggleEnabled": false,
         "settingsButtonEnabled": true,
         "helpEnabled": true,
-        "modeOptionsEnabled": true
+        "modeOptionsEnabled": true,
+        "showLogo": true
       },
       "content": {
         "close": "$close",
