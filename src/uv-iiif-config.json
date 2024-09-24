@@ -14,7 +14,8 @@
     "textRightPanelEnabled": true,
     "clickToZoomEnabled": false,
     "saveUserSettings": true,
-    "searchWithinEnabled": false
+    "searchWithinEnabled": false,
+    "useRiksarkivetLegacyURLs": false
   },
   "modules": {
     "avCenterPanel": {
