@@ -47,7 +47,7 @@
     "useArrowKeysToNavigate": false,
     "zoomToSearchResultEnabled": true,
     "zoomToBoundsEnabled": true,
-    "useRiksarkivetLegacyURLs": true
+    "useRiksarkivetLegacyURLs": false
   },
   "modules": {
     "leftPanel": {
