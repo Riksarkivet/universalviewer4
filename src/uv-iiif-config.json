@@ -14,6 +14,7 @@
     "textRightPanelEnabled": true,
     "clickToZoomEnabled": false,
     "searchWithinEnabled": false,
+    "useRiksarkivetLegacyURLs": false,
     "saveUserSettings": true
   },
   "modules": {
