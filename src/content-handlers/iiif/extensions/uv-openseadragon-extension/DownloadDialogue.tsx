@@ -8,7 +8,6 @@ import {
   IExternalResourceData,
   Utils,
   IExternalImageResourceData,
-  Resource,
   Annotation,
   AnnotationBody,
   ManifestResource,
@@ -18,8 +17,8 @@ import {
   Manifest,
 } from "manifesto.js";
 import { DownloadOption } from "../../modules/uv-shared-module/DownloadOption";
-import { MediaType } from "@iiif/vocabulary";
 import { CroppedImageDimensions } from "./CroppedImageDimensions";
+import { MediaType } from "@iiif/vocabulary";
 
 const DownloadDialogue = ({
   canvases,
@@ -315,14 +314,6 @@ const DownloadDialogue = ({
     }
   }
 
-  function getCanvasImageResource(canvas: Canvas): Resource | null {
-    const images: Annotation[] = canvas.getImages();
-    if (images[0]) {
-      return images[0].getResource();
-    }
-    return null;
-  }
-
   function getCanvasImageAnnotationBody(canvas: Canvas): AnnotationBody | null {
     const images: Annotation[] = canvas.getContent();
     if (images.length == 0) {
@@ -338,14 +329,14 @@ const DownloadDialogue = ({
   }
 
   function getCanvasMimeType(canvas: Canvas): string | null {
-    // presentation api version 2
-    const resource: Resource | null = getCanvasImageResource(canvas);
+    const jsonld: any | null = canvas.__jsonld;
 
-    if (resource) {
-      const format: MediaType | null = resource.getFormat();
-
-      if (format) {
-        return format.toString();
+    if (jsonld && jsonld.items && jsonld.items[0] && jsonld.items[0].items[0]) {
+      const annotation = jsonld.items[0].items[0];
+      const body = annotation.body;
+  
+      if (body && body.format) {
+        return body.format;
       }
     }
 
