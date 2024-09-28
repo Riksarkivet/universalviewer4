@@ -83,9 +83,15 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
           this.currentAnnotationRect = (<OpenSeadragonExtension>(this.extension)).annotations[0].rects[0];
           this.currentHitIndex = 1;
           this.extensionHost.publish(IIIFEvents.ANNOTATION_CANVAS_CHANGE, [
-            (<OpenSeadragonExtension>(this.extension)).annotations[0].rects[0],
+            (<OpenSeadragonExtension>(this.extension)).annotations[0].rects[0]
           ]);
-          this.extensionHost.publish(Events.SEARCH_HIT_CHANGED, 0);
+          this.extensionHost.publish(Events.SEARCH_HIT_CHANGED, [
+            {
+              hitIndex: 1,
+              rectIndex: this.currentAnnotationRect.index,
+              canvasIndex: this.currentAnnotationRect.canvasIndex
+            }
+          ]);
         } else {
           this.$searchHitsLabel.html(this.content.noMatches);
         }
@@ -104,23 +110,33 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
     });
 
     this.extensionHost.subscribe(IIIFEvents.CANVAS_INDEX_CHANGE, (e) => {
-      let canvasIndex = this.extension.helper.canvasIndex;
-      if ($('div.searchHit[data-index="0"][data-canvas-index="' + canvasIndex + '"]')[0] !== undefined) {
-        $('div.searchHit[data-index="0"][data-canvas-index="' + canvasIndex + '"]')[0].scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
+      let canvasIndex = e;
+      let index = this.currentAnnotationRect?.index ?? 0;
+
+      if ($('div.searchHit[data-index="' + index + '"][data-canvas-index="' + canvasIndex + '"]')[0] !== undefined) {
+        this.currentHitIndex = $('div.searchHit[data-index="' + index + '"][data-canvas-index="' + canvasIndex + '"]').find('.searchHitNumberSpan').attr('data-index');
+        $('div.searchHit[data-index="' + index + '"][data-canvas-index="' + canvasIndex + '"]')[0].scrollIntoView({ behavior: 'instant', block: 'end', inline: 'nearest' });
       }
+      this.extensionHost.publish(Events.SEARCH_HIT_CHANGED, [
+        {
+          hitIndex: this.currentHitIndex,
+          rectIndex: index,
+          canvasIndex: canvasIndex
+        }
+      ]);
+      this.canvasIndexChanged(canvasIndex, Number(index));
       this.currentAnnotationRect = (<OpenSeadragonExtension>(this.extension)).annotations.find((e) => { return e["canvasIndex"] == canvasIndex })?.rects[0];
-      this.canvasIndexChanged(this.extension.helper.canvasIndex, 0);
     });
 
     this.extensionHost.subscribe(IIIFEvents.THUMB_SELECTED, (e) => {
       if ($('div.searchHit[data-index="0"][data-canvas-index="' + e.data.index + '"]')[0] !== undefined) {
-        $('div.searchHit[data-index="0"][data-canvas-index="' + e.data.index + '"]')[0].scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
         let canvasIndex: number = e.data.index;
         this.currentAnnotationRect = (<OpenSeadragonExtension>(this.extension)).annotations.find((e) => { return e["canvasIndex"] == canvasIndex })?.rects[0];
       } else {
         this.currentAnnotationRect = undefined;
       }
-      this.canvasIndexChanged(e.data.index, 0);
+      this.currentHitIndex = 0;
+      this.canvasIndexChanged(e.data.index, this.currentHitIndex);
     });
 
     this.extensionHost.subscribe(IIIFEvents.CLEAR_ANNOTATIONS, (e) => {
@@ -137,8 +153,8 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
 
     this.extensionHost.subscribe(Events.SEARCH_HIT_CHANGED, (e) => {
       let searchHitOf: string = this.content.searchHitOf;
-      this.currentHitIndex = e;
-      this.$searchPagerLabel.html(Strings.format(searchHitOf, String(e), String(this.currentHits)))
+      this.currentHitIndex = e[0].hitIndex;
+      this.$searchPagerLabel.html(Strings.format(searchHitOf, String(this.currentHitIndex), String(this.currentHits)))
       this.$searchPagerPrevButton.prop('disabled', false);
       this.$searchPagerNextButton.prop('disabled', false);
       if (this.currentHitIndex == 1) {
@@ -227,16 +243,14 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
 
     this.$searchPagerPrevButton.on('click', (e: any) => {
       this.currentHitIndex--;
-      $('.searchHitNumberSpan[data-index="' + this.currentHitIndex + '"]').closest('div')[0].scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
+      $('.searchHitNumberSpan[data-index="' + this.currentHitIndex + '"]').closest('div')[0].scrollIntoView({ behavior: 'instant', block: 'end', inline: 'nearest' });
       $('.searchHitNumberSpan[data-index="' + this.currentHitIndex + '"]').closest('div').trigger('click');
-      this.extensionHost.publish(Events.SEARCH_HIT_CHANGED, this.currentHitIndex);
     });
 
     this.$searchPagerNextButton.on('click', (e: any) => {
       this.currentHitIndex++;
-      $('.searchHitNumberSpan[data-index="' + this.currentHitIndex + '"]').closest('div')[0].scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
+      $('.searchHitNumberSpan[data-index="' + this.currentHitIndex + '"]').closest('div')[0].scrollIntoView({ behavior: 'instant', block: 'end', inline: 'nearest' });
       $('.searchHitNumberSpan[data-index="' + this.currentHitIndex + '"]').closest('div').trigger('click');
-      this.extensionHost.publish(Events.SEARCH_HIT_CHANGED, this.currentHitIndex);
     });
 
     this.$searchTextContainer.append(this.$clearButton);
@@ -305,19 +319,28 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
         });
 
         $(div, searchHitSpan).on('click', (e: any) => {
-          let canvasIndex: number = 0
-          let index: number = 0
+          let canvasIndex: number = 0;
+          let index: number = 0;
+          let hitIndex = 0;
 
           if (e.target.tagName.toLowerCase() === 'span') {
             canvasIndex = $(e.target).closest('div').attr('data-canvas-index');
             index = $(e.target).closest('div').attr('data-index');
+            hitIndex = $(e.target).closest('div').find('.searchHitNumberSpan').attr('data-index')
           } else {
             canvasIndex = $(e.target).attr('data-canvas-index');
             index = $(e.target).attr('data-index');
+            hitIndex = $(e.target).find('.searchHitNumberSpan').attr('data-index')
           }
           let currentRect = (<OpenSeadragonExtension>(this.extension)).annotations.find((e) => { return e["canvasIndex"] == canvasIndex })?.rects[index];
 
-          this.extensionHost.publish(Events.SEARCH_HIT_CHANGED, Number(index));
+          this.extensionHost.publish(Events.SEARCH_HIT_CHANGED, [
+            {
+              hitIndex: hitIndex,
+              rectIndex: currentRect?.index,
+              canvasIndex: currentRect?.canvasIndex
+            }
+          ]);
 
           if (currentRect !== undefined) {
             if (this.currentAnnotationRect !== undefined && currentRect.canvasIndex == this.currentAnnotationRect.canvasIndex) {
@@ -326,7 +349,7 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
             }
             this.currentAnnotationRect = currentRect;
             this.extensionHost.publish(IIIFEvents.ANNOTATION_CANVAS_CHANGE, [
-              currentRect,
+              currentRect
             ]);
           }
         });
