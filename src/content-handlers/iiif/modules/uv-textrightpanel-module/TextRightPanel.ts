@@ -8,6 +8,7 @@ import { Clipboard } from "@edsilv/utils";
 import { IExternalImageResourceData } from "manifesto.js";
 import { OpenSeadragonCenterPanel } from "../../modules/uv-openseadragoncenterpanel-module/OpenSeadragonCenterPanel";
 import { Shell } from "../uv-shared-module/Shell";
+import { AnnotationRect } from "@iiif/manifold";
 
 export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
   $transcribedText: JQuery;
@@ -15,6 +16,9 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
   $copyButton: JQuery;
   $copiedText: JQuery;
   currentCanvasIndex: number = 0;
+  currentHitIndex: number = 1;
+  currentRectIndex: number = 0;
+  currentAnnotationRect: AnnotationRect | undefined;
   offsetX: number = 0;
   index: number = 0;
   clipboardText: string = '';
@@ -82,17 +86,19 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
     }
 
     this.extensionHost.on(Events.SEARCH_HIT_CHANGED, (e) => {
-      let index = e;
+      this.currentRectIndex = e[0].rectIndex;
       let canvasIndex = this.extension.helper.canvasIndex;
+      this.currentHitIndex = e[0].hitIndex;
       $('.transcribed-text .searchHitSpan').each((i: Number, searchHit: any) => {
         if ($(searchHit).hasClass('current')) {
           $(searchHit).removeClass('current');
           return;
         }
       });
-      if ($('.transcribed-text .searchHitSpan[data-index="' + index + '"][data-canvas-index="' + canvasIndex + '"]')[0] !== undefined) {
-        $('.transcribed-text .searchHitSpan[data-index="' + index + '"][data-canvas-index="' + canvasIndex + '"]').addClass('current');
-        this.setCurrentAnnotation(canvasIndex, index);
+      if ($('.transcribed-text .searchHitSpan[data-index="' + this.currentRectIndex + '"][data-canvas-index="' + canvasIndex + '"]')[0] !== undefined) {
+        $('.transcribed-text .searchHitSpan[data-index="' + this.currentRectIndex + '"][data-canvas-index="' + canvasIndex + '"]').addClass('current');
+        $('.transcribed-text .searchHitSpan[data-index="' + this.currentRectIndex + '"][data-canvas-index="' + canvasIndex + '"]').closest('div')[0].scrollIntoView({ behavior: 'instant', block: 'end', inline: 'nearest' });
+        this.setCurrentAnnotation(canvasIndex, this.currentRectIndex);
       }
     });
 
@@ -171,8 +177,13 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
               $('div#' + $(lineAnnotationRect).attr('id') + '.lineAnnotation').html(text);
             }
           });
-          this.extensionHost.publish(Events.SEARCH_HIT_CHANGED, 0);
         });
+
+        if ($('.transcribed-text .searchHitSpan[data-index="' + this.currentRectIndex + '"][data-canvas-index="' + this.currentCanvasIndex + '"]')[0] !== undefined) {
+          $('.transcribed-text .searchHitSpan[data-index="' + this.currentRectIndex + '"][data-canvas-index="' + this.currentCanvasIndex + '"]').addClass('current');
+          $('.transcribed-text .searchHitSpan[data-index="' + this.currentRectIndex + '"][data-canvas-index="' + this.currentCanvasIndex + '"]').closest('div')[0].scrollIntoView({ behavior: 'instant', block: 'end', inline: 'nearest' });
+          this.setCurrentAnnotation(this.currentCanvasIndex, this.currentRectIndex);
+        }
       };
     });
 
@@ -322,7 +333,7 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
     });
     $('div#' + e.getAttribute('id') + '.lineAnnotation').addClass('current');
     if (scrollIntoView) {
-      $('div#' + e.getAttribute('id') + '.lineAnnotation')[0].scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
+      $('div#' + e.getAttribute('id') + '.lineAnnotation')[0].scrollIntoView({ behavior: 'instant', block: 'end', inline: 'nearest' });
     }
   }
 
