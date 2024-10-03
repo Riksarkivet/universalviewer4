@@ -44,6 +44,11 @@
           "@id": "https://lbiiif-acc.riksarkivet.se/arkis!T0000013/manifest",
           "@type": "sc:Manifest",
           "label": "Big Buck Bunny (Video)"
+        },
+        {
+          "@id": "https://lbiiif-acc.riksarkivet.se/arkis!T0000235/manifest",
+          "@type": "sc:Manifest",
+          "label": "T0000235, en_daares_foersvarstal.mp3 (1 öppen ljudfil)"
         }
       ]
     },

@@ -82,8 +82,7 @@
     },
     "contentLeftPanel": {
       "options": {
-        "defaultToTreeEnabled": true,
-        "thumbsEnabled": false
+        "defaultToTreeEnabled": false
       }
      },
       "searchFooterPanel" :{
