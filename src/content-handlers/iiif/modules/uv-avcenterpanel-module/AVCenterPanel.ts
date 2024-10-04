@@ -48,11 +48,7 @@ export class AVCenterPanel extends CenterPanel<
       IIIFEvents.CANVAS_INDEX_CHANGE,
       (canvasIndex: number) => {
         if (this._lastCanvasIndex !== canvasIndex) {
-          let range = this.extension.getCurrentCanvasRange()
-          this.extensionHost.publish(IIIFEvents.RANGE_CHANGE, range);
-          this._whenMediaReady(() => {
-            this._viewCanvas(canvasIndex);
-          });
+          this._viewCanvas(canvasIndex);
         }
       }
     );
