@@ -334,7 +334,7 @@ const DownloadDialogue = ({
     if (jsonld && jsonld.items && jsonld.items[0] && jsonld.items[0].items[0]) {
       const annotation = jsonld.items[0].items[0];
       const body = annotation.body;
-  
+
       if (body && body.format) {
         return body.format;
       }

@@ -162,5 +162,5 @@
   "$search": "Search",
   "$expandSearch": "Expand Search",
   "$collapseSearch": "Collapse Search",
-  "$searchHitOf": "{0} of {1}"  
+  "$searchHitOf": "{0} of {1}"
 }

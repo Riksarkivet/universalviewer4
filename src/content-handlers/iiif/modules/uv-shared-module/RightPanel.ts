@@ -60,7 +60,7 @@ export class RightPanel<T extends ExpandPanel> extends BaseExpandPanel<T> {
   resize(): void {
     super.resize();
 
-/*     this.$element.css({
+    /*     this.$element.css({
       left: Math.floor(
         this.$element.parent().width() - this.$element.outerWidth()
       ),

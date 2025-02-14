@@ -80,24 +80,24 @@
     "moreInfoRightPanel": {
       "options": {
         "copyToClipboardEnabled": true
-      }    
+      }
     },
     "contentLeftPanel": {
       "options": {
         "defaultToTreeEnabled": false
       }
-     },
-      "searchFooterPanel" :{
-        "options": {
-          "shareEnabled": false,
-          "printEnabled": true
-        }
-      },
-      "mobileFooterPanel": {
-        "options": {
-          "shareEnabled": false,
-          "printEnabled": true
-        }
+    },
+    "searchFooterPanel": {
+      "options": {
+        "shareEnabled": false,
+        "printEnabled": true
+      }
+    },
+    "mobileFooterPanel": {
+      "options": {
+        "shareEnabled": false,
+        "printEnabled": true
+      }
     }
   }
 }

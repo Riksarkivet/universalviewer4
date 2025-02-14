@@ -327,7 +327,7 @@
         "leftPage": "$transcribedTextLeftPage",
         "rightPage": "$transcribedTextRightPage",
         "textNotFound": "$noTranscribedTextFound"
-     }
+      }
     },
     "resourcesLeftPanel": {
       "options": {

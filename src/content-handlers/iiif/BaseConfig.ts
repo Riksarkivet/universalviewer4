@@ -9,7 +9,7 @@ export { StorageType } from "@edsilv/utils";
 export type MetricType = string | "sm" | "md" | "lg" | "xl";
 
 export class Metric {
-  constructor(public type: MetricType, public minWidth: number) { }
+  constructor(public type: MetricType, public minWidth: number) {}
 }
 
 export type Options = {
@@ -78,10 +78,10 @@ export type Options = {
 
   /** Determines if viewport is preserved */
   preserveViewport?: boolean;
-  
+
   /** Determines if the right container panel is enabled */
   rightContainerPanelEnabled?: boolean;
-  
+
   /** Determines if the more info right panel is enabled */
   rightPanelEnabled?: boolean;
 
@@ -161,8 +161,8 @@ type HeaderPanel = ModuleConfig & {
 };
 
 export type LeftContainerPanel = ModuleConfig & {
-  options: ModuleOptions,
-  content: ModuleContent
+  options: ModuleOptions;
+  content: ModuleContent;
 };
 
 type LeftPanel = ExpandPanel & {};
@@ -216,12 +216,12 @@ type SearchLeftPanelContent = DialogueContent &
     searchWithin: string;
     clearSearch: string;
     doSearch: string;
-    instanceFound: string,
-    instancesFound: string,
-    noMatches: string,
-    nextResult: string,
-    previousResult: string,
-    searchHitOf: string
+    instanceFound: string;
+    instancesFound: string;
+    noMatches: string;
+    nextResult: string;
+    previousResult: string;
+    searchHitOf: string;
   };
 
 export type SearchLeftPanel = ModuleConfig & {
@@ -567,8 +567,8 @@ export type TextRightPanel = ModuleConfig & {
 };
 
 export type RightContainerPanel = ModuleConfig & {
-  options: ModuleOptions,
-  content: ModuleContent
+  options: ModuleOptions;
+  content: ModuleContent;
 };
 
 export type Content = {

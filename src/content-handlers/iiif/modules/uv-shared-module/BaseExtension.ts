@@ -1062,7 +1062,10 @@ export class BaseExtension<T extends BaseConfig> implements IExtension {
   }
 
   isLeftContainerPanelEnabled(): boolean {
-    return Bools.getBool(this.data.config!.options.leftContainerPanelEnabled, true);
+    return Bools.getBool(
+      this.data.config!.options.leftContainerPanelEnabled,
+      true
+    );
   }
 
   isLeftPanelEnabled(): boolean {
@@ -1085,7 +1088,9 @@ export class BaseExtension<T extends BaseConfig> implements IExtension {
   }
 
   isSearchLeftPanelEnabled(): boolean {
-    if (!Bools.getBool(this.data.config!.options.searchLeftPanelEnabled, false)) {
+    if (
+      !Bools.getBool(this.data.config!.options.searchLeftPanelEnabled, false)
+    ) {
       return false;
     }
 
@@ -1097,7 +1102,10 @@ export class BaseExtension<T extends BaseConfig> implements IExtension {
   }
 
   isRightContainerPanelEnabled(): boolean {
-    return Bools.getBool(this.data.config!.options.rightContainerPanelEnabled, true);
+    return Bools.getBool(
+      this.data.config!.options.rightContainerPanelEnabled,
+      true
+    );
   }
 
   isRightPanelEnabled(): boolean {
@@ -1105,7 +1113,9 @@ export class BaseExtension<T extends BaseConfig> implements IExtension {
   }
 
   isTextRightPanelEnabled(): boolean {
-    if (!Bools.getBool(this.data.config!.options.textRightPanelEnabled, false)) {
+    if (
+      !Bools.getBool(this.data.config!.options.textRightPanelEnabled, false)
+    ) {
       return false;
     }
 

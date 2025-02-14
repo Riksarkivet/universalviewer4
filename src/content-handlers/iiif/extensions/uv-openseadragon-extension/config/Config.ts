@@ -64,7 +64,7 @@ type PagingHeaderPanelOptions = HeaderPanelOptions & {
   /** Determines if paging toggle is enabled */
   pagingToggleEnabled: boolean;
   /** Determines if logotype (in left upper corner of header) is set to visible */
-  showLogo: boolean
+  showLogo: boolean;
 };
 
 type PagingHeaderPanelContent = HeaderPanelContent & {
@@ -231,7 +231,7 @@ type OSDDownloadDialogueOptions = DownloadDialogueOptions & {
     currentAsZippedText: string;
     volumeAsZippedXml: string;
     volumeAsZippedText: string;
-  }
+  };
   /** Maximum width of the image */
   maxImageWidth: number;
   /** Determines if explanatory text for options is enabled */
