@@ -390,11 +390,11 @@ export class OpenSeadragonCenterPanel extends CenterPanel<
     });
 
     let $oldGoHome = this.$viewer.find('div[title="Go home"]');
-    this.$goHomeButton.css('z-index', 1000);
     this.$goHomeButton = $("<button />").append($oldGoHome.contents());
     this.$goHomeButton.insertAfter($oldGoHome);
     $oldGoHome.remove();
     this.$goHomeButton.attr("tabindex", 0);
+    this.$goHomeButton.css('z-index', 1000);
     this.$goHomeButton.attr("title", this.content.goHome);
     this.$goHomeButton.attr("aria-label", this.content.goHome);
     this.$goHomeButton.addClass("goHome viewportNavButton");
@@ -404,11 +404,11 @@ export class OpenSeadragonCenterPanel extends CenterPanel<
     });
 
     let $oldRotate = this.$viewer.find('div[title="Rotate right"]');
-    this.$rotateButton.css('z-index', 1000);
     this.$rotateButton = $("<button />").append($oldRotate.contents());
     this.$rotateButton.insertAfter($oldRotate);
     $oldRotate.remove();
     this.$rotateButton.attr("tabindex", 0);
+    this.$rotateButton.css('z-index', 1000);
     this.$rotateButton.attr("title", this.content.rotateRight);
     this.$rotateButton.attr("aria-label", this.content.rotateRight);
     this.$rotateButton.addClass("rotate viewportNavButton");

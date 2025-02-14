@@ -3,6 +3,7 @@
     "dropEnabled": true,
     "footerPanelEnabled": true,
     "headerPanelEnabled": true,
+    "leftContainerPanelEnabled": true,
     "leftPanelEnabled": true,
     "searchLeftPanelEnabled": true,
     "limitLocales": false,
@@ -15,7 +16,8 @@
     "clickToZoomEnabled": false,
     "searchWithinEnabled": false,
     "useRiksarkivetLegacyURLs": false,
-    "saveUserSettings": true
+    "saveUserSettings": true,
+    "zoomToSearchResultEnabled": false
   },
   "modules": {
     "avCenterPanel": {
@@ -55,7 +57,7 @@
     "openSeadragonCenterPanel": {
       "options": {
         "autoHideControls": false,
-        "showHomeControl": false,
+        "showHomeControl": true,
         "showAdjustImageControl": true
       }
     },
