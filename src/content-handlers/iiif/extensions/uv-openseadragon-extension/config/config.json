@@ -145,7 +145,7 @@
           "enabled": true,
           "paramType": "?"
         },
-        "thumbsEnabled": false,
+        "thumbsEnabled": true,
         "thumbsExtraHeight": 8,
         "thumbsImageFadeInDuration": 300,
         "thumbsLoadRange": 15,
