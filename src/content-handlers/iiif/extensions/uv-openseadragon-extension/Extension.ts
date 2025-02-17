@@ -22,7 +22,7 @@ import { OpenSeadragonCenterPanel } from "../../modules/uv-openseadragoncenterpa
 import { SettingsDialogue } from "./SettingsDialogue";
 import { ShareDialogue } from "./ShareDialogue";
 import { Bools, Maths, Strings } from "@edsilv/utils";
-import { Riksarkivet } from "../../modules/uv-shared-module/Riksarkivet"
+import { Riksarkivet } from "../../modules/uv-shared-module/Riksarkivet";
 import {
   IIIFResourceType,
   ExternalResourceType,
@@ -82,7 +82,9 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
   helpDialogue: HelpDialogue;
   adjustImageDialogue: AdjustImageDialogue;
   isAnnotating: boolean = false;
-  leftContainerPanel: LeftContainerPanel<Config["modules"]["leftContainerPanel"]>;
+  leftContainerPanel: LeftContainerPanel<
+    Config["modules"]["leftContainerPanel"]
+  >;
   leftPanel: ContentLeftPanel;
   searchLeftPanel: SearchLeftPanel;
   mobileFooterPanel: MobileFooterPanel;
@@ -90,7 +92,9 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
   moreInfoDialogue: MoreInfoDialogue;
   multiSelectDialogue: MultiSelectDialogue;
   previousAnnotationRect: AnnotationRect | null;
-  rightContainerPanel: RightContainerPanel<Config["modules"]["rightContainerPanel"]>;
+  rightContainerPanel: RightContainerPanel<
+    Config["modules"]["rightContainerPanel"]
+  >;
   rightPanel: MoreInfoRightPanel;
   textRightPanel: TextRightPanel;
   settingsDialogue: SettingsDialogue;
@@ -127,9 +131,10 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
         this.previousAnnotationRect = null;
         this.currentAnnotationRect = null;
         this.changeCanvas(canvasIndex);
-        if (this.getSettings().useRiksarkivetLegacyURLs) { // This is a special for us at Riksarkivet, and it's set to false as default.
+        if (this.getSettings().useRiksarkivetLegacyURLs) {
+          // This is a special for us at Riksarkivet, and it's set to false as default.
           let canvas = this.helper.getCanvasByIndex(canvasIndex);
-          this.riksarkivet.UpdateUrl(canvas)
+          this.riksarkivet.UpdateUrl(canvas);
         }
       }
     );
@@ -545,7 +550,9 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
     }
 
     if (this.isLeftContainerPanelEnabled()) {
-      this.leftContainerPanel = new LeftContainerPanel(this.shell.$leftContainerPanel);
+      this.leftContainerPanel = new LeftContainerPanel(
+        this.shell.$leftContainerPanel
+      );
     } else {
       this.shell.$leftContainerPanel.hide();
     }
@@ -565,7 +572,9 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
     this.centerPanel = new OpenSeadragonCenterPanel(this.shell.$centerPanel);
 
     if (this.isRightContainerPanelEnabled()) {
-      this.rightContainerPanel = new RightContainerPanel(this.shell.$rightContainerPanel);
+      this.rightContainerPanel = new RightContainerPanel(
+        this.shell.$rightContainerPanel
+      );
     } else {
       this.shell.$rightContainerPanel.hide();
     }
@@ -577,7 +586,10 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
     }
 
     if (this.isTextRightPanelEnabled()) {
-      this.textRightPanel = new TextRightPanel(this.shell.$textRightPanel, this.shell);
+      this.textRightPanel = new TextRightPanel(
+        this.shell.$textRightPanel,
+        this.shell
+      );
     } else {
       this.shell.$textRightPanel.hide();
     }
@@ -824,15 +836,17 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
     }
   }
 
-  annotate(annotations: AnnotationGroup[], terms?: string, searchHits?: SearchHit[]): void {
+  annotate(
+    annotations: AnnotationGroup[],
+    terms?: string,
+    searchHits?: SearchHit[]
+  ): void {
     if (searchHits !== undefined) {
       this.searchHits = searchHits;
       // sort the search hits by canvasIndex
-      this.searchHits = searchHits.sort(
-        (a: SearchHit, b: SearchHit) => {
-          return a.canvasIndex - b.canvasIndex;
-        }
-      );
+      this.searchHits = searchHits.sort((a: SearchHit, b: SearchHit) => {
+        return a.canvasIndex - b.canvasIndex;
+      });
     }
 
     this.annotations = annotations;
@@ -924,10 +938,13 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
       const hit: any = searchHits.hits[i];
 
       for (let x = 0; x < hit.annotations.length; x++) {
-        let canvasId = searchHits.resources.find((e) => { return e['@id'] == hit.annotations[x] }).on.match(/(.*)#/)[1];
-        const canvasIndex: number | null = this.helper.getCanvasIndexById(
-          canvasId
-        );
+        let canvasId = searchHits.resources
+          .find((e) => {
+            return e["@id"] == hit.annotations[x];
+          })
+          .on.match(/(.*)#/)[1];
+        const canvasIndex: number | null =
+          this.helper.getCanvasIndexById(canvasId);
 
         if (canvasIndex !== oldCanvasIndex) {
           currentIndex = 0;
@@ -936,7 +953,7 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
           currentIndex++;
         }
 
-        let matches = hit.match.split(' ');
+        let matches = hit.match.split(" ");
         const searchHit: SearchHit = new SearchHit();
         searchHit.canvasId = canvasId;
         searchHit.canvasIndex = canvasIndex as number;
@@ -952,7 +969,6 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
         searchHit.index = currentIndex;
         groupedSearchHits.push(searchHit);
       }
-
     }
 
     groupedSearchHits.sort((a, b) => {
@@ -1169,13 +1185,12 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
     var imageUri;
     if (this.isImageZoomed(canvas, viewer)) {
       imageUri = this.getCroppedImageUri(canvas, viewer);
-    }
-    else {
+    } else {
       imageUri = canvas.getCanonicalImageUri(canvas.getWidth());
-      var uri_parts: string[] = imageUri.split('/');
+      var uri_parts: string[] = imageUri.split("/");
       var rotation: number | null = this.getViewerRotation();
       uri_parts[uri_parts.length - 2] = String(rotation);
-      imageUri = uri_parts.join('/');
+      imageUri = uri_parts.join("/");
     }
     var title = this.helper.getLabel();
     var imageId = canvas.getLabel().getValue();
@@ -1186,12 +1201,14 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
   }
 
   isImageZoomed(canvas: Canvas, viewer: any): boolean {
-    var dimensions: CroppedImageDimensions | null = (this.getCroppedImageDimensions(canvas, viewer));
+    var dimensions: CroppedImageDimensions | null =
+      this.getCroppedImageDimensions(canvas, viewer);
     if (!CroppedImageDimensions) {
       return false;
     }
     var currentWidth: number = (<CroppedImageDimensions>dimensions).size.width;
-    var currentHeight: number = (<CroppedImageDimensions>dimensions).size.height;
+    var currentHeight: number = (<CroppedImageDimensions>dimensions).size
+      .height;
     var wholeWidth: number = canvas.getWidth();
     var wholeHeight: number = canvas.getHeight();
 
@@ -1199,14 +1216,22 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
     var percentageHeight: number = (currentHeight / wholeHeight) * 100;
 
     var disabledPercentage: number = 90;
-    if (this.data.config!.modules.downloadDialogue &&
+    if (
+      this.data.config!.modules.downloadDialogue &&
       this.data.config!.modules.downloadDialogue.options &&
-      this.data.config!.modules.downloadDialogue.options.currentViewDisabledPercentage) {
-      disabledPercentage = this.data.config!.modules.downloadDialogue.options.currentViewDisabledPercentage;
+      this.data.config!.modules.downloadDialogue.options
+        .currentViewDisabledPercentage
+    ) {
+      disabledPercentage =
+        this.data.config!.modules.downloadDialogue.options
+          .currentViewDisabledPercentage;
     }
 
     // if over disabledPercentage of the size of whole image then not zoomed
-    if (percentageWidth >= disabledPercentage && percentageHeight >= disabledPercentage) {
+    if (
+      percentageWidth >= disabledPercentage &&
+      percentageHeight >= disabledPercentage
+    ) {
       return false;
     } else {
       return true;
@@ -1643,13 +1668,17 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
           searchResults = searchResults.concat(
             this.groupOpenAnnotationsByTarget(results)
           );
-          searchHits = searchHits.concat(
-            this.groupSearchHitsByTarget(results)
-          );
+          searchHits = searchHits.concat(this.groupSearchHitsByTarget(results));
         }
 
         if (results.next) {
-          this.getSearchResults(results.next, terms, searchResults, searchHits, cb);
+          this.getSearchResults(
+            results.next,
+            terms,
+            searchResults,
+            searchHits,
+            cb
+          );
         } else {
           cb(searchResults, searchHits);
         }

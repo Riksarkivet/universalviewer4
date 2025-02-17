@@ -33,8 +33,12 @@ export default class Extension
   helpDialogue: HelpDialogue;
   leftPanel: ResourcesLeftPanel;
   searchLeftPanel: SearchLeftPanel;
-  rightContainerPanel: RightContainerPanel<Config["modules"]["rightContainerPanel"]>;
-  leftContainerPanel: LeftContainerPanel<Config["modules"]["leftContainerPanel"]>;
+  rightContainerPanel: RightContainerPanel<
+    Config["modules"]["rightContainerPanel"]
+  >;
+  leftContainerPanel: LeftContainerPanel<
+    Config["modules"]["leftContainerPanel"]
+  >;
   rightPanel: MoreInfoRightPanel;
   textRightPanel: TextRightPanel;
   settingsDialogue: SettingsDialogue;
@@ -68,7 +72,9 @@ export default class Extension
     }
 
     if (this.isLeftContainerPanelEnabled()) {
-      this.leftContainerPanel = new LeftContainerPanel(this.shell.$leftContainerPanel);
+      this.leftContainerPanel = new LeftContainerPanel(
+        this.shell.$leftContainerPanel
+      );
     }
 
     if (this.isLeftPanelEnabled()) {
@@ -82,7 +88,9 @@ export default class Extension
     this.centerPanel = new FileLinkCenterPanel(this.shell.$centerPanel);
 
     if (this.isRightContainerPanelEnabled()) {
-      this.rightContainerPanel = new RightContainerPanel(this.shell.$rightContainerPanel);
+      this.rightContainerPanel = new RightContainerPanel(
+        this.shell.$rightContainerPanel
+      );
     }
 
     if (this.isRightPanelEnabled()) {
@@ -90,7 +98,10 @@ export default class Extension
     }
 
     if (this.isTextRightPanelEnabled()) {
-      this.textRightPanel = new TextRightPanel(this.shell.$textRightPanel, this.shell);
+      this.textRightPanel = new TextRightPanel(
+        this.shell.$textRightPanel,
+        this.shell
+      );
     }
 
     if (this.isFooterPanelEnabled()) {

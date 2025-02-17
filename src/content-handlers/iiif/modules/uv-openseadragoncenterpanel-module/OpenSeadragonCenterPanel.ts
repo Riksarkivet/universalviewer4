@@ -366,7 +366,7 @@ export class OpenSeadragonCenterPanel extends CenterPanel<
     this.$zoomInButton.insertAfter($oldZoomIn);
     $oldZoomIn.remove();
     this.$zoomInButton.attr("tabindex", 0);
-    this.$zoomInButton.css('z-index', 1000);
+    this.$zoomInButton.css("z-index", 1000);
     this.$zoomInButton.attr("title", this.content.zoomIn);
     this.$zoomInButton.attr("aria-label", this.content.zoomIn);
     this.$zoomInButton.addClass("zoomIn viewportNavButton");
@@ -380,7 +380,7 @@ export class OpenSeadragonCenterPanel extends CenterPanel<
     this.$zoomOutButton.insertAfter($oldZoomOut);
     $oldZoomIn.remove();
     this.$zoomOutButton.attr("tabindex", 0);
-    this.$zoomOutButton.css('z-index', 1000);
+    this.$zoomOutButton.css("z-index", 1000);
     this.$zoomOutButton.attr("title", this.content.zoomOut);
     this.$zoomOutButton.attr("aria-label", this.content.zoomOut);
     this.$zoomOutButton.addClass("zoomOut viewportNavButton");
@@ -394,7 +394,7 @@ export class OpenSeadragonCenterPanel extends CenterPanel<
     this.$goHomeButton.insertAfter($oldGoHome);
     $oldGoHome.remove();
     this.$goHomeButton.attr("tabindex", 0);
-    this.$goHomeButton.css('z-index', 1000);
+    this.$goHomeButton.css("z-index", 1000);
     this.$goHomeButton.attr("title", this.content.goHome);
     this.$goHomeButton.attr("aria-label", this.content.goHome);
     this.$goHomeButton.addClass("goHome viewportNavButton");
@@ -408,7 +408,7 @@ export class OpenSeadragonCenterPanel extends CenterPanel<
     this.$rotateButton.insertAfter($oldRotate);
     $oldRotate.remove();
     this.$rotateButton.attr("tabindex", 0);
-    this.$rotateButton.css('z-index', 1000);
+    this.$rotateButton.css("z-index", 1000);
     this.$rotateButton.attr("title", this.content.rotateRight);
     this.$rotateButton.attr("aria-label", this.content.rotateRight);
     this.$rotateButton.addClass("rotate viewportNavButton");
@@ -978,7 +978,10 @@ export class OpenSeadragonCenterPanel extends CenterPanel<
 
         this.viewer.addOverlay(div, rect);
       }
-      this.extensionHost.publish(IIIFEvents.ANNOTATIONS_LOADED, this.extension.helper.canvasIndex);
+      this.extensionHost.publish(
+        IIIFEvents.ANNOTATIONS_LOADED,
+        this.extension.helper.canvasIndex
+      );
     }
 
     if (annotations.length && this.shouldZoomToInitialAnnotation()) {
@@ -1075,11 +1078,9 @@ export class OpenSeadragonCenterPanel extends CenterPanel<
     if (!this.viewer || !this.viewer.viewport) return null;
 
     const canvas: Canvas = this.extension.helper.getCurrentCanvas();
-    const dimensions: CroppedImageDimensions | null = (this
-      .extension as OpenSeadragonExtension).getCroppedImageDimensions(
-        canvas,
-        this.viewer
-      );
+    const dimensions: CroppedImageDimensions | null = (
+      this.extension as OpenSeadragonExtension
+    ).getCroppedImageDimensions(canvas, this.viewer);
 
     if (dimensions) {
       const bounds: XYWHFragment = new XYWHFragment(
@@ -1125,17 +1126,19 @@ export class OpenSeadragonCenterPanel extends CenterPanel<
     // we need to readd our line annotation rects after a clear.
     this.viewer.clearOverlays();
     let parentNodeName = "";
-    let lineAnnotationRects = $('div > div.lineAnnotationRect');
+    let lineAnnotationRects = $("div > div.lineAnnotationRect");
     if (lineAnnotationRects[0]) {
       parentNodeName = lineAnnotationRects[0].parentNode.nodeName.toLowerCase();
-      if (parentNodeName === 'body') {
+      if (parentNodeName === "body") {
         $(lineAnnotationRects).each((i: number, e: any) => {
           const x = Number(e.getAttribute("data-x"));
           const y = Number(e.getAttribute("data-y"));
           const width = Number(e.getAttribute("data-width"));
           const height = Number(e.getAttribute("data-height"));
           const osRect = new OpenSeadragon.Rect(x, y, width, height);
-          (<OpenSeadragonExtension>(this.extension)).centerPanel.viewer.addOverlay(e, osRect);
+          (<OpenSeadragonExtension>(
+            this.extension
+          )).centerPanel.viewer.addOverlay(e, osRect);
           e.style.display = "block";
         });
       }

@@ -41,7 +41,7 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
     this.setConfig("searchLeftPanel");
     super.create();
 
-    this.$main.html('');
+    this.$main.html("");
     this.setTitle(this.config.content.title);
 
     this.extensionHost.subscribe(IIIFEvents.ANNOTATIONS_EMPTY, () => {
@@ -50,8 +50,12 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
       this.$searchText.focus();
     });
 
-    this.extensionHost.subscribe(IIIFEvents.ANNOTATIONS_LOADED, () => { // This is a new event so we can highlight the current annotation, after they're all loaded.
-      this.setCurrentAnnotation(this.currentAnnotationRect?.canvasIndex, this.currentAnnotationRect?.index);
+    this.extensionHost.subscribe(IIIFEvents.ANNOTATIONS_LOADED, () => {
+      // This is a new event so we can highlight the current annotation, after they're all loaded.
+      this.setCurrentAnnotation(
+        this.currentAnnotationRect?.canvasIndex,
+        this.currentAnnotationRect?.index
+      );
     });
 
     this.extensionHost.subscribe(
@@ -64,7 +68,10 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
           let instanceFoundText: string = this.content.instanceFound;
           let instancesFoundText: string = this.content.instancesFound;
           let text: string = "";
-          if (annotationResults.searchHits?.length === 1 && annotationResults.terms !== undefined) {
+          if (
+            annotationResults.searchHits?.length === 1 &&
+            annotationResults.terms !== undefined
+          ) {
             text = Strings.format(instanceFoundText, annotationResults.terms);
             this.$searchHitsLabel.html(text);
           } else if (annotationResults.terms !== undefined) {
@@ -77,20 +84,20 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
           }
 
           this.$clearButton.show();
-          this.displaySearchResults(
-            annotationResults.searchHits
-          );
-          this.currentAnnotationRect = (<OpenSeadragonExtension>(this.extension)).annotations[0].rects[0];
+          this.displaySearchResults(annotationResults.searchHits);
+          this.currentAnnotationRect = (<OpenSeadragonExtension>(
+            this.extension
+          )).annotations[0].rects[0];
           this.currentHitIndex = 1;
           this.extensionHost.publish(IIIFEvents.ANNOTATION_CANVAS_CHANGE, [
-            (<OpenSeadragonExtension>(this.extension)).annotations[0].rects[0]
+            (<OpenSeadragonExtension>this.extension).annotations[0].rects[0],
           ]);
           this.extensionHost.publish(Events.SEARCH_HIT_CHANGED, [
             {
               hitIndex: 1,
               rectIndex: this.currentAnnotationRect.index,
-              canvasIndex: this.currentAnnotationRect.canvasIndex
-            }
+              canvasIndex: this.currentAnnotationRect.canvasIndex,
+            },
           ]);
         } else {
           this.$searchHitsLabel.html(this.content.noMatches);
@@ -113,25 +120,65 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
       let canvasIndex = e;
       let index = this.currentAnnotationRect?.index ?? 0;
 
-      if ($('div.searchHit[data-index="' + index + '"][data-canvas-index="' + canvasIndex + '"]')[0] !== undefined) {
-        this.currentHitIndex = $('div.searchHit[data-index="' + index + '"][data-canvas-index="' + canvasIndex + '"]').find('.searchHitNumberSpan').attr('data-index');
-        $('div.searchHit[data-index="' + index + '"][data-canvas-index="' + canvasIndex + '"]')[0].scrollIntoView({ behavior: 'instant', block: 'end', inline: 'nearest' });
+      if (
+        $(
+          'div.searchHit[data-index="' +
+            index +
+            '"][data-canvas-index="' +
+            canvasIndex +
+            '"]'
+        )[0] !== undefined
+      ) {
+        this.currentHitIndex = $(
+          'div.searchHit[data-index="' +
+            index +
+            '"][data-canvas-index="' +
+            canvasIndex +
+            '"]'
+        )
+          .find(".searchHitNumberSpan")
+          .attr("data-index");
+        $(
+          'div.searchHit[data-index="' +
+            index +
+            '"][data-canvas-index="' +
+            canvasIndex +
+            '"]'
+        )[0].scrollIntoView({
+          behavior: "instant",
+          block: "end",
+          inline: "nearest",
+        });
       }
       this.extensionHost.publish(Events.SEARCH_HIT_CHANGED, [
         {
           hitIndex: this.currentHitIndex,
           rectIndex: index,
-          canvasIndex: canvasIndex
-        }
+          canvasIndex: canvasIndex,
+        },
       ]);
       this.canvasIndexChanged(canvasIndex, Number(index));
-      this.currentAnnotationRect = (<OpenSeadragonExtension>(this.extension)).annotations.find((e) => { return e["canvasIndex"] == canvasIndex })?.rects[0];
+      this.currentAnnotationRect = (<OpenSeadragonExtension>(
+        this.extension
+      )).annotations.find((e) => {
+        return e["canvasIndex"] == canvasIndex;
+      })?.rects[0];
     });
 
     this.extensionHost.subscribe(IIIFEvents.THUMB_SELECTED, (e) => {
-      if ($('div.searchHit[data-index="0"][data-canvas-index="' + e.data.index + '"]')[0] !== undefined) {
+      if (
+        $(
+          'div.searchHit[data-index="0"][data-canvas-index="' +
+            e.data.index +
+            '"]'
+        )[0] !== undefined
+      ) {
         let canvasIndex: number = e.data.index;
-        this.currentAnnotationRect = (<OpenSeadragonExtension>(this.extension)).annotations.find((e) => { return e["canvasIndex"] == canvasIndex })?.rects[0];
+        this.currentAnnotationRect = (<OpenSeadragonExtension>(
+          this.extension
+        )).annotations.find((e) => {
+          return e["canvasIndex"] == canvasIndex;
+        })?.rects[0];
       } else {
         this.currentAnnotationRect = undefined;
       }
@@ -140,11 +187,11 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
     });
 
     this.extensionHost.subscribe(IIIFEvents.CLEAR_ANNOTATIONS, (e) => {
-      this.$searchResultContainer.html('');
+      this.$searchResultContainer.html("");
       if (e) {
-        this.$searchText.val('');
+        this.$searchText.val("");
       }
-      this.$searchHitsLabel.text('');
+      this.$searchHitsLabel.text("");
       this.$searchHitsContainer.hide();
       this.$searchPagerContainer.hide();
       this.$clearButton.hide();
@@ -154,13 +201,19 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
     this.extensionHost.subscribe(Events.SEARCH_HIT_CHANGED, (e) => {
       let searchHitOf: string = this.content.searchHitOf;
       this.currentHitIndex = e[0].hitIndex;
-      this.$searchPagerLabel.html(Strings.format(searchHitOf, String(this.currentHitIndex), String(this.currentHits)))
-      this.$searchPagerPrevButton.prop('disabled', false);
-      this.$searchPagerNextButton.prop('disabled', false);
+      this.$searchPagerLabel.html(
+        Strings.format(
+          searchHitOf,
+          String(this.currentHitIndex),
+          String(this.currentHits)
+        )
+      );
+      this.$searchPagerPrevButton.prop("disabled", false);
+      this.$searchPagerNextButton.prop("disabled", false);
       if (this.currentHitIndex == 1) {
-        this.$searchPagerPrevButton.prop('disabled', true);
+        this.$searchPagerPrevButton.prop("disabled", true);
       } else if (this.currentHitIndex == this.currentHits) {
-        this.$searchPagerNextButton.prop('disabled', true);
+        this.$searchPagerNextButton.prop("disabled", true);
       }
     });
 
@@ -173,8 +226,8 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
 
     this.$searchLabel = $(
       '<label class="label" for="searchWithinInput">' +
-      this.content.searchWithin +
-      "</label>"
+        this.content.searchWithin +
+        "</label>"
     );
     this.$searchOptions.append(this.$searchLabel);
 
@@ -183,21 +236,25 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
 
     this.$searchText = $(
       '<input class="searchText" id="searchWithinInput" autocomplete="off" type="text" maxlength="100" placeholder="' +
-      this.content.enterKeyword +
-      '" value="" aria-label="' +
-      this.content.searchWithin +
-      '"/>'
+        this.content.enterKeyword +
+        '" value="" aria-label="' +
+        this.content.searchWithin +
+        '"/>'
     );
 
     this.$searchTextContainer.append(this.$searchText);
 
     this.$clearButton = $(
-      '<button class="clearButton" title="' + this.content.clearSearch + '"></button>'
+      '<button class="clearButton" title="' +
+        this.content.clearSearch +
+        '"></button>'
     );
     this.$clearButton.hide();
 
     this.$searchButton = $(
-      '<button class="searchButton"title="' + this.content.doSearch + '"></button>'
+      '<button class="searchButton"title="' +
+        this.content.doSearch +
+        '"></button>'
     );
 
     this.$searchHitsContainer = $('<div class="searchHitsContainer"></div>');
@@ -208,10 +265,16 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
     this.$searchContainer.append(this.$searchHitsContainer);
 
     this.$searchPagerContainer = $('<div class="searchPagerContainer"></div>');
-    this.$searchPagerPrevButton = $('<button class="prev" title="' + this.content.previousResult + '"></button>');
-    this.$searchPagerPrevButton.prop('disabled', true);
-    this.$searchPagerLabel = $('<span>0 of 100</span>');
-    this.$searchPagerNextButton = $('<button class="next" title="' + this.content.nextResult + '"></button>');
+    this.$searchPagerPrevButton = $(
+      '<button class="prev" title="' +
+        this.content.previousResult +
+        '"></button>'
+    );
+    this.$searchPagerPrevButton.prop("disabled", true);
+    this.$searchPagerLabel = $("<span>0 of 100</span>");
+    this.$searchPagerNextButton = $(
+      '<button class="next" title="' + this.content.nextResult + '"></button>'
+    );
     this.$searchPagerContainer.append(this.$searchPagerPrevButton);
     this.$searchPagerContainer.append(this.$searchPagerLabel);
     this.$searchPagerContainer.append(this.$searchPagerNextButton);
@@ -222,35 +285,54 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
     this.$searchResultContainer = $('<div class="searchResult"></div>');
     this.$main.append(this.$searchResultContainer);
 
-    this.$clearButton.on('click', (e: any) => {
+    this.$clearButton.on("click", (e: any) => {
       e.preventDefault();
       this.extensionHost.publish(IIIFEvents.CLEAR_ANNOTATIONS, true);
     });
 
-    this.$searchButton.on('click', (e: any) => {
+    this.$searchButton.on("click", (e: any) => {
       e.preventDefault();
       this.search(this.$searchText.val());
     });
 
-    this.$searchText.on('keypress', (e: any) => {
+    this.$searchText.on("keypress", (e: any) => {
       const originalEvent: KeyboardEvent = <KeyboardEvent>e.originalEvent;
       const charCode: number = Keyboard.getCharCode(originalEvent);
-      if (charCode === KeyCodes.KeyDown.Spacebar || charCode === KeyCodes.KeyDown.Enter) {
+      if (
+        charCode === KeyCodes.KeyDown.Spacebar ||
+        charCode === KeyCodes.KeyDown.Enter
+      ) {
         e.preventDefault();
         this.$searchButton.click();
       }
     });
 
-    this.$searchPagerPrevButton.on('click', (e: any) => {
+    this.$searchPagerPrevButton.on("click", (e: any) => {
       this.currentHitIndex--;
-      $('.searchHitNumberSpan[data-index="' + this.currentHitIndex + '"]').closest('div')[0].scrollIntoView({ behavior: 'instant', block: 'end', inline: 'nearest' });
-      $('.searchHitNumberSpan[data-index="' + this.currentHitIndex + '"]').closest('div').trigger('click');
+      $('.searchHitNumberSpan[data-index="' + this.currentHitIndex + '"]')
+        .closest("div")[0]
+        .scrollIntoView({
+          behavior: "instant",
+          block: "end",
+          inline: "nearest",
+        });
+      $('.searchHitNumberSpan[data-index="' + this.currentHitIndex + '"]')
+        .closest("div")
+        .trigger("click");
     });
 
-    this.$searchPagerNextButton.on('click', (e: any) => {
+    this.$searchPagerNextButton.on("click", (e: any) => {
       this.currentHitIndex++;
-      $('.searchHitNumberSpan[data-index="' + this.currentHitIndex + '"]').closest('div')[0].scrollIntoView({ behavior: 'instant', block: 'end', inline: 'nearest' });
-      $('.searchHitNumberSpan[data-index="' + this.currentHitIndex + '"]').closest('div').trigger('click');
+      $('.searchHitNumberSpan[data-index="' + this.currentHitIndex + '"]')
+        .closest("div")[0]
+        .scrollIntoView({
+          behavior: "instant",
+          block: "end",
+          inline: "nearest",
+        });
+      $('.searchHitNumberSpan[data-index="' + this.currentHitIndex + '"]')
+        .closest("div")
+        .trigger("click");
     });
 
     this.$searchTextContainer.append(this.$clearButton);
@@ -271,8 +353,8 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
       return;
     }
 
-    this.$searchHitsLabel.text('');
-    this.$searchResultContainer.html('');
+    this.$searchHitsLabel.text("");
+    this.$searchResultContainer.html("");
     this.$searchText.blur();
     this.showSearchSpinner();
     this.extensionHost.publish(OpenSeadragonExtensionEvents.SEARCH, this.terms);
@@ -287,75 +369,130 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
   }
 
   canvasIndexChanged(canvasIndex: number, index: number): void {
-    $('div.searchHit').each((i: Number, searchHit: any) => {
-      if ($(searchHit).hasClass('current')) {
-        $(searchHit).removeClass('current');
+    $("div.searchHit").each((i: Number, searchHit: any) => {
+      if ($(searchHit).hasClass("current")) {
+        $(searchHit).removeClass("current");
         return;
       }
     });
-    if ($('div.searchHit[data-index="' + index + '"][data-canvas-index="' + canvasIndex + '"]')[0] !== undefined) {
+    if (
+      $(
+        'div.searchHit[data-index="' +
+          index +
+          '"][data-canvas-index="' +
+          canvasIndex +
+          '"]'
+      )[0] !== undefined
+    ) {
       this.setCurrentAnnotation(canvasIndex, index);
-      $('div.searchHit[data-index="' + index + '"][data-canvas-index="' + canvasIndex + '"]').addClass('current');
+      $(
+        'div.searchHit[data-index="' +
+          index +
+          '"][data-canvas-index="' +
+          canvasIndex +
+          '"]'
+      ).addClass("current");
     }
   }
 
   displaySearchResults(searchHits?: SearchHit[]): void {
     if (searchHits !== undefined) {
       searchHits.forEach((searchHit, i) => {
-        let div = $('<div id="searchhit-' + searchHit.canvasIndex + '-' + searchHit.index + '" class="searchHit" data-canvas-index="' + searchHit.canvasIndex + '" data-index="' + searchHit.index + '" tabindex="0"></div>');
-        let canvasTitle = this.extension.helper.getCanvasByIndex(searchHit.canvasIndex).getLabel().getValue();
-        let hitNumberSpan = $('<span class="searchHitNumberSpan" data-index="' + (i + 1) + '"></div>');
+        let div = $(
+          '<div id="searchhit-' +
+            searchHit.canvasIndex +
+            "-" +
+            searchHit.index +
+            '" class="searchHit" data-canvas-index="' +
+            searchHit.canvasIndex +
+            '" data-index="' +
+            searchHit.index +
+            '" tabindex="0"></div>'
+        );
+        let canvasTitle = this.extension.helper
+          .getCanvasByIndex(searchHit.canvasIndex)
+          .getLabel()
+          .getValue();
+        let hitNumberSpan = $(
+          '<span class="searchHitNumberSpan" data-index="' +
+            (i + 1) +
+            '"></div>'
+        );
         hitNumberSpan.append(i + 1);
-        let searchHitSpan = $('<span class="searchHitSpan">' + searchHit.match + '</span>');
+        let searchHitSpan = $(
+          '<span class="searchHitSpan">' + searchHit.match + "</span>"
+        );
 
-        div.append(hitNumberSpan[0].outerHTML + searchHit.before + searchHitSpan[0].outerHTML + searchHit.after);
-        $(div).on('keydown', (e: any) => {
+        div.append(
+          hitNumberSpan[0].outerHTML +
+            searchHit.before +
+            searchHitSpan[0].outerHTML +
+            searchHit.after
+        );
+        $(div).on("keydown", (e: any) => {
           const originalEvent: KeyboardEvent = <KeyboardEvent>e.originalEvent;
           const charCode: number = Keyboard.getCharCode(originalEvent);
-          if (charCode === KeyCodes.KeyDown.Spacebar || charCode === KeyCodes.KeyDown.Enter) {
+          if (
+            charCode === KeyCodes.KeyDown.Spacebar ||
+            charCode === KeyCodes.KeyDown.Enter
+          ) {
             e.preventDefault();
-            $(e.target).trigger('click');
+            $(e.target).trigger("click");
           }
         });
 
-        $(div, searchHitSpan).on('click', (e: any) => {
+        $(div, searchHitSpan).on("click", (e: any) => {
           let canvasIndex: number = 0;
           let index: number = 0;
           let hitIndex = 0;
 
-          if (e.target.tagName.toLowerCase() === 'span') {
-            canvasIndex = $(e.target).closest('div').attr('data-canvas-index');
-            index = $(e.target).closest('div').attr('data-index');
-            hitIndex = $(e.target).closest('div').find('.searchHitNumberSpan').attr('data-index')
+          if (e.target.tagName.toLowerCase() === "span") {
+            canvasIndex = $(e.target).closest("div").attr("data-canvas-index");
+            index = $(e.target).closest("div").attr("data-index");
+            hitIndex = $(e.target)
+              .closest("div")
+              .find(".searchHitNumberSpan")
+              .attr("data-index");
           } else {
-            canvasIndex = $(e.target).attr('data-canvas-index');
-            index = $(e.target).attr('data-index');
-            hitIndex = $(e.target).find('.searchHitNumberSpan').attr('data-index')
+            canvasIndex = $(e.target).attr("data-canvas-index");
+            index = $(e.target).attr("data-index");
+            hitIndex = $(e.target)
+              .find(".searchHitNumberSpan")
+              .attr("data-index");
           }
-          let currentRect = (<OpenSeadragonExtension>(this.extension)).annotations.find((e) => { return e["canvasIndex"] == canvasIndex })?.rects[index];
+          let currentRect = (<OpenSeadragonExtension>(
+            this.extension
+          )).annotations.find((e) => {
+            return e["canvasIndex"] == canvasIndex;
+          })?.rects[index];
 
           this.extensionHost.publish(Events.SEARCH_HIT_CHANGED, [
             {
               hitIndex: hitIndex,
               rectIndex: currentRect?.index,
-              canvasIndex: currentRect?.canvasIndex
-            }
+              canvasIndex: currentRect?.canvasIndex,
+            },
           ]);
 
           if (currentRect !== undefined) {
-            if (this.currentAnnotationRect !== undefined && currentRect.canvasIndex == this.currentAnnotationRect.canvasIndex) {
+            if (
+              this.currentAnnotationRect !== undefined &&
+              currentRect.canvasIndex == this.currentAnnotationRect.canvasIndex
+            ) {
               this.canvasIndexChanged(canvasIndex, index);
               return;
             }
             this.currentAnnotationRect = currentRect;
             this.extensionHost.publish(IIIFEvents.ANNOTATION_CANVAS_CHANGE, [
-              currentRect
+              currentRect,
             ]);
           }
         });
 
         if (canvasTitle !== this.currentCanvasTitle) {
-          this.$searchResultContainer.append($('<div class="canvasTitle">' + canvasTitle + "</div>"));
+          this.$searchResultContainer.append(
+            $('<div class="canvasTitle">' + canvasTitle + "</div>")
+          );
         }
         this.currentCanvasTitle = canvasTitle;
         this.$searchResultContainer.append(div);
@@ -368,13 +505,13 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
   }
 
   setCurrentAnnotation(canvasIndex: any, index: any): void {
-    $('.annotationRect').each((i: number, annotation: any) => {
-      if ($(annotation).hasClass('current')) {
-        $(annotation).removeClass('current');
+    $(".annotationRect").each((i: number, annotation: any) => {
+      if ($(annotation).hasClass("current")) {
+        $(annotation).removeClass("current");
         return;
       }
     });
-    $('div#annotation-' + canvasIndex + '-' + index).addClass('current');
+    $("div#annotation-" + canvasIndex + "-" + index).addClass("current");
   }
 
   resize(): void {

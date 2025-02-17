@@ -37,11 +37,15 @@ export default class ModelViewerExtension extends BaseExtension<Config> {
   footerPanel: FooterPanel<Config["modules"]["footerPanel"]>;
   headerPanel: HeaderPanel<Config["modules"]["headerPanel"]>;
   helpDialogue: HelpDialogue;
-  leftContainerPanel: LeftContainerPanel<Config["modules"]["leftContainerPanel"]>;
+  leftContainerPanel: LeftContainerPanel<
+    Config["modules"]["leftContainerPanel"]
+  >;
   leftPanel: ContentLeftPanel;
   mobileFooterPanel: FooterPanel<Config["modules"]["footerPanel"]>;
   moreInfoDialogue: MoreInfoDialogue;
-  rightContainerPanel: RightContainerPanel<Config["modules"]["rightContainerPanel"]>;
+  rightContainerPanel: RightContainerPanel<
+    Config["modules"]["rightContainerPanel"]
+  >;
   rightPanel: MoreInfoRightPanel;
   textRightPanel: TextRightPanel;
   settingsDialogue: SettingsDialogue;
@@ -86,8 +90,10 @@ export default class ModelViewerExtension extends BaseExtension<Config> {
       this.shell.$headerPanel.hide();
     }
 
-    if (this.isLeftContainerPanelEnabled()){
-      this.leftContainerPanel = new LeftContainerPanel(this.shell.$leftContainerPanel);
+    if (this.isLeftContainerPanelEnabled()) {
+      this.leftContainerPanel = new LeftContainerPanel(
+        this.shell.$leftContainerPanel
+      );
     }
 
     if (this.isLeftPanelEnabled()) {
@@ -96,8 +102,10 @@ export default class ModelViewerExtension extends BaseExtension<Config> {
 
     this.centerPanel = new ModelViewerCenterPanel(this.shell.$centerPanel);
 
-    if (this.isRightContainerPanelEnabled()){
-      this.rightContainerPanel = new RightContainerPanel(this.shell.$rightContainerPanel);
+    if (this.isRightContainerPanelEnabled()) {
+      this.rightContainerPanel = new RightContainerPanel(
+        this.shell.$rightContainerPanel
+      );
     }
 
     if (this.isRightPanelEnabled()) {
@@ -105,7 +113,10 @@ export default class ModelViewerExtension extends BaseExtension<Config> {
     }
 
     if (this.isTextRightPanelEnabled()) {
-      this.textRightPanel = new TextRightPanel(this.shell.$textRightPanel, this.shell);
+      this.textRightPanel = new TextRightPanel(
+        this.shell.$textRightPanel,
+        this.shell
+      );
     }
 
     if (this.isFooterPanelEnabled()) {

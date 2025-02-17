@@ -78,8 +78,8 @@ export class PagingHeaderPanel extends HeaderPanel<
         this.closeGallery();
       }
     );
-    
-    this.$logoElement = $('.uv .headerPanel .options');
+
+    this.$logoElement = $(".uv .headerPanel .options");
 
     this.$prevOptions = $('<div class="prevOptions"></div>');
     this.$centerOptions.append(this.$prevOptions);
@@ -423,7 +423,7 @@ export class PagingHeaderPanel extends HeaderPanel<
     }
 
     if (this.options.showLogo === false) {
-      this.$logoElement.css('background-image', 'none');
+      this.$logoElement.css("background-image", "none");
     }
 
     // Search is shown as default

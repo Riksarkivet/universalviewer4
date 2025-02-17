@@ -45,12 +45,12 @@ export class FooterPanel extends BaseFooterPanel<
             </button>
         `);
     this.$options.prepend(this.$zoomInButton);
-    
+
     this.$printButton = $(`
             <button class="print btn imageBtn" title="${this.content.print}">
               <i class="uv-icon uv-icon-print" aria-hidden="true"></i>${this.content.print}
             </button>
-  `      );
+  `);
     this.$printButton.insertAfter(this.$moreInfoButton);
 
     this.$zoomInButton.onPressed(() => {

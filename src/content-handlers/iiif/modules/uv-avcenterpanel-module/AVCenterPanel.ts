@@ -384,7 +384,7 @@ export class AVCenterPanel extends CenterPanel<
 
       if (this.avcomponent) {
         this._setTitle();
-       this.avcomponent.showCanvas(canvas.id);
+        this.avcomponent.showCanvas(canvas.id);
       }
     });
   }

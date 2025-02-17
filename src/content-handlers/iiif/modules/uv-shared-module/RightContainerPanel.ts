@@ -4,29 +4,31 @@ import { BaseView } from "./BaseView";
 //import { Bools } from "@edsilv/utils";
 
 export class RightContainerPanel<
-    T extends BaseConfig["modules"]["rightContainerPanel"]
+  T extends BaseConfig["modules"]["rightContainerPanel"]
 > extends BaseView<T> {
-    childrenWidth: number;
+  childrenWidth: number;
 
-    constructor($element: JQuery) {
-        super($element);
-    }
+  constructor($element: JQuery) {
+    super($element);
+  }
 
-    create(): void {
-        super.create();
-    }
+  create(): void {
+    super.create();
+  }
 
-    resize(): void {
-        super.resize();
+  resize(): void {
+    super.resize();
 
-        this.$element.children().each(function (i) {
-            this.childrenWidth = this.childrenWidth + $(this).outerWidth();
-        });
+    this.$element.children().each(function (i) {
+      this.childrenWidth = this.childrenWidth + $(this).outerWidth();
+    });
 
-        this.$element.css({
-            left: Math.floor(
-                this.$element.parent().width() - this.$element.outerWidth() - this.childrenWidth
-            ),
-        });
-    }
+    this.$element.css({
+      left: Math.floor(
+        this.$element.parent().width() -
+          this.$element.outerWidth() -
+          this.childrenWidth
+      ),
+    });
+  }
 }
