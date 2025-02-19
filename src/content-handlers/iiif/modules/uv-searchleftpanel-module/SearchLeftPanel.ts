@@ -299,7 +299,6 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
       const originalEvent: KeyboardEvent = <KeyboardEvent>e.originalEvent;
       const charCode: number = Keyboard.getCharCode(originalEvent);
       if (
-        charCode === KeyCodes.KeyDown.Spacebar ||
         charCode === KeyCodes.KeyDown.Enter
       ) {
         e.preventDefault();
