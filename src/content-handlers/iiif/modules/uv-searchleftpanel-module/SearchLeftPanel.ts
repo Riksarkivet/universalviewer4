@@ -245,9 +245,7 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
 
     this.$searchTextContainer.append(this.$searchText);
 
-    this.$spinner = $(
-      '<span class="spinner"></span>'
-    );
+    this.$spinner = $('<span class="spinner"></span>');
 
     this.$spinner.hide();
 
