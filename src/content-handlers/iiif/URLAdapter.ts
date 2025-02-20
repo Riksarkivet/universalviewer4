@@ -131,6 +131,7 @@ export class URLAdapter extends UVAdapter {
       rotation: Number(this.get<number>("r", 0)),
       rangeId: this.get<string>("rid", ""),
       xywh: this.get<string>("xywh", ""),
+      search: this.get<string>("search", ""),
       target: this.get<string>("target", ""),
       // cfi: this.get<string>("cfi", ""),
       // youTubeVideoId: this.get<string>("youTubeVideoId", ""),
@@ -199,6 +200,14 @@ export class URLAdapter extends UVAdapter {
       IIIFEvents.TARGET_CHANGE,
       (target) => {
         this.set("xywh", this.getFragment("xywh", target));
+      },
+      false
+    );
+
+    uv.on(
+      IIIFEvents.SEARCH_CHANGED,
+      (target) => {
+        this.set("search", this.getFragment("search", target));
       },
       false
     );

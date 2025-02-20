@@ -450,7 +450,10 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
     this.extensionHost.subscribe(
       OpenSeadragonExtensionEvents.SEARCH,
       (terms: string) => {
+        const canvas: Canvas = this.helper.getCurrentCanvas();
         this.fire(OpenSeadragonExtensionEvents.SEARCH, terms);
+        this.data.target = canvas.id + "#search=" + terms;
+        this.fire(IIIFEvents.SEARCH_CHANGED, this.data.target);
         this.search(terms);
       }
     );

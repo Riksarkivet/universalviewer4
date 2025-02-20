@@ -10,4 +10,5 @@ export interface IIIFData {
   rangeId?: string;
   rotation?: number;
   xywh?: string;
+  search?: string;
 }
