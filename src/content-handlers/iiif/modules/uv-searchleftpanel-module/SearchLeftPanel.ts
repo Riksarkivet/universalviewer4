@@ -298,10 +298,7 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
     this.$searchText.on("keypress", (e: any) => {
       const originalEvent: KeyboardEvent = <KeyboardEvent>e.originalEvent;
       const charCode: number = Keyboard.getCharCode(originalEvent);
-      if (
-        charCode === KeyCodes.KeyDown.Spacebar ||
-        charCode === KeyCodes.KeyDown.Enter
-      ) {
+      if (charCode === KeyCodes.KeyDown.Enter) {
         e.preventDefault();
         this.$searchButton.click();
       }
