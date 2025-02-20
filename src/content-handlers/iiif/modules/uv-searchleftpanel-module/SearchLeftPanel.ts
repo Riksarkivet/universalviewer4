@@ -20,6 +20,7 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
   $searchOptions: JQuery;
   $searchTextContainer: JQuery;
   $searchText: JQuery;
+  $spinner: JQuery;
   $clearButton: JQuery;
   $searchHitsContainer: JQuery;
   $searchHitsLabel: JQuery;
@@ -244,6 +245,14 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
 
     this.$searchTextContainer.append(this.$searchText);
 
+    this.$spinner = $(
+      '<span class="spinner"></span>'
+    );
+
+    this.$spinner.hide();
+
+    this.$searchTextContainer.append(this.$spinner);
+
     this.$clearButton = $(
       '<button class="clearButton" title="' +
         this.content.clearSearch +
@@ -358,11 +367,11 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
   }
 
   showSearchSpinner(): void {
-    this.$searchText.addClass("searching");
+    this.$spinner.show();
   }
 
   hideSearchSpinner(): void {
-    this.$searchText.removeClass("searching");
+    this.$spinner.hide();
   }
 
   canvasIndexChanged(canvasIndex: number, index: number): void {
