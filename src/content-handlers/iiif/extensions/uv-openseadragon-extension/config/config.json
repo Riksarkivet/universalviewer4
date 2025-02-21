@@ -39,7 +39,7 @@
     "rightPanelEnabled": true,
     "saveUserSettings": false,
     "clickToZoomEnabled": true,
-    "truncateThumbnailLabels": false,
+    "truncateThumbnailLabels": true,
     "searchWithinEnabled": true,
     "seeAlsoEnabled": false,
     "termsOfUseEnabled": true,
