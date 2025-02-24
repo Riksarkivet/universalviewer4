@@ -102,7 +102,8 @@ export class FooterPanel extends BaseFooterPanel<
 
     this.$printButton = $(`
           <button class="print btn imageBtn" title="${this.content.print}" tabindex="0">
-            <i class="uv-icon uv-icon-print" aria-hidden="true"></i>${this.content.print}
+            <i class="uv-icon uv-icon-print" aria-hidden="true"></i>
+            <span class="sr-only">${this.content.print}</span>
           </button>
         `);
     this.$options.prepend(this.$printButton);
