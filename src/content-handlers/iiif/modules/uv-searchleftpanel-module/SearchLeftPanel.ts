@@ -49,8 +49,8 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
     this.setTitle(this.config.content.title);
 
     this.urlAdapter = new URLAdapter(false);
-    this.q = this.urlAdapter.get('q');
-    this.hi = this.urlAdapter.get('hi');
+    this.q = this.urlAdapter.get("q");
+    this.hi = this.urlAdapter.get("hi");
 
     this.extensionHost.subscribe(IIIFEvents.ANNOTATIONS_EMPTY, () => {
       this.hideSearchSpinner();
@@ -106,11 +106,13 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
           // we have loaded the viewer with a search result and hit index
           // so make sure it's the hit shown
           if (this.hi !== undefined && this.hi !== null) {
-            let div = $('.searchHitNumberSpan[data-index="' + this.hi + '"]').parent();
-            div.trigger('click');
+            let div = $(
+              '.searchHitNumberSpan[data-index="' + this.hi + '"]'
+            ).parent();
+            div.trigger("click");
             hitIndex = this.hi;
-            let canvasIndex = $(div).attr('data-canvas-index');
-            let index = $(div).attr('data-index');
+            let canvasIndex = $(div).attr("data-canvas-index");
+            let index = $(div).attr("data-index");
             let currentRect = (<OpenSeadragonExtension>(
               this.extension
             )).annotations.find((e) => {
@@ -167,7 +169,13 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
     });
 
     this.extensionHost.subscribe(IIIFEvents.THUMB_SELECTED, (e) => {
-      if ($('div.searchHit[data-index="0"][data-canvas-index="' + e.data.index + '"]')[0] !== undefined) {
+      if (
+        $(
+          'div.searchHit[data-index="0"][data-canvas-index="' +
+            e.data.index +
+            '"]'
+        )[0] !== undefined
+      ) {
         let canvasIndex: number = e.data.index;
         this.currentAnnotationRect = (<OpenSeadragonExtension>(
           this.extension
@@ -222,20 +230,38 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
     this.$searchOptions = $('<div class="searchOptions"></div>');
     this.$searchContainer.append(this.$searchOptions);
 
-    this.$searchLabel = $('<label class="label" for="searchWithinInput">' + this.content.searchWithin + "</label>");
+    this.$searchLabel = $(
+      '<label class="label" for="searchWithinInput">' +
+        this.content.searchWithin +
+        "</label>"
+    );
     this.$searchOptions.append(this.$searchLabel);
 
     this.$searchTextContainer = $('<div class="searchTextContainer"></div>');
     this.$searchOptions.append(this.$searchTextContainer);
 
-    this.$searchText = $('<input class="searchText" id="searchWithinInput" autocomplete="off" type="text" maxlength="100" placeholder="' + this.content.enterKeyword + '" value="" aria-label="' + this.content.searchWithin + '"/>');
+    this.$searchText = $(
+      '<input class="searchText" id="searchWithinInput" autocomplete="off" type="text" maxlength="100" placeholder="' +
+        this.content.enterKeyword +
+        '" value="" aria-label="' +
+        this.content.searchWithin +
+        '"/>'
+    );
 
     this.$searchTextContainer.append(this.$searchText);
 
-    this.$clearButton = $('<button class="clearButton" title="' + this.content.clearSearch + '"></button>');
+    this.$clearButton = $(
+      '<button class="clearButton" title="' +
+        this.content.clearSearch +
+        '"></button>'
+    );
     this.$clearButton.hide();
 
-    this.$searchButton = $('<button class="searchButton"title="' + this.content.doSearch + '"></button>');
+    this.$searchButton = $(
+      '<button class="searchButton"title="' +
+        this.content.doSearch +
+        '"></button>'
+    );
 
     this.$searchHitsContainer = $('<div class="searchHitsContainer"></div>');
     this.$searchHitsLabel = $('<span class="searchHitsLabel"></span>');
@@ -245,10 +271,16 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
     this.$searchContainer.append(this.$searchHitsContainer);
 
     this.$searchPagerContainer = $('<div class="searchPagerContainer"></div>');
-    this.$searchPagerPrevButton = $('<button class="prev" title="' + this.content.previousResult + '"></button>');
+    this.$searchPagerPrevButton = $(
+      '<button class="prev" title="' +
+        this.content.previousResult +
+        '"></button>'
+    );
     this.$searchPagerPrevButton.prop("disabled", true);
     this.$searchPagerLabel = $("<span>0 of 100</span>");
-    this.$searchPagerNextButton = $('<button class="next" title="' + this.content.nextResult + '"></button>');
+    this.$searchPagerNextButton = $(
+      '<button class="next" title="' + this.content.nextResult + '"></button>'
+    );
     this.$searchPagerContainer.append(this.$searchPagerPrevButton);
     this.$searchPagerContainer.append(this.$searchPagerLabel);
     this.$searchPagerContainer.append(this.$searchPagerNextButton);
@@ -311,9 +343,9 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
 
     setTimeout(() => {
       if (this.q !== null && this.q !== "" && this.q !== undefined) {
-        this.$expandButton.trigger('click');
+        this.$expandButton.trigger("click");
         this.$searchText.val(this.q);
-        this.$searchButton.trigger('click');
+        this.$searchButton.trigger("click");
       }
     }, 100); // unfortunately this is needed :-(
   }
@@ -354,10 +386,30 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
         return;
       }
     });
-    if ($('div.searchHit[data-index="' + index + '"][data-canvas-index="' + canvasIndex + '"]')[0] !== undefined) {
+    if (
+      $(
+        'div.searchHit[data-index="' +
+          index +
+          '"][data-canvas-index="' +
+          canvasIndex +
+          '"]'
+      )[0] !== undefined
+    ) {
       this.setCurrentAnnotation(canvasIndex, index);
-      $('div.searchHit[data-index="' + index + '"][data-canvas-index="' + canvasIndex + '"]').addClass("current");
-      $('div.searchHit[data-index="' + index + '"][data-canvas-index="' + canvasIndex + '"]')[0].scrollIntoView({
+      $(
+        'div.searchHit[data-index="' +
+          index +
+          '"][data-canvas-index="' +
+          canvasIndex +
+          '"]'
+      ).addClass("current");
+      $(
+        'div.searchHit[data-index="' +
+          index +
+          '"][data-canvas-index="' +
+          canvasIndex +
+          '"]'
+      )[0].scrollIntoView({
         behavior: "instant",
         block: "end",
         inline: "nearest",
@@ -368,13 +420,37 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
   displaySearchResults(searchHits?: SearchHit[]): void {
     if (searchHits !== undefined) {
       searchHits.forEach((searchHit, i) => {
-        let div = $('<div id="searchhit-' + searchHit.canvasIndex + "-" + searchHit.index + '" class="searchHit" data-canvas-index="' + searchHit.canvasIndex + '" data-index="' + searchHit.index + '" tabindex="0"></div>');
-        let canvasTitle = this.extension.helper.getCanvasByIndex(searchHit.canvasIndex).getLabel().getValue();
-        let hitNumberSpan = $('<span class="searchHitNumberSpan" data-index="' + (i + 1) + '"></div>');
+        let div = $(
+          '<div id="searchhit-' +
+            searchHit.canvasIndex +
+            "-" +
+            searchHit.index +
+            '" class="searchHit" data-canvas-index="' +
+            searchHit.canvasIndex +
+            '" data-index="' +
+            searchHit.index +
+            '" tabindex="0"></div>'
+        );
+        let canvasTitle = this.extension.helper
+          .getCanvasByIndex(searchHit.canvasIndex)
+          .getLabel()
+          .getValue();
+        let hitNumberSpan = $(
+          '<span class="searchHitNumberSpan" data-index="' +
+            (i + 1) +
+            '"></div>'
+        );
         hitNumberSpan.append(i + 1);
-        let searchHitSpan = $('<span class="searchHitSpan">' + searchHit.match + "</span>");
+        let searchHitSpan = $(
+          '<span class="searchHitSpan">' + searchHit.match + "</span>"
+        );
 
-        div.append(hitNumberSpan[0].outerHTML + searchHit.before + searchHitSpan[0].outerHTML + searchHit.after);
+        div.append(
+          hitNumberSpan[0].outerHTML +
+            searchHit.before +
+            searchHitSpan[0].outerHTML +
+            searchHit.after
+        );
         $(div).on("keydown", (e: any) => {
           const originalEvent: KeyboardEvent = <KeyboardEvent>e.originalEvent;
           const charCode: number = Keyboard.getCharCode(originalEvent);
