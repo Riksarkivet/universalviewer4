@@ -5,6 +5,7 @@ import { IUVData } from "../../IUVData";
 import { IIIFEvents } from "./IIIFEvents";
 import { defaultLocale } from "../../Utils";
 import { parseContentStateParameter } from "./helpers";
+import { Events } from "../../Events";
 
 export class URLAdapter extends UVAdapter {
   constructor(readonly: boolean = false) {
@@ -61,15 +62,16 @@ export class URLAdapter extends UVAdapter {
       return Number(num);
     }
 
-    // if there's a iiif_content param in the qs, parse out the components of it and use those
+    // if there's a iiif-content param in the qs, parse out the components of it and use those
     const iiifContent = this.get<string>("iiif-content", "");
-
     if (iiifContent) {
+      console.log('iiif-content')
       let iiifManifestId: string = "";
       let canvasId: string = "";
       let xywh: string = "";
 
       const contentState = parseContentStateParameter(iiifContent) as any;
+      console.log(contentState)
       if (contentState.type === "remote-content-state") {
         iiifManifestId = contentState.id;
       } else if (contentState && contentState.target.length) {
@@ -131,7 +133,8 @@ export class URLAdapter extends UVAdapter {
       rotation: Number(this.get<number>("r", 0)),
       rangeId: this.get<string>("rid", ""),
       xywh: this.get<string>("xywh", ""),
-      search: this.get<string>("search", ""),
+      q: this.get<string>("search", ""),
+      hi: this.get<number>("hi", 0),
       target: this.get<string>("target", ""),
       // cfi: this.get<string>("cfi", ""),
       // youTubeVideoId: this.get<string>("youTubeVideoId", ""),
@@ -206,10 +209,30 @@ export class URLAdapter extends UVAdapter {
 
     uv.on(
       IIIFEvents.SEARCH_CHANGED,
-      (target) => {
-        this.set("search", this.getFragment("search", target));
+      (terms) => {
+        this.set("q", terms); // search term
       },
       false
     );
+
+    uv.on(
+      IIIFEvents.CLEAR_ANNOTATIONS,
+      () => {
+        this.set("q", ""); // clear search term
+        this.set("hi", 0); // clear search hit index
+      },
+      false
+    );
+
+    uv.on(
+      Events.SEARCH_HIT_CHANGED,
+      (searchHit) => {
+        let hitIndex = searchHit[0].hitIndex;
+        if (hitIndex !== undefined) {
+          this.set("hi", hitIndex); // search hit index
+        }
+      },
+      false
+    )
   }
 }

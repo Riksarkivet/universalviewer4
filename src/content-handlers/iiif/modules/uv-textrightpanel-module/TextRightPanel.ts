@@ -108,29 +108,9 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
           }
         }
       );
-      if (
-        $(
-          '.transcribed-text .searchHitSpan[data-index="' +
-            this.currentRectIndex +
-            '"][data-canvas-index="' +
-            canvasIndex +
-            '"]'
-        )[0] !== undefined
-      ) {
-        $(
-          '.transcribed-text .searchHitSpan[data-index="' +
-            this.currentRectIndex +
-            '"][data-canvas-index="' +
-            canvasIndex +
-            '"]'
-        ).addClass("current");
-        $(
-          '.transcribed-text .searchHitSpan[data-index="' +
-            this.currentRectIndex +
-            '"][data-canvas-index="' +
-            canvasIndex +
-            '"]'
-        )
+      if ($('.transcribed-text .searchHitSpan[data-index="' + this.currentRectIndex + '"][data-canvas-index="' + canvasIndex + '"]')[0] !== undefined) {
+        $('.transcribed-text .searchHitSpan[data-index="' + this.currentRectIndex + '"][data-canvas-index="' + canvasIndex + '"]').addClass("current");
+        $('.transcribed-text .searchHitSpan[data-index="' + this.currentRectIndex + '"][data-canvas-index="' + canvasIndex + '"]')
           .closest("div")[0]
           .scrollIntoView({
             behavior: "instant",
