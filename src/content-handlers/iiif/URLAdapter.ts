@@ -65,13 +65,11 @@ export class URLAdapter extends UVAdapter {
     // if there's a iiif-content param in the qs, parse out the components of it and use those
     const iiifContent = this.get<string>("iiif-content", "");
     if (iiifContent) {
-      console.log("iiif-content");
       let iiifManifestId: string = "";
       let canvasId: string = "";
       let xywh: string = "";
 
       const contentState = parseContentStateParameter(iiifContent) as any;
-      console.log(contentState);
       if (contentState.type === "remote-content-state") {
         iiifManifestId = contentState.id;
       } else if (contentState && contentState.target.length) {
