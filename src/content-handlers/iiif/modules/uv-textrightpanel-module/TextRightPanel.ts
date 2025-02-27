@@ -9,6 +9,7 @@ import { IExternalImageResourceData } from "manifesto.js";
 import { OpenSeadragonCenterPanel } from "../../modules/uv-openseadragoncenterpanel-module/OpenSeadragonCenterPanel";
 import { Shell } from "../uv-shared-module/Shell";
 import { AnnotationRect } from "@iiif/manifold";
+import { OpenSeadragonExtensionEvents } from "../../extensions/uv-openseadragon-extension/Events";
 
 export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
   $transcribedText: JQuery;
@@ -141,6 +142,11 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
       }
     });
 
+    this.extensionHost.on(OpenSeadragonExtensionEvents.CANVAS_CLICK, (e: any) => {
+      var target = e.originalTarget || e.originalEvent.target;
+      $(target).trigger('click');
+    });
+
     this.extensionHost.on(Events.LOAD, async (e) => {
       this.centerPanel = (<OpenSeadragonExtension>this.extension).centerPanel;
       let canvases = this.extension.getCurrentCanvases();
@@ -175,7 +181,7 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
         let res = this.extension.resources;
         this.offsetX = -1;
         this.index = -1;
-        if (res !== null) {
+        if (res !== null && res !== undefined) {
           let resource: any = res.filter((x) => x.index === c.index)[0];
           this.index = res.indexOf(resource);
           this.offsetX = 0;
