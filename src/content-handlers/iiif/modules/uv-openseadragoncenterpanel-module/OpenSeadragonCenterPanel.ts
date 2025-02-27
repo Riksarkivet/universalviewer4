@@ -567,7 +567,7 @@ export class OpenSeadragonCenterPanel extends CenterPanel<
       );
     });
 
-    this.viewer.addHandler('canvas-click', (event: any) => {
+    this.viewer.addHandler("canvas-click", (event: any) => {
       this.extensionHost.publish(
         OpenSeadragonExtensionEvents.CANVAS_CLICK,
         event

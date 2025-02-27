@@ -142,10 +142,13 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
       }
     });
 
-    this.extensionHost.on(OpenSeadragonExtensionEvents.CANVAS_CLICK, (e: any) => {
-      var target = e.originalTarget || e.originalEvent.target;
-      $(target).trigger('click');
-    });
+    this.extensionHost.on(
+      OpenSeadragonExtensionEvents.CANVAS_CLICK,
+      (e: any) => {
+        var target = e.originalTarget || e.originalEvent.target;
+        $(target).trigger("click");
+      }
+    );
 
     this.extensionHost.on(Events.LOAD, async (e) => {
       this.centerPanel = (<OpenSeadragonExtension>this.extension).centerPanel;
