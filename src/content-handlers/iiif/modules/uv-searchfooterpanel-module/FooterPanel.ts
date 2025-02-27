@@ -53,8 +53,8 @@ export class FooterPanel extends BaseFooterPanel<
 
     super.create();
 
-        this.urlAdapter = new URLAdapter(false);
-        this.searchUrl = this.urlAdapter.get('q');
+    this.urlAdapter = new URLAdapter(false);
+    this.searchUrl = this.urlAdapter.get("q");
 
     this.extensionHost.subscribe(IIIFEvents.CANVAS_INDEX_CHANGE, () => {
       this.canvasIndexChanged();
@@ -330,11 +330,15 @@ export class FooterPanel extends BaseFooterPanel<
     }
 
     setTimeout(() => {
-      if (this.searchUrl !== null && this.searchUrl !== "" && this.searchUrl !== undefined) {
+      if (
+        this.searchUrl !== null &&
+        this.searchUrl !== "" &&
+        this.searchUrl !== undefined
+      ) {
         this.$searchText.val(this.searchUrl);
-        this.$searchButton.trigger('click');
+        this.$searchButton.trigger("click");
       }
-      }, 100); // unfortunately this is needed :-(
+    }, 100); // unfortunately this is needed :-(
   }
 
   isSearchEnabled(): boolean {
