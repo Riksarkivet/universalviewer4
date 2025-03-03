@@ -12,6 +12,7 @@ import * as KeyCodes from "@edsilv/key-codes";
 import { AnnotationGroup } from "@iiif/manifold";
 import { Canvas, LanguageMap } from "manifesto.js";
 import { Config } from "../../extensions/uv-openseadragon-extension/config/Config";
+import { URLAdapter } from "../../URLAdapter";
 
 export class FooterPanel extends BaseFooterPanel<
   Config["modules"]["searchFooterPanel"]
@@ -36,6 +37,8 @@ export class FooterPanel extends BaseFooterPanel<
   $searchResultsInfo: JQuery;
   $searchText: JQuery;
   $searchTextContainer: JQuery;
+  urlAdapter: URLAdapter;
+  searchUrl: string | null | undefined;
 
   currentPlacemarkerIndex: number;
   placemarkerTouched: boolean = false;
@@ -49,6 +52,9 @@ export class FooterPanel extends BaseFooterPanel<
     this.setConfig("searchFooterPanel");
 
     super.create();
+
+    this.urlAdapter = new URLAdapter(false);
+    this.searchUrl = this.urlAdapter.get("q");
 
     this.extensionHost.subscribe(IIIFEvents.CANVAS_INDEX_CHANGE, () => {
       this.canvasIndexChanged();
@@ -323,6 +329,17 @@ export class FooterPanel extends BaseFooterPanel<
       this.$pagePositionMarker.hide();
       this.$pagePositionLabel.hide();
     }
+
+    setTimeout(() => {
+      if (
+        this.searchUrl !== null &&
+        this.searchUrl !== "" &&
+        this.searchUrl !== undefined
+      ) {
+        this.$searchText.val(this.searchUrl);
+        this.$searchButton.trigger("click");
+      }
+    }, 100); // unfortunately this is needed :-(
   }
 
   isSearchEnabled(): boolean {

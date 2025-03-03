@@ -11,6 +11,7 @@ import { AnnotationResults } from "../uv-shared-module/AnnotationResults";
 import { SearchHit } from "../uv-shared-module/SearchHit";
 import { Keyboard, Strings } from "@edsilv/utils";
 import * as KeyCodes from "@edsilv/key-codes";
+import { URLAdapter } from "../../URLAdapter";
 
 export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
   $searchButton: JQuery;
@@ -33,6 +34,9 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
   currentCanvasTitle: string | null;
   currentHitIndex: number;
   currentHits: number;
+  urlAdapter: URLAdapter;
+  q: string | null | undefined;
+  hi: number | null | undefined;
 
   constructor($element: JQuery) {
     super($element);
@@ -44,6 +48,10 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
 
     this.$main.html("");
     this.setTitle(this.config.content.title);
+
+    this.urlAdapter = new URLAdapter(false);
+    this.q = this.urlAdapter.get("q");
+    this.hi = this.urlAdapter.get("hi");
 
     this.extensionHost.subscribe(IIIFEvents.ANNOTATIONS_EMPTY, () => {
       this.hideSearchSpinner();
@@ -93,9 +101,35 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
           this.extensionHost.publish(IIIFEvents.ANNOTATION_CANVAS_CHANGE, [
             (<OpenSeadragonExtension>this.extension).annotations[0].rects[0],
           ]);
+
+          let hitIndex = 1;
+
+          // we have loaded the viewer with a search result and hit index
+          // so make sure it's the hit shown
+          if (this.hi !== undefined && this.hi !== null) {
+            let div = $(
+              '.searchHitNumberSpan[data-index="' + this.hi + '"]'
+            ).parent();
+            div.trigger("click");
+            hitIndex = this.hi;
+            let canvasIndex = $(div).attr("data-canvas-index");
+            let index = $(div).attr("data-index");
+            let currentRect = (<OpenSeadragonExtension>(
+              this.extension
+            )).annotations.find((e) => {
+              return e["canvasIndex"] == canvasIndex;
+            })?.rects[index];
+            if (currentRect !== null && currentRect !== undefined) {
+              this.currentAnnotationRect = currentRect;
+            }
+            // we need to clear these
+            this.hi = 0;
+            this.q = "";
+          }
+
           this.extensionHost.publish(Events.SEARCH_HIT_CHANGED, [
             {
-              hitIndex: 1,
+              hitIndex: hitIndex,
               rectIndex: this.currentAnnotationRect.index,
               canvasIndex: this.currentAnnotationRect.canvasIndex,
             },
@@ -120,37 +154,6 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
     this.extensionHost.subscribe(IIIFEvents.CANVAS_INDEX_CHANGE, (e) => {
       let canvasIndex = e;
       let index = this.currentAnnotationRect?.index ?? 0;
-
-      if (
-        $(
-          'div.searchHit[data-index="' +
-            index +
-            '"][data-canvas-index="' +
-            canvasIndex +
-            '"]'
-        )[0] !== undefined
-      ) {
-        this.currentHitIndex = $(
-          'div.searchHit[data-index="' +
-            index +
-            '"][data-canvas-index="' +
-            canvasIndex +
-            '"]'
-        )
-          .find(".searchHitNumberSpan")
-          .attr("data-index");
-        $(
-          'div.searchHit[data-index="' +
-            index +
-            '"][data-canvas-index="' +
-            canvasIndex +
-            '"]'
-        )[0].scrollIntoView({
-          behavior: "instant",
-          block: "end",
-          inline: "nearest",
-        });
-      }
       this.extensionHost.publish(Events.SEARCH_HIT_CHANGED, [
         {
           hitIndex: this.currentHitIndex,
@@ -197,6 +200,9 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
       this.$searchPagerContainer.hide();
       this.$clearButton.hide();
       this.$searchText.focus();
+      // we need to clear these
+      this.hi = 0;
+      this.q = "";
     });
 
     this.extensionHost.subscribe(Events.SEARCH_HIT_CHANGED, (e) => {
@@ -341,6 +347,14 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
 
     this.$searchTextContainer.append(this.$clearButton);
     this.$searchTextContainer.append(this.$searchButton);
+
+    setTimeout(() => {
+      if (this.q !== null && this.q !== "" && this.q !== undefined) {
+        this.$expandButton.trigger("click");
+        this.$searchText.val(this.q);
+        this.$searchButton.trigger("click");
+      }
+    }, 100); // unfortunately this is needed :-(
   }
 
   search(terms: string): void {
@@ -396,6 +410,17 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
           canvasIndex +
           '"]'
       ).addClass("current");
+      $(
+        'div.searchHit[data-index="' +
+          index +
+          '"][data-canvas-index="' +
+          canvasIndex +
+          '"]'
+      )[0].scrollIntoView({
+        behavior: "instant",
+        block: "end",
+        inline: "nearest",
+      });
     }
   }
 
@@ -436,10 +461,7 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
         $(div).on("keydown", (e: any) => {
           const originalEvent: KeyboardEvent = <KeyboardEvent>e.originalEvent;
           const charCode: number = Keyboard.getCharCode(originalEvent);
-          if (
-            charCode === KeyCodes.KeyDown.Spacebar ||
-            charCode === KeyCodes.KeyDown.Enter
-          ) {
+          if (charCode === KeyCodes.KeyDown.Enter) {
             e.preventDefault();
             $(e.target).trigger("click");
           }
@@ -469,7 +491,6 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
           )).annotations.find((e) => {
             return e["canvasIndex"] == canvasIndex;
           })?.rects[index];
-
           this.extensionHost.publish(Events.SEARCH_HIT_CHANGED, [
             {
               hitIndex: hitIndex,
@@ -501,9 +522,10 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
         this.currentCanvasTitle = canvasTitle;
         this.$searchResultContainer.append(div);
       });
+      this.$searchText.focus();
     }
 
-    this.canvasIndexChanged(this.extension.helper.canvasIndex, 0);
+    //this.canvasIndexChanged(this.extension.helper.canvasIndex, 0);
     this.hideSearchSpinner();
     this.resize();
   }

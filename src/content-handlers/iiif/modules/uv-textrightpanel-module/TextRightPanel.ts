@@ -247,6 +247,9 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
                 );
                 $(
                   "div#" + $(lineAnnotationRect).attr("id") + ".lineAnnotation"
+                ).html("");
+                $(
+                  "div#" + $(lineAnnotationRect).attr("id") + ".lineAnnotation"
                 ).html(text);
               }
             }
@@ -333,7 +336,6 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
           x +
           this.offsetX +
           (this.index > 0 ? this.centerPanel.config.options.pageGap : 0);
-
         let text = t.join(" ");
         this.clipboardText += text;
 
@@ -410,7 +412,9 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
         }
         return line;
       });
-
+      if (this.$transcribedText) {
+        this.$transcribedText.html("");
+      }
       this.$transcribedText = $('<div class="transcribed-text"></div>');
       if (header) {
         this.$transcribedText.append(
@@ -425,6 +429,7 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
           $("<div>" + this.content.textNotFound + "</div>")
         );
       }
+
       this.$main.append(this.$transcribedText);
 
       // If we already have a selected line annotation, make sure it's selected again after load

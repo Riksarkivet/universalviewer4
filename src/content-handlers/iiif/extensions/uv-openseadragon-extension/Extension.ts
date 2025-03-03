@@ -452,6 +452,8 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
       (terms: string) => {
         this.fire(OpenSeadragonExtensionEvents.SEARCH, terms);
         this.search(terms);
+        this.data.target = terms;
+        this.fire(IIIFEvents.SEARCH_CHANGED, this.data.target);
       }
     );
 
@@ -678,7 +680,7 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
 
     this.checkForTarget();
     this.checkForAnnotations();
-    this.checkForSearchParam();
+    //this.checkForSearchParam();
     this.checkForRotationParam();
   }
 
@@ -978,20 +980,20 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
     return groupedSearchHits;
   }
 
-  checkForSearchParam(): void {
-    // if a highlight param is set, use it to search.
-    const highlight: string | undefined = (<IOpenSeadragonExtensionData>(
-      this.data
-    )).highlight;
+  // checkForSearchParam(): void {
+  //   // if a highlight param is set, use it to search.
+  //   const highlight: string | undefined = (<IOpenSeadragonExtensionData>(
+  //     this.data
+  //   )).highlight;
 
-    if (highlight) {
-      highlight.replace(/\+/g, " ").replace(/"/g, "");
-      this.extensionHost.publish(
-        OpenSeadragonExtensionEvents.SEARCH,
-        highlight
-      );
-    }
-  }
+  //   if (highlight) {
+  //     highlight.replace(/\+/g, " ").replace(/"/g, "");
+  //     this.extensionHost.publish(
+  //       OpenSeadragonExtensionEvents.SEARCH,
+  //       highlight
+  //     );
+  //   }
+  // }
 
   checkForRotationParam(): void {
     // if a rotation value is passed, set rotation
