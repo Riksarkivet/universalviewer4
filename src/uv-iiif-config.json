@@ -4,7 +4,7 @@
     "footerPanelEnabled": true,
     "headerPanelEnabled": true,
     "leftContainerPanelEnabled": true,
-    "leftPanelEnabled": false,
+    "leftPanelEnabled": true,
     "searchLeftPanelEnabled": true,
     "limitLocales": false,
     "overrideFullScreen": false,
@@ -85,7 +85,7 @@
     },
     "contentLeftPanel": {
       "options": {
-        "defaultToTreeEnabled": true,
+        "defaultToTreeEnabled": false,
         "thumbsEnabled": false
       }
     },
