@@ -363,11 +363,9 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
     if (this.terms === "") {
       this.extensionHost.publish(IIIFEvents.CLEAR_ANNOTATIONS, false);
       this.extension.showMessage(
-        this.extension.data.config!.modules.genericDialogue.content.emptyValue,
-        function () {
-          this.$searchText.focus();
-        }
+        this.extension.data.config!.modules.genericDialogue.content.emptyValue
       );
+      this.$searchText.focus();
       return;
     }
 
