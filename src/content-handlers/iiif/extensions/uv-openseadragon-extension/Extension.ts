@@ -271,7 +271,9 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
         IIIFEvents.CANVAS_INDEX_CHANGE,
         this.getNextPageIndex()
       );
-      const range: Range | null = this.helper.getCanvasRange(this.helper.getCurrentCanvas());
+      const range: Range | null = this.helper.getCanvasRange(
+        this.helper.getCurrentCanvas()
+      );
       if (range) {
         this.extensionHost.publish(IIIFEvents.RANGE_CHANGE, range);
       }
@@ -351,8 +353,13 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
         IIIFEvents.CANVAS_INDEX_CHANGE,
         this.getPrevPageIndex()
       );
-      let range: Range | null = this.helper.getCanvasRange(this.helper.getCurrentCanvas());
-      if (range === undefined && this.helper.getPreviousRange()?.getBehavior() === "sequence") {
+      let range: Range | null = this.helper.getCanvasRange(
+        this.helper.getCurrentCanvas()
+      );
+      if (
+        range === undefined &&
+        this.helper.getPreviousRange()?.getBehavior() === "sequence"
+      ) {
         range = this.helper.getPreviousRange();
       }
 
