@@ -818,8 +818,8 @@ export class ContentLeftPanel extends LeftPanel<ContentLeftPanelConfig> {
       this.treeView.databind();
 
       if (currentCanvasTopRangeIndex !== -1) {
-        //range = this.extension.getCurrentCanvasRange();
-        range = this.extension.helper.getCurrentRange();
+        range = this.extension.getCurrentCanvasRange();
+        //range = this.extension.helper.getCurrentRange();
         if (range && range.treeNode) {
           node = this.treeView.getNodeById(range.treeNode.id);
         }
