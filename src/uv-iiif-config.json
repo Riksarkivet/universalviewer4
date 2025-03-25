@@ -59,7 +59,8 @@
       "options": {
         "autoHideControls": false,
         "showHomeControl": true,
-        "showAdjustImageControl": true
+        "showAdjustImageControl": true,
+        "preserveViewportForQuery": true
       }
     },
     "mediaElementCenterPanel": {

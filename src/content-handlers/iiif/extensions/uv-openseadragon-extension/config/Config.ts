@@ -137,6 +137,8 @@ type OpenSeadragonCenterPanelOptions = CenterPanelOptions & {
   visibilityRatio: number;
   /** Whether to zoom in to first annotation on load */
   zoomToInitialAnnotation: boolean;
+  /** Whether to preserve the viewport if we have a search query (q=xxxx) */
+  preserveViewportForQuery: boolean;
 };
 
 type OpenSeadragonCenterPanelContent = CenterPanelContent & {
