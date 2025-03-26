@@ -47,6 +47,8 @@ export class OpenSeadragonCenterPanel extends CenterPanel<
   viewer: any;
   viewerId: string;
   showAdjustImageButton: boolean;
+  preserveViewportForQuery: boolean;
+  queryBounds: XYWHFragment | null;
 
   $canvas: JQuery;
   $goHomeButton: JQuery;
@@ -78,6 +80,8 @@ export class OpenSeadragonCenterPanel extends CenterPanel<
     this.extensionHost.subscribe(IIIFEvents.ANNOTATIONS, (args: any) => {
       this.overlayAnnotations();
     });
+
+    this.preserveViewportForQuery = this.config.options.preserveViewportForQuery ?? false;
 
     this.extensionHost.subscribe(
       IIIFEvents.SETTINGS_CHANGE,
@@ -996,7 +1000,6 @@ export class OpenSeadragonCenterPanel extends CenterPanel<
 
   updateBounds(): void {
     const settings: ISettings = this.extension.getSettings();
-
     // if this is the first load and there are initial bounds, fit to those.
     if (this.isFirstLoad) {
       this.initialRotation = (<IOpenSeadragonExtensionData>(
@@ -1019,6 +1022,10 @@ export class OpenSeadragonCenterPanel extends CenterPanel<
     } else if (settings.preserveViewport && this.currentBounds) {
       // if this isn't the first load and preserveViewport is enabled, fit to the current bounds.
       this.fitToBounds(this.currentBounds);
+    } else if (this.preserveViewportForQuery && this.queryBounds) {
+      this.fitToBounds(this.queryBounds);
+      this.preserveViewportForQuery = false;
+      this.queryBounds = null;
     } else {
       this.goHome();
     }

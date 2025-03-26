@@ -488,7 +488,8 @@
         "titleEnabled": true,
         "trimAttributionCount": 150,
         "visibilityRatio": 0.5,
-        "zoomToInitialAnnotation": true
+        "zoomToInitialAnnotation": true,
+        "preserveViewportForQuery": false
       },
       "content": {
         "attribution": "$attribution",
