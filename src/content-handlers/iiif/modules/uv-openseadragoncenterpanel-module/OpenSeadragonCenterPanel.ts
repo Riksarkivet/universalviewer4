@@ -81,7 +81,8 @@ export class OpenSeadragonCenterPanel extends CenterPanel<
       this.overlayAnnotations();
     });
 
-    this.preserveViewportForQuery = this.config.options.preserveViewportForQuery ?? false;
+    this.preserveViewportForQuery =
+      this.config.options.preserveViewportForQuery ?? false;
 
     this.extensionHost.subscribe(
       IIIFEvents.SETTINGS_CHANGE,
