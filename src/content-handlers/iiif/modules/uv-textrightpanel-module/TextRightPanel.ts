@@ -423,7 +423,7 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
       }
       if (lines.length > 0) {
         // Ensure the right text panel is expanded.
-        if(!this.isExpanded) {
+        if (!this.isExpanded) {
           this.toggle(true); // Expand the panel if it is not open already.
         }
         this.$transcribedText.append(lines);
