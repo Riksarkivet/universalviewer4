@@ -4,7 +4,7 @@ import { TextRightPanel as TextRightPanelConfig } from "../../BaseConfig";
 import { Events } from "../../../../Events";
 import OpenSeadragonExtension from "../../extensions/uv-openseadragon-extension/Extension";
 import OpenSeadragon from "openseadragon";
-import { Clipboard } from "@edsilv/utils";
+import { Bools, Clipboard } from "@edsilv/utils";
 import { IExternalImageResourceData } from "manifesto.js";
 import { OpenSeadragonCenterPanel } from "../../modules/uv-openseadragoncenterpanel-module/OpenSeadragonCenterPanel";
 import { Shell } from "../uv-shared-module/Shell";
@@ -35,6 +35,15 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
     this.setConfig("textRightPanel");
 
     super.create();
+
+    const shouldOpenPanel: boolean = Bools.getBool(
+      this.extension.getSettings().textRightPanelOpen,
+      this.options.panelOpen
+    );
+
+    if (shouldOpenPanel) {
+      this.toggle(true);
+    }
 
     if (
       this.config.options.copyToClipboardEnabled &&
