@@ -33,7 +33,7 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
 
   create(): void {
     this.setConfig("textRightPanel");
-    
+
     super.create();
 
     const shouldOpenPanel: boolean = Bools.getBool(
