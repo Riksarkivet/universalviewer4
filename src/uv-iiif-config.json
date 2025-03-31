@@ -76,7 +76,8 @@
     "textRightPanel": {
       "options": {
         "panelExpandedWidth": 270,
-        "copyToClipboardEnabled": true
+        "copyToClipboardEnabled": true,
+        "panelOpen": true
       }
     },
     "moreInfoRightPanel": {
