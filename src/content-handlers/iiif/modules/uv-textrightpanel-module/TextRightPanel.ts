@@ -447,7 +447,11 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
         );
       }
 
-      if (this.$transcribedText[0]?.firstElementChild?.firstChild?.toString().trim()) {
+      if (
+        this.$transcribedText[0]?.firstElementChild?.firstChild
+          ?.toString()
+          .trim()
+      ) {
         this.$spinner.hide();
       }
 
