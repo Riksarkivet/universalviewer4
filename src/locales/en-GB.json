@@ -173,5 +173,6 @@
   "$currentDocumentAsText": "Current volume as text",
   "$xml": "xml",
   "$text": "text",
-  "$zip": "zip"
+  "$zip": "zip",
+  "$imageSelectionLabel": "Select page/image"
 }

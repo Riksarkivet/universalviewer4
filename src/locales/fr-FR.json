@@ -159,5 +159,6 @@
   "$search": "Recherche",
   "$expandSearch": "Expand Search",
   "$collapseSearch": "Collapse Search",
-  "$searchHitOf": "{0} de {1}"
+  "$searchHitOf": "{0} de {1}",
+  "$imageSelectionLabel": "Choisissez une page/une image"
 }

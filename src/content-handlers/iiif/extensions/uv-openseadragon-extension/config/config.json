@@ -449,7 +449,8 @@
         "previousImage": "$previousImage",
         "previousPage": "$previousPage",
         "settings": "$settings",
-        "twoUp": "$twoPageView"
+        "twoUp": "$twoPageView",
+        "imageSelectionLabel": "$imageSelectionLabel"
       }
     },
     "centerPanel": {

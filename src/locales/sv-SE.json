@@ -172,5 +172,6 @@
   "$currentDocumentAsText": "Aktuellt objekt som text",
   "$xml": "xml",
   "$text": "text",
-  "$zip": "zip"
+  "$zip": "zip",
+  "$imageSelectionLabel": "Välj sida/bild"
 }

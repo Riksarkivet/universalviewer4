@@ -234,7 +234,7 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
     this.$searchContainer.append(this.$searchOptions);
 
     this.$searchLabel = $(
-      '<label class="label" for="searchWithinInput">' +
+      '<label class="label" for="searchLeftPanelInput">' +
         this.content.searchWithin +
         "</label>"
     );
@@ -244,7 +244,7 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
     this.$searchOptions.append(this.$searchTextContainer);
 
     this.$searchText = $(
-      '<input class="searchText" id="searchWithinInput" autocomplete="off" type="text" maxlength="100" placeholder="' +
+      '<input class="searchText" id="searchLeftPanelInput" autocomplete="off" type="text" maxlength="100" placeholder="' +
         this.content.enterKeyword +
         '" value="" aria-label="' +
         this.content.searchWithin +
