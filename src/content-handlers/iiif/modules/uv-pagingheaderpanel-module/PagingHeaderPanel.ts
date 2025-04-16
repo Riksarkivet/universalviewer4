@@ -184,7 +184,10 @@ export class PagingHeaderPanel extends HeaderPanel<
       this.$imageSelectionBox = $(
         '<select class="image-selectionbox" name="image-select" tabindex="0"></select>'
       );
-      this.$imageSelectionBox.attr("aria-label", this.content.imageSelectionLabel);
+      this.$imageSelectionBox.attr(
+        "aria-label",
+        this.content.imageSelectionLabel
+      );
       this.$selectionBoxOptions.append(this.$imageSelectionBox);
 
       for (
