@@ -88,6 +88,26 @@
           }
         }
       }
+
+      .spinner {
+        width: 23px;
+        height: 23px;
+        position: relative;
+        left: 120px;
+        border-radius: 50%;
+        border-top-color: transparent;
+        border-left-color: transparent;
+        border-right-color: transparent;
+        box-shadow: 1px 2px 0px @gray-light;
+        animation: cssload-spin 690ms infinite linear;
+          -o-animation: cssload-spin 690ms infinite linear;
+          -ms-animation: cssload-spin 690ms infinite linear;
+          -webkit-animation: cssload-spin 690ms infinite linear;
+          -moz-animation: cssload-spin 690ms infinite linear;
+      }
+      @keyframes cssload-spin {
+        100%{ transform: rotate(360deg); transform: rotate(360deg); }
+      }
     }
   }
 }

@@ -13,6 +13,7 @@ import { OpenSeadragonExtensionEvents } from "../../extensions/uv-openseadragon-
 
 export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
   $transcribedText: JQuery;
+  $spinner: JQuery;
   $existingAnnotation: JQuery = $();
   $copyButton: JQuery;
   $copiedText: JQuery;
@@ -326,6 +327,13 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
 
   // Let's load the ALTO file and do some parsing
   processAltoFile = async (altoUrl, canvasIndex, header?): Promise<void> => {
+    this.$spinner = $('<div class="spinner"></div>');
+    this.$spinner.css(
+      "top",
+      this.$main.height() / 2 - this.$spinner.height() / 2
+    );
+    this.$main.append(this.$spinner);
+    this.$spinner.show();
     try {
       const response = await fetch(altoUrl);
       const data = await response.text();
@@ -437,6 +445,14 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
         this.$transcribedText.append(
           $("<div>" + this.content.textNotFound + "</div>")
         );
+      }
+
+      if (
+        this.$transcribedText[0]?.firstElementChild?.firstChild
+          ?.toString()
+          .trim()
+      ) {
+        this.$spinner.hide();
       }
 
       this.$main.append(this.$transcribedText);
