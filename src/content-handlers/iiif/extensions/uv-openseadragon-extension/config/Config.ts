@@ -91,6 +91,7 @@ type PagingHeaderPanelContent = HeaderPanelContent & {
   previousImage: string;
   previousPage: string;
   twoUp: string;
+  imageSelectionLabel: string;
 };
 
 type PagingHeaderPanel = ModuleConfig & {

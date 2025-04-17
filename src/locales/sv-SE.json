@@ -102,6 +102,7 @@
   "$zoomOut": "Zooma ut",
   "$adjustImage": "Justera bild",
   "$clearSearch": "Rensa sökning",
+  "$doSearch": "Sök",
   "$displaying_A_of_B": "{0} {1} av {2}",
   "$enterKeyword": "Ange sökord",
   "$imageLowercase": "bild",
@@ -172,5 +173,6 @@
   "$currentDocumentAsText": "Aktuellt objekt som text",
   "$xml": "xml",
   "$text": "text",
-  "$zip": "zip"
+  "$zip": "zip",
+  "$imageSelectionLabel": "Välj sida/bild"
 }
