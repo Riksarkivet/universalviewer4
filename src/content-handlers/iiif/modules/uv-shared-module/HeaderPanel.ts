@@ -224,5 +224,11 @@ export class HeaderPanel<
     } else {
       if (this.localeToggleIsVisible()) this.$localeToggleButton.show();
     }
+
+    if (this.extension.isSmMetric()) {
+      this.$settingsButton.hide();
+    } else {
+      this.$settingsButton.show();
+    }
   }
 }

@@ -65,6 +65,7 @@ export interface IExtension {
   isTextRightPanelEnabled(): boolean;
   isSeeAlsoEnabled(): boolean;
   isMobileMetric(): boolean;
+  isSmMetric(): boolean;
   lastCanvasIndex: number;
   locales: LocaleRegistry;
   metric: MetricType;

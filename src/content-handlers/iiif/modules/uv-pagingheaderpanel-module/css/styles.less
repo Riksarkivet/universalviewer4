@@ -7,9 +7,15 @@
         color: @text-secondary-color;
 
         .options {
-            background-image: url('../img/logo.svg');
-            background-repeat: no-repeat;
-            background-size: contain;
+            .sm-mediaquery ({
+                background-image: none;
+            });
+
+            .md-mediaquery ({
+                background-image: url('../img/logo.svg');
+                background-repeat: no-repeat;
+                background-size: contain;
+            });
         }
 
         button.btn.imageBtn {
