@@ -16,9 +16,15 @@
     });
 
     .mainPanel {
-        .leftPanel {
-            .only-desktop();
-        }
+        .xl-mediaquery({
+            .leftPanel {
+                display: block;
+                visibility: visible;
+            }
+            .leftPanel.searchLeftPanel {
+                .only-desktop();
+            }
+        });
 
         .rightPanel {
             .only-desktop();

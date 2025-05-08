@@ -17,4 +17,16 @@
             visibility: visible;
         }
     });
+
+    .mainPanel {
+        .md-mediaquery({
+            .leftPanel {
+                display: block;
+                visibility: visible;
+            }
+            .leftPanel.searchLeftPanel {
+                .only-desktop();
+            }
+        });
+    }
 }
