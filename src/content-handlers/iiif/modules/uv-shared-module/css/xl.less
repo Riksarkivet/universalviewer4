@@ -8,28 +8,28 @@
         }
     }
 
-        .xl-mediaquery({
-            .headerPanel {
-                display: block;
-                visibility: visible;
-            }
-        });
-
-        .mainPanel {
-            .leftPanel {
-                .only-desktop();
-            }
-
-            .rightPanel {
-                .only-desktop();
-            }
+    .xl-mediaquery({
+        .headerPanel {
+            display: block;
+            visibility: visible;
         }
+    });
 
-        .footerPanel {
+    .mainPanel {
+        .leftPanel {
             .only-desktop();
         }
 
-        .mobileFooterPanel {
-            .only-mobile();
+        .rightPanel {
+            .only-desktop();
         }
+    }
+
+    .footerPanel {
+        .only-desktop();
+    }
+
+    .mobileFooterPanel {
+        .only-mobile();
+    }
 }
