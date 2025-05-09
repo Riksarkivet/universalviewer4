@@ -90,20 +90,23 @@ export class SettingsDialogue extends BaseSettingsDialogue {
       });
     }
 
-    this.$clickToZoomEnabled = $('<div class="setting clickToZoom"></div>');
-    this.$scroll.append(this.$clickToZoomEnabled);
+    if (config.options.showclickToZoomSetting) {
 
-    this.$clickToZoomEnabledCheckbox = $(
-      '<input id="clickToZoomEnabled" type="checkbox" />'
-    );
-    this.$clickToZoomEnabled.append(this.$clickToZoomEnabledCheckbox);
+      this.$clickToZoomEnabled = $('<div class="setting clickToZoom"></div>');
+      this.$scroll.append(this.$clickToZoomEnabled);
 
-    this.$clickToZoomEnabledLabel = $(
-      '<label for="clickToZoomEnabled">' +
-        this.content.clickToZoomEnabled +
-        "</label>"
-    );
-    this.$clickToZoomEnabled.append(this.$clickToZoomEnabledLabel);
+      this.$clickToZoomEnabledCheckbox = $(
+        '<input id="clickToZoomEnabled" type="checkbox" />'
+      );
+      this.$clickToZoomEnabled.append(this.$clickToZoomEnabledCheckbox);
+
+      this.$clickToZoomEnabledLabel = $(
+        '<label for="clickToZoomEnabled">' +
+          this.content.clickToZoomEnabled +
+          "</label>"
+      );
+      this.$clickToZoomEnabled.append(this.$clickToZoomEnabledLabel);
+    }
 
     this.$preserveViewport = $('<div class="setting preserveViewport"></div>');
     this.$scroll.append(this.$preserveViewport);
@@ -132,17 +135,19 @@ export class SettingsDialogue extends BaseSettingsDialogue {
       this.updateSettings(settings);
     });
 
-    this.$clickToZoomEnabledCheckbox.change(() => {
-      const settings: ISettings = {};
+    if (config.options.showclickToZoomSetting) {
+      this.$clickToZoomEnabledCheckbox.change(() => {
+        const settings: ISettings = {};
 
-      if (this.$clickToZoomEnabledCheckbox.is(":checked")) {
-        settings.clickToZoomEnabled = true;
-      } else {
-        settings.clickToZoomEnabled = false;
-      }
+        if (this.$clickToZoomEnabledCheckbox.is(":checked")) {
+          settings.clickToZoomEnabled = true;
+        } else {
+          settings.clickToZoomEnabled = false;
+        }
 
-      this.updateSettings(settings);
-    });
+        this.updateSettings(settings);
+      });
+    }
 
     this.$pagingEnabledCheckbox.change(() => {
       const settings: ISettings = {};
@@ -180,10 +185,12 @@ export class SettingsDialogue extends BaseSettingsDialogue {
       this.$navigatorEnabledCheckbox.removeAttr("checked");
     }
 
-    if (settings.clickToZoomEnabled) {
-      this.$clickToZoomEnabledCheckbox.prop("checked", true);
-    } else {
-      this.$clickToZoomEnabledCheckbox.removeAttr("checked");
+    if (config.options.showclickToZoomSetting) {
+      if (settings.clickToZoomEnabled) {
+        this.$clickToZoomEnabledCheckbox.prop("checked", true);
+      } else {
+        this.$clickToZoomEnabledCheckbox.removeAttr("checked");
+      }
     }
 
     if (!this.extension.helper.isPagingAvailable()) {
