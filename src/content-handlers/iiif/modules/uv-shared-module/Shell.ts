@@ -63,7 +63,7 @@ export class Shell extends BaseView<BaseConfig> {
     this.$leftPanel = $('<div class="leftPanel"></div>');
     this.$leftContainerPanel.append(this.$leftPanel);
 
-    this.$searchLeftPanel = $('<div class="leftPanel"></div>');
+    this.$searchLeftPanel = $('<div class="leftPanel searchLeftPanel"></div>');
     this.$leftContainerPanel.append(this.$searchLeftPanel);
 
     this.$rightContainerPanel = $('<div class="rightContainerPanel"></div>');
