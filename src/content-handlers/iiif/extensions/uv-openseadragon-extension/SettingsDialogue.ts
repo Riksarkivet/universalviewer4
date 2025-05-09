@@ -91,7 +91,6 @@ export class SettingsDialogue extends BaseSettingsDialogue {
     }
 
     if (config.options.showclickToZoomSetting) {
-
       this.$clickToZoomEnabled = $('<div class="setting clickToZoom"></div>');
       this.$scroll.append(this.$clickToZoomEnabled);
 
