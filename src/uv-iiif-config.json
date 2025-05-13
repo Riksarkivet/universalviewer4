@@ -40,6 +40,11 @@
         }
       }
     },
+    "settingsDialogue": {
+      "options": {
+        "showClickToZoomSetting": true
+      }
+    },
     "headerPanel": {
       "options": {
         "localeToggleEnabled": false

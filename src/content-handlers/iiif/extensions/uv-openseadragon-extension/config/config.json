@@ -39,7 +39,6 @@
     "rightPanelEnabled": true,
     "saveUserSettings": false,
     "clickToZoomEnabled": true,
-    "showclickToZoomSetting": false,
     "truncateThumbnailLabels": true,
     "searchWithinEnabled": true,
     "seeAlsoEnabled": false,
@@ -558,7 +557,8 @@
     },
     "settingsDialogue": {
       "options": {
-        "topCloseButtonEnabled": false
+        "topCloseButtonEnabled": false,
+        "showClickToZoomSetting": true
       },
       "content": {
         "close": "$close",

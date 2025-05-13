@@ -90,7 +90,7 @@ export class SettingsDialogue extends BaseSettingsDialogue {
       });
     }
 
-    if (config.options.showclickToZoomSetting) {
+    if (this.config.options.showClickToZoomSetting) {
       this.$clickToZoomEnabled = $('<div class="setting clickToZoom"></div>');
       this.$scroll.append(this.$clickToZoomEnabled);
 
@@ -134,7 +134,7 @@ export class SettingsDialogue extends BaseSettingsDialogue {
       this.updateSettings(settings);
     });
 
-    if (config.options.showclickToZoomSetting) {
+    if (this.config.options.showClickToZoomSetting) {
       this.$clickToZoomEnabledCheckbox.change(() => {
         const settings: ISettings = {};
 
@@ -184,7 +184,7 @@ export class SettingsDialogue extends BaseSettingsDialogue {
       this.$navigatorEnabledCheckbox.removeAttr("checked");
     }
 
-    if (config.options.showclickToZoomSetting) {
+    if (this.config.options.showClickToZoomSetting) {
       if (settings.clickToZoomEnabled) {
         this.$clickToZoomEnabledCheckbox.prop("checked", true);
       } else {
