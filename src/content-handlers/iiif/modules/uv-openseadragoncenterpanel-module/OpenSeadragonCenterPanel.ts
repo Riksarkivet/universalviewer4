@@ -190,11 +190,15 @@ export class OpenSeadragonCenterPanel extends CenterPanel<
   }
 
   zoomIn(): void {
-    this.viewer.viewport.zoomTo(this.viewer.viewport.getZoom(true) * this.config.options.zoomFactor);
+    this.viewer.viewport.zoomTo(
+      this.viewer.viewport.getZoom(true) * this.config.options.zoomFactor
+    );
   }
 
   zoomOut(): void {
-    this.viewer.viewport.zoomTo(this.viewer.viewport.getZoom(true) * (1/this.config.options.zoomFactor));
+    this.viewer.viewport.zoomTo(
+      this.viewer.viewport.getZoom(true) * (1 / this.config.options.zoomFactor)
+    );
   }
 
   rotateRight(): void {
