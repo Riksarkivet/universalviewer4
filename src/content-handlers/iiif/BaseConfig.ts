@@ -300,7 +300,9 @@ type Dialogue = ModuleConfig & {
   content: DialogueContent;
 };
 
-export type SettingsDialogueOptions = DialogueOptions & {};
+export type SettingsDialogueOptions = DialogueOptions & {
+  showClickToZoomSetting: boolean;
+};
 
 export type SettingsDialogueContent = DialogueContent & {
   locale: string;

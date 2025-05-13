@@ -322,7 +322,8 @@
     },
     "settingsDialogue": {
       "options": {
-        "topCloseButtonEnabled": false
+        "topCloseButtonEnabled": false,
+        "showClickToZoomSetting": true
       },
       "content": {
         "close": "$close",
