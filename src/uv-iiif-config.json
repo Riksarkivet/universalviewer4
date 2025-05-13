@@ -42,7 +42,7 @@
     },
     "settingsDialogue": {
       "options": {
-        "showClickToZoomSetting": true
+        "showClickToZoomSetting": false
       }
     },
     "headerPanel": {
