@@ -61,7 +61,7 @@
         "showHomeControl": true,
         "showAdjustImageControl": true,
         "preserveViewportForQuery": true,
-        "zoomFactor": 1.2
+        "zoomFactor": 1.1
       }
     },
     "mediaElementCenterPanel": {
