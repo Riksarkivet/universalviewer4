@@ -140,6 +140,8 @@ type OpenSeadragonCenterPanelOptions = CenterPanelOptions & {
   zoomToInitialAnnotation: boolean;
   /** Whether to preserve the viewport if we have a search query (q=xxxx) */
   preserveViewportForQuery: boolean;
+  /** Zoom factor used for the zoom buttons */
+  zoomFactor: number;
 };
 
 type OpenSeadragonCenterPanelContent = CenterPanelContent & {
