@@ -39,7 +39,6 @@ export default class ModelViewerExtension extends BaseExtension<Config> {
   >;
   leftPanel: ContentLeftPanel;
   mobileFooterPanel: FooterPanel<Config["modules"]["footerPanel"]>;
-  moreInfoDialogue: MoreInfoDialogue;
   rightContainerPanel: RightContainerPanel<
     Config["modules"]["rightContainerPanel"]
   >;

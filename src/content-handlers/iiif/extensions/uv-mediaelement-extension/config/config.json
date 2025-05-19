@@ -465,6 +465,10 @@
         "fullScreen": "$fullScreen",
         "open": "$open",
         "share": "$share",
+        "openLeftPanel": "$openLeftPanel",
+        "closeLeftPanel": "$closeLeftPanel",
+        "openRightPanel": "$openRightPanel",
+        "closeRightPanel": "$closeRightPanel",
         "print": "$print"
       }
     },
