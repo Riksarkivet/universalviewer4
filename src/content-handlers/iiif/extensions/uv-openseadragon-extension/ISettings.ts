@@ -13,4 +13,5 @@ interface ISettings {
   saturationPercent?: number;
   rememberSettings?: boolean;
   useRiksarkivetLegacyURLs?: boolean;
+  animationDuration?: number;
 }

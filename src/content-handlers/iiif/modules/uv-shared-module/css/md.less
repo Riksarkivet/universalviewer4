@@ -16,17 +16,32 @@
             display: block;
             visibility: visible;
         }
-    });
 
-    .mainPanel {
-        .md-mediaquery({
+        .mainPanel {
             .leftPanel {
                 display: block;
                 visibility: visible;
             }
+
             .leftPanel.searchLeftPanel {
                 .only-desktop();
             }
-        });
-    }
+
+            .rightPanel {
+                display: block;
+                visibility: visible;
+            }
+        }
+
+        .footerPanel {
+            display: block;
+            visibility: visible;
+        }
+
+        .mobileFooterPanel {
+            display: none;
+            visibility: hidden;
+        }
+    })
+
 }

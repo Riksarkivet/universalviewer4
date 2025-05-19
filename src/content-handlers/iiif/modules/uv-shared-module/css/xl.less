@@ -13,29 +13,31 @@
             display: block;
             visibility: visible;
         }
-    });
 
-    .mainPanel {
-        .xl-mediaquery({
+        .mainPanel {
             .leftPanel {
                 display: block;
                 visibility: visible;
             }
+
             .leftPanel.searchLeftPanel {
                 .only-desktop();
             }
-        });
 
-        .rightPanel {
-            .only-desktop();
+            .rightPanel {
+                display: block;
+                visibility: visible;
+            }
         }
-    }
 
-    .footerPanel {
-        .only-desktop();
-    }
+        .footerPanel {
+            display: block;
+            visibility: visible;
+        }
 
-    .mobileFooterPanel {
-        .only-mobile();
-    }
+        .mobileFooterPanel {
+            display: none;
+            visibility: hidden;
+        }
+    })
 }
