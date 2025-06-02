@@ -22,8 +22,7 @@ export class LeftPanel<
       this.options.panelOpen && !this.extension.isMetric("sm")
     );
 
-    if (this.extension.isSmMetric())
-      shouldOpenPanel = false;
+    if (this.extension.isSmMetric()) shouldOpenPanel = false;
 
     if (shouldOpenPanel) {
       this.toggle(true);
@@ -87,12 +86,14 @@ export class LeftPanel<
       if (this.$element.hasClass("searchLeftPanel")) {
         document.documentElement.style.setProperty(
           "--uv-grid-search-left-width-open",
-          `${panelWidth}px`);
+          `${panelWidth}px`
+        );
         this.$element.parent().addClass("searchLeftPanelOpen");
       } else {
         document.documentElement.style.setProperty(
           "--uv-grid-left-width-open",
-          `${panelWidth}px`);
+          `${panelWidth}px`
+        );
         this.$element.parent().addClass("leftPanelOpen");
       }
     }

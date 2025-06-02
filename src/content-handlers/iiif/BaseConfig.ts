@@ -12,7 +12,7 @@ export class Metric {
   constructor(
     public type: MetricType,
     public minWidth: number
-  ) { }
+  ) {}
 }
 
 export type Options = {
