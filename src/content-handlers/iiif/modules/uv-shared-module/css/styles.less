@@ -1,22 +1,22 @@
-﻿@import 'variables';
-@import 'mixins';
-@import 'mixins-extended';
-@import 'icons';
-@import 'scaffolding';
-@import 'buttons';
-@import 'range';
-@import 'button-groups';
-@import 'header-panel';
-@import 'left-panel';
-@import 'right-panel';
-@import 'center-panel';
-@import 'footer-panel';
-@import 'overlays';
-@import 'catch-all';
-@import 'sm';
-@import 'md';
-@import 'lg';
-@import 'xl';
+﻿@import "variables";
+@import "mixins";
+@import "mixins-extended";
+@import "icons";
+@import "scaffolding";
+@import "buttons";
+@import "range";
+@import "button-groups";
+@import "header-panel";
+@import "left-panel";
+@import "right-panel";
+@import "center-panel";
+@import "footer-panel";
+@import "overlays";
+@import "catch-all";
+@import "sm";
+@import "md";
+@import "lg";
+@import "xl";
 
 :root {
     --uv-grid-left-width-open: 271px;
@@ -34,70 +34,71 @@
 }
 
 .hidden {
-    .hidden();
+  .hidden();
 }
 
 .uv {
+  // background-color: @body-bg;
+  position: relative;
 
-    // background-color: @body-bg;
-    position: relative;
+  // Common styles
+  .btn-default,
+  .btn-primary,
+  .btn-success,
+  .btn-info,
+  .btn-warning,
+  .btn-danger {
+    .border-radius(0);
+  }
 
-    // Common styles
-    .btn-default,
-    .btn-primary,
-    .btn-success,
-    .btn-info,
-    .btn-warning,
-    .btn-danger {
-        .border-radius(0);
+  // A button that should not have the browser default characteristics
+  .imageBtn {
+    background: 0 0;
+    border: 0;
+    cursor: pointer;
+  }
+
+  .action,
+  a.action.black,
+  input.action {
+    display: inline-block;
+    background-image: data-uri("../img/sprite.png");
+    background-position-x: 0;
+    background-position-y: -1000px;
+    background-repeat: no-repeat;
+    text-transform: none;
+    padding: 0 0 0 16px;
+    font-weight: bold;
+  }
+
+  #debug {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+
+    #sm {
+      display: none;
     }
 
-    // A button that should not have the browser default characteristics
-    .imageBtn {
-        background: 0 0;
-        border: 0;
-        cursor: pointer;
+    #md {
+      display: none;
     }
 
-    .action, a.action.black, input.action {
-        display: inline-block;
-        background-image: data-uri('../img/sprite.png');
-        background-position-x: 0;
-        background-position-y: -1000px;
-        background-repeat: no-repeat;
-        text-transform: none;
-        padding: 0 0 0 16px;
-        font-weight: bold;
+    #lg {
+      display: none;
     }
 
-    #debug {
-        display: none;
-        position: fixed;
-        z-index: 1000;
-
-        #sm {
-            display: none;
-        }
-
-        #md {
-            display: none;
-        }
-
-        #lg {
-            display: none;
-        }
-
-        #xl {
-            display: none;
-        }
+    #xl {
+      display: none;
     }
+  }
 
-    #commsFrame {
-        width: 1px;
-        height: 1px;
-        border: none;
-        display: none;
-    }
+  #commsFrame {
+    width: 1px;
+    height: 1px;
+    border: none;
+    display: none;
+  }
 
     .headerPanel {
         position: relative;
@@ -106,21 +107,21 @@
         font-size: @font-size-large;
     }
 
-    .mainPanel {
-        position: relative;
-        padding-top: @panel-margin;
-        margin-right: @panel-margin;
-        margin-bottom: 0px;
-        margin-left: @panel-margin;
-        background: @body-bg; // important, otherwise you see two spinners
-    }
+  .mainPanel {
+    position: relative;
+    padding-top: @panel-margin;
+    margin-right: @panel-margin;
+    margin-bottom: 0px;
+    margin-left: @panel-margin;
+    background: @body-bg; // important, otherwise you see two spinners
+  }
 
-    .mainPanel {
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
+  .mainPanel {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
 
-        .md-mediaquery({
+    .md-mediaquery({
             padding: 0.5rem;
             display: grid;
             grid-template-columns: 
@@ -137,7 +138,7 @@
             transition-duration: calc(var(--uv-animation) * var(--uv-animation-duration));
         });
 
-        /* hide empty panels */
+    /* hide empty panels */
 
         &:has(.leftPanel:empty) {
             --uv-grid-left-width: auto;
@@ -177,21 +178,23 @@
         --uv-grid-main-width: 0;
         --uv-grid-right-width: 0;
 
-        transition-property: grid-template-columns;
-        transition-timing-function: linear;
-        transition-duration: calc(var(--uv-animation) * var(--uv-animation-duration));
-    }
+    transition-property: grid-template-columns;
+    transition-timing-function: linear;
+    transition-duration: calc(
+      var(--uv-animation) * var(--uv-animation-duration)
+    );
+  }
 
-    .centerPanel {
-        position: absolute;
-        overflow: hidden;
-        width: 100%;
+  .centerPanel {
+    position: absolute;
+    overflow: hidden;
+    width: 100%;
 
-        .md-mediaquery({
+    .md-mediaquery({
             z-index: 15;
             grid-area: center;
         });
-    }
+  }
 
     .leftPanel, .rightPanel, .searchLeftPanel, .textRightPanel {
         position: absolute;
@@ -199,18 +202,20 @@
         border: @panel-border;
         font-size: @font-size-large;
 
-        overflow: hidden;
-        z-index: 20;
-        
-        transition-property: all;
-        transition-timing-function: linear;
-        transition-duration: calc(var(--uv-animation) * var(--uv-animation-duration));
+    overflow: hidden;
+    z-index: 20;
 
-        position: absolute;
-        top: calc(5em + 8px);
-        right: 0;
-        bottom: 2em;
-        left: 0;
+    transition-property: all;
+    transition-timing-function: linear;
+    transition-duration: calc(
+      var(--uv-animation) * var(--uv-animation-duration)
+    );
+
+    position: absolute;
+    top: calc(5em + 8px);
+    right: 0;
+    bottom: 2em;
+    left: 0;
 
         width: 100%;
         height: auto;
@@ -232,43 +237,42 @@
             height: auto;
         });
 
-        // by default top and main are shown, as on mobile the panel is transformed to off-screen
-        // but on md they're hidden, just in case
-        .top,
-        .main {
-            display: block;
+    // by default top and main are shown, as on mobile the panel is transformed to off-screen
+    // but on md they're hidden, just in case
+    .top,
+    .main {
+      display: block;
 
-            .md-mediaquery({
+      .md-mediaquery({
                 display: none;
             });
-        }
+    }
 
-        // by default closed is hidden unless on md and up
-        // when it serves as a tab to click
-        .closed {
-            display: none;
+    // by default closed is hidden unless on md and up
+    // when it serves as a tab to click
+    .closed {
+      display: none;
 
-            .md-mediaquery({
+      .md-mediaquery({
                 display: block;
             });
-        }
+    }
 
-        // open-finished hides the .closed tab on md+
-        &.open-finished {
-            
-            .closed {
-                display: none;
+    // open-finished hides the .closed tab on md+
+    &.open-finished {
+      .closed {
+        display: none;
 
-                .md-mediaquery({
+        .md-mediaquery({
                     display: none;
                 });
-            }
-        }
+      }
+    }
 
-        // only when the container has open & open-finished can top and main display on md+
-        // this prevents the content getting squished when the panels contract when the grid changes
-        &.open.open-finished {
-            .md-mediaquery({
+    // only when the container has open & open-finished can top and main display on md+
+    // this prevents the content getting squished when the panels contract when the grid changes
+    &.open.open-finished {
+      .md-mediaquery({
                 .top,
                 .main {
                     display: block;
@@ -277,19 +281,19 @@
                     display: none;
                 }
             });
-        }
     }
+  }
 
     .leftPanel, .searchLeftPanel {
         right: auto;
         left: 0;
         transform: translateX(-100%);
 
-        .md-mediaquery({
+    .md-mediaquery({
             grid-area: left;
             transform: none;
         });
-    }
+  }
 
     .searchLeftPanel {
         .md-mediaquery({
@@ -302,13 +306,13 @@
         transform: none;
         width: min(95%, 25rem);
 
-        .md-mediaquery({
+    .md-mediaquery({
             transition-property: none;
             left: initial;
             right: initial;
             width: auto;
         });
-    }
+  }
 
     .rightPanel, .textRightPanel {
         right: 0;
@@ -319,7 +323,7 @@
             grid-area: right;
             transform: none;
         });
-    }
+  }
 
     .textRightPanel {
         .md-mediaquery({
@@ -331,29 +335,28 @@
         transform: none;
         width: min(95%, 30rem);
 
-        .md-mediaquery({
+    .md-mediaquery({
             transition-property: none;
             left: initial;
             right: initial;
             width: auto;
         });
-    }
+  }
 
-    .footerPanel {
-        position: relative;
-        margin-top: 0;
-        margin-right: @panel-margin;
-        margin-bottom: 0px;
-        margin-left: @panel-margin;
-    }
+  .footerPanel {
+    position: relative;
+    margin-top: 0;
+    margin-right: @panel-margin;
+    margin-bottom: 0px;
+    margin-left: @panel-margin;
+  }
 }
 
 @media print {
-   .uv {
-
-       .headerPanel {
-           display: none;
-       }
+  .uv {
+    .headerPanel {
+      display: none;
+    }
 
        .leftPanel {
            display: none;
@@ -371,13 +374,12 @@
            display: none;
        }
 
-       .footerPanel {
-           display: none;
-       }
+    .footerPanel {
+      display: none;
+    }
 
-       .mobileFooterPanel {
-            display: none;
-        }
-   }
+    .mobileFooterPanel {
+      display: none;
+    }
+  }
 }
-

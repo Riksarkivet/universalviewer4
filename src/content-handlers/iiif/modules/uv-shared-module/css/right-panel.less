@@ -1,77 +1,76 @@
 .uv {
-
-    @expandFullEnabled: false;
+  @expandFullEnabled: false;
 
     .rightPanel, .textRightPanel {
         display: inline-block;
         z-index: 10;
 
-        .top {
-            height: 35px;
-            position: relative;
+    .top {
+      height: 35px;
+      position: relative;
 
-            .title {
-                position: absolute;
-                height: 20px;
-                margin-top: 9px;
-                font-size: inherit;
-                font-weight: normal;
-                cursor: pointer;
-                left: 35px;
-                letter-spacing: 0.08rem;
-            }
+      .title {
+        position: absolute;
+        height: 20px;
+        margin-top: 9px;
+        font-size: inherit;
+        font-weight: normal;
+        cursor: pointer;
+        left: 35px;
+        letter-spacing: 0.08rem;
+      }
 
-            .collapseButton {
-                position: absolute;
-                background-image: data-uri('../img/arrows_right.png');
-                background-repeat: no-repeat;
-                width: 20px;
-                height: 20px;
-                cursor: pointer;
-                margin-top: 7px;
-                display: block;
-                left: 5px;
-            }
+      .collapseButton {
+        position: absolute;
+        background-image: data-uri("../img/arrows_right.png");
+        background-repeat: no-repeat;
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+        margin-top: 7px;
+        display: block;
+        left: 5px;
+      }
 
-            .expandFullButton {
-                position: absolute;
-                background-image: data-uri('../img/arrows_left.png');
-                background-repeat: no-repeat;
-                width: 20px;
-                height: 20px;
-                cursor: pointer;
-                margin-top: 7px;
-                display: none;
-                left: 5px;
-            }
+      .expandFullButton {
+        position: absolute;
+        background-image: data-uri("../img/arrows_left.png");
+        background-repeat: no-repeat;
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+        margin-top: 7px;
+        display: none;
+        left: 5px;
+      }
 
-            .expandFull();
-        }
+      .expandFull();
+    }
 
-        .closed {
-            width: 25px;
+    .closed {
+      width: 25px;
 
-            .title {
-                .link-color-decoration(@text-color, none);
-                white-space: nowrap;
-                display: block;
-                margin: 8px 3px 0 5px;
-                cursor: pointer;
-                text-transform: uppercase;
-                .rotate(90deg);
-                letter-spacing: 0.08rem;
-            }
+      .title {
+        .link-color-decoration(@text-color, none);
+        white-space: nowrap;
+        display: block;
+        margin: 8px 3px 0 5px;
+        cursor: pointer;
+        text-transform: uppercase;
+        .rotate(90deg);
+        letter-spacing: 0.08rem;
+      }
 
-            .expandButton {
-                background-image: data-uri('../img/arrows_left.png');
-                background-repeat: no-repeat;
-                width: 20px;
-                height: 20px;
-                cursor: pointer;
-                margin: 7px 0 0 5px;
-                display: block;
-            }
-        }
+      .expandButton {
+        background-image: data-uri("../img/arrows_left.png");
+        background-repeat: no-repeat;
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+        margin: 7px 0 0 5px;
+        display: block;
+      }
+    }
 
         .main {
             margin-right: @margin-medium-horizontal;
@@ -79,17 +78,17 @@
         }
     }
 
-    .expandFull() when (@expandFullEnabled =true) {
-        .title {
-            left: 55px;
-        }
-
-        .collapseButton {
-            left: 30px;
-        }
-
-        .expandFullButton {
-            display: block;
-        }
+  .expandFull() when (@expandFullEnabled =true) {
+    .title {
+      left: 55px;
     }
+
+    .collapseButton {
+      left: 30px;
+    }
+
+    .expandFullButton {
+      display: block;
+    }
+  }
 }
