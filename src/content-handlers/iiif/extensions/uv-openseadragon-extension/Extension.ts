@@ -357,10 +357,16 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
         this.helper.getCurrentCanvas()
       );
 
-      let getNextCanvas = this.helper.getCanvasByIndex(this.helper.getCurrentSequence().getNextPageIndex(this.helper.getCurrentCanvas().index));
-      let isRangeNextCanvas = this.helper.getCanvasRange(getNextCanvas)?.isRange();
+      let getNextCanvas = this.helper.getCanvasByIndex(
+        this.helper
+          .getCurrentSequence()
+          .getNextPageIndex(this.helper.getCurrentCanvas().index)
+      );
+      let isRangeNextCanvas = this.helper
+        .getCanvasRange(getNextCanvas)
+        ?.isRange();
       let hasPrevRangeItems = this.helper.getPreviousRange()?.items.length;
- 
+
       if (range === undefined && isRangeNextCanvas) {
         range = this.helper.getPreviousRange();
         this.extensionHost.publish(IIIFEvents.RANGE_CHANGE, range);
