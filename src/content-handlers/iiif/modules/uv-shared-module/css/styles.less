@@ -19,18 +19,18 @@
 @import "xl";
 
 :root {
-    --uv-grid-left-width-open: 271px;
-    --uv-grid-search-left-width-open: 271px;
-    --uv-grid-right-width-open: 271px;
-    --uv-grid-text-right-width-open: 271px;
+  --uv-grid-left-width-open: 271px;
+  --uv-grid-search-left-width-open: 271px;
+  --uv-grid-right-width-open: 271px;
+  --uv-grid-text-right-width-open: 271px;
 
-    --uv-grid-left-width: 30px;
-    --uv-grid-search-left-width: 30px;
-    --uv-grid-main-width: minmax(0, 1fr);
-    --uv-grid-right-width: 30px;
-    --uv-grid-text-right-width: 30px;
+  --uv-grid-left-width: 30px;
+  --uv-grid-search-left-width: 30px;
+  --uv-grid-main-width: minmax(0, 1fr);
+  --uv-grid-right-width: 30px;
+  --uv-grid-text-right-width: 30px;
 
-    --uv-panel-width-closed: 30px;
+  --uv-panel-width-closed: 30px;
 }
 
 .hidden {
@@ -100,12 +100,12 @@
     display: none;
   }
 
-    .headerPanel {
-        position: relative;
-        color: #fff;
-        height: 40px;
-        font-size: @font-size-large;
-    }
+  .headerPanel {
+    position: relative;
+    color: #fff;
+    height: 40px;
+    font-size: @font-size-large;
+  }
 
   .mainPanel {
     position: relative;
@@ -140,43 +140,43 @@
 
     /* hide empty panels */
 
-        &:has(.leftPanel:empty) {
-            --uv-grid-left-width: auto;
-        }
-
-        &:has(.searchLeftPanel:empty) {
-            --uv-grid-search-left-width: auto;
-        }
-        
-        &:has(.rightPanel:empty) {
-            --uv-grid-right-width: auto;
-        }
-
-        &:has(.textRightPanel:empty) {
-            --uv-grid-text-right-width: auto;
-        }
+    &:has(.leftPanel:empty) {
+      --uv-grid-left-width: auto;
     }
 
-    .mainPanel.leftPanelOpen {
-        --uv-grid-left-width: var(--uv-grid-left-width-open);
+    &:has(.searchLeftPanel:empty) {
+      --uv-grid-search-left-width: auto;
     }
 
-    .mainPanel.searchLeftPanelOpen {
-        --uv-grid-search-left-width: var(--uv-grid-search-left-width-open);
+    &:has(.rightPanel:empty) {
+      --uv-grid-right-width: auto;
     }
 
-    .mainPanel.rightPanelOpen {
-        --uv-grid-right-width: var(--uv-grid-right-width-open);
+    &:has(.textRightPanel:empty) {
+      --uv-grid-text-right-width: auto;
     }
+  }
 
-    .mainPanel.textRightPanelOpen {
-        --uv-grid-text-right-width: var(--uv-grid-text-right-width-open);
-    }
-        
-    .mainPanel.leftPanelOpenFull {
-        --uv-grid-left-width: 100%;
-        --uv-grid-main-width: 0;
-        --uv-grid-right-width: 0;
+  .mainPanel.leftPanelOpen {
+    --uv-grid-left-width: var(--uv-grid-left-width-open);
+  }
+
+  .mainPanel.searchLeftPanelOpen {
+    --uv-grid-search-left-width: var(--uv-grid-search-left-width-open);
+  }
+
+  .mainPanel.rightPanelOpen {
+    --uv-grid-right-width: var(--uv-grid-right-width-open);
+  }
+
+  .mainPanel.textRightPanelOpen {
+    --uv-grid-text-right-width: var(--uv-grid-text-right-width-open);
+  }
+
+  .mainPanel.leftPanelOpenFull {
+    --uv-grid-left-width: 100%;
+    --uv-grid-main-width: 0;
+    --uv-grid-right-width: 0;
 
     transition-property: grid-template-columns;
     transition-timing-function: linear;
@@ -196,11 +196,14 @@
         });
   }
 
-    .leftPanel, .rightPanel, .searchLeftPanel, .textRightPanel {
-        position: absolute;
-        background: @panel-dark-bg;
-        border: @panel-border;
-        font-size: @font-size-large;
+  .leftPanel,
+  .rightPanel,
+  .searchLeftPanel,
+  .textRightPanel {
+    position: absolute;
+    background: @panel-dark-bg;
+    border: @panel-border;
+    font-size: @font-size-large;
 
     overflow: hidden;
     z-index: 20;
@@ -217,14 +220,14 @@
     bottom: 2em;
     left: 0;
 
-        width: 100%;
-        height: auto;
+    width: 100%;
+    height: auto;
 
-        &:empty {
-            visibility: hidden;
-        }
-    
-        .md-mediaquery({
+    &:empty {
+      visibility: hidden;
+    }
+
+    .md-mediaquery({
             display: block;
             position: relative;
 
@@ -284,10 +287,11 @@
     }
   }
 
-    .leftPanel, .searchLeftPanel {
-        right: auto;
-        left: 0;
-        transform: translateX(-100%);
+  .leftPanel,
+  .searchLeftPanel {
+    right: auto;
+    left: 0;
+    transform: translateX(-100%);
 
     .md-mediaquery({
             grid-area: left;
@@ -295,16 +299,17 @@
         });
   }
 
-    .searchLeftPanel {
-        .md-mediaquery({
+  .searchLeftPanel {
+    .md-mediaquery({
             grid-area: search-left;
         });
-    }
+  }
 
-    .leftPanel.open, .searchLeftPanel.open {
-        left: 0;
-        transform: none;
-        width: min(95%, 25rem);
+  .leftPanel.open,
+  .searchLeftPanel.open {
+    left: 0;
+    transform: none;
+    width: min(95%, 25rem);
 
     .md-mediaquery({
             transition-property: none;
@@ -314,26 +319,28 @@
         });
   }
 
-    .rightPanel, .textRightPanel {
-        right: 0;
-        left: auto;
-        transform: translateX(100%);
-        
-        .md-mediaquery({
+  .rightPanel,
+  .textRightPanel {
+    right: 0;
+    left: auto;
+    transform: translateX(100%);
+
+    .md-mediaquery({
             grid-area: right;
             transform: none;
         });
   }
 
-    .textRightPanel {
-        .md-mediaquery({
+  .textRightPanel {
+    .md-mediaquery({
             grid-area: text-right;
         });
-    }
+  }
 
-    .rightPanel.open, .textRightPanel.open {
-        transform: none;
-        width: min(95%, 30rem);
+  .rightPanel.open,
+  .textRightPanel.open {
+    transform: none;
+    width: min(95%, 30rem);
 
     .md-mediaquery({
             transition-property: none;
@@ -358,21 +365,21 @@
       display: none;
     }
 
-       .leftPanel {
-           display: none;
-       }
+    .leftPanel {
+      display: none;
+    }
 
-       .searchLeftPanel {
-           display: none;
-       }
+    .searchLeftPanel {
+      display: none;
+    }
 
-       .rightPanel {
-           display: none;
-       }
+    .rightPanel {
+      display: none;
+    }
 
-       .textRightPanel {
-           display: none;
-       }
+    .textRightPanel {
+      display: none;
+    }
 
     .footerPanel {
       display: none;

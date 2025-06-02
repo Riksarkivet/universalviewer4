@@ -122,7 +122,7 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
         this.changeCanvas(canvasIndex);
         if (this.getSettings().useRiksarkivetLegacyURLs) {
           // This is a special for us at Riksarkivet, and it's set to false as default.
-          let canvas = this.helper.getCanvasByIndex(canvasIndex);
+          const canvas = this.helper.getCanvasByIndex(canvasIndex);
           this.riksarkivet.UpdateUrl(canvas);
         }
       }
@@ -930,7 +930,7 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
       const hit: any = searchHits.hits[i];
 
       for (let x = 0; x < hit.annotations.length; x++) {
-        let canvasId = searchHits.resources
+        const canvasId = searchHits.resources
           .find((e) => {
             return e["@id"] == hit.annotations[x];
           })
@@ -945,7 +945,7 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
           currentIndex++;
         }
 
-        let matches = hit.match.split(" ");
+        const matches = hit.match.split(" ");
         const searchHit: SearchHit = new SearchHit();
         searchHit.canvasId = canvasId;
         searchHit.canvasIndex = canvasIndex as number;

@@ -87,7 +87,7 @@ export class RightPanel<T extends ExpandPanel> extends BaseExpandPanel<T> {
         this.$element.parent().removeClass("rightPanelOpen");
       }
     } else {
-      let panelWidth = this.options.panelExpandedWidth ?? 271;
+      const panelWidth = this.options.panelExpandedWidth ?? 271;
       if (this.$element.hasClass("textRightPanel")) {
         document.documentElement.style.setProperty(
           "--uv-grid-text-right-width-open",

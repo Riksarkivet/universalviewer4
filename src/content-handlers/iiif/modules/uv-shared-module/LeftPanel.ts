@@ -82,7 +82,7 @@ export class LeftPanel<
         this.$element.parent().removeClass("leftPanelOpen");
       }
     } else {
-      let panelWidth = this.options.panelExpandedWidth ?? 271;
+      const panelWidth = this.options.panelExpandedWidth ?? 271;
       if (this.$element.hasClass("searchLeftPanel")) {
         document.documentElement.style.setProperty(
           "--uv-grid-search-left-width-open",
