@@ -37,10 +37,13 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
 
     super.create();
 
-    const shouldOpenPanel: boolean = Bools.getBool(
+    let shouldOpenPanel: boolean = Bools.getBool(
       this.extension.getSettings().textRightPanelOpen,
       this.options.panelOpen
     );
+
+    if (this.extension.isSmMetric())
+      shouldOpenPanel = false;
 
     if (shouldOpenPanel) {
       this.toggle(true);
@@ -304,7 +307,7 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
     });
 
     this.setTitle(this.config.content.title);
-    this.$top.parent().addClass("rightTextPanel");
+    this.$top.parent().addClass("textRightPanel");
   }
 
   toggleFinish(): void {

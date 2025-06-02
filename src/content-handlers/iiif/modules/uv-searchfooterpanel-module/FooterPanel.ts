@@ -112,7 +112,7 @@ export class FooterPanel extends BaseFooterPanel<
             <span class="sr-only">${this.content.print}</span>
           </button>
         `);
-    this.$options.prepend(this.$printButton);
+    this.$mainOptions.prepend(this.$printButton);
 
     // search input.
     this.$searchContainer = $('<div class="search"></div>');

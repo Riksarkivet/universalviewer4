@@ -1098,24 +1098,16 @@ export class BaseExtension<T extends BaseConfig> implements IExtension {
     return Bools.getBool(this.data.config!.options.headerPanelEnabled, true);
   }
 
-  isLeftContainerPanelEnabled(): boolean {
-    return Bools.getBool(
-      this.data.config!.options.leftContainerPanelEnabled,
-      true
-    );
-  }
-
   isLeftPanelEnabled(): boolean {
     if (Bools.getBool(this.data.config!.options.leftPanelEnabled, true)) {
       if (this.helper.hasParentCollection()) {
         return true;
+      } else if (!this.helper.getRanges().length && !Bools.getBool(this.data.config!.options.thumbsEnabled, true)) {
+        return false;
       } else if (this.helper.isMultiCanvas()) {
         const viewingHint: ViewingHint | null = this.helper.getViewingHint();
 
-        if (
-          !viewingHint ||
-          (viewingHint && viewingHint !== ViewingHint.CONTINUOUS)
-        ) {
+        if (!viewingHint || (viewingHint && viewingHint !== ViewingHint.CONTINUOUS)) {
           return true;
         }
       }
@@ -1136,13 +1128,6 @@ export class BaseExtension<T extends BaseConfig> implements IExtension {
     }
 
     return true;
-  }
-
-  isRightContainerPanelEnabled(): boolean {
-    return Bools.getBool(
-      this.data.config!.options.rightContainerPanelEnabled,
-      true
-    );
   }
 
   isRightPanelEnabled(): boolean {

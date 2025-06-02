@@ -56,8 +56,6 @@ import defaultConfig from "./config/config.json";
 import { Config } from "./config/Config";
 import { TextRightPanel } from "../../modules/uv-textrightpanel-module/TextRightPanel";
 import { SearchLeftPanel } from "../../modules/uv-searchleftpanel-module/SearchLeftPanel";
-import { RightContainerPanel } from "../../modules/uv-shared-module/RightContainerPanel";
-import { LeftContainerPanel } from "../../modules/uv-shared-module/LeftContainerPanel";
 import { SearchHit } from "../../modules/uv-shared-module/SearchHit";
 import { Print } from "../../modules/uv-shared-module/Print";
 import { AdjustImageDialogue } from "../../modules/uv-dialogues-module/AdjustImageDialogue";
@@ -80,18 +78,12 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
   helpDialogue: HelpDialogue;
   adjustImageDialogue: AdjustImageDialogue;
   isAnnotating: boolean = false;
-  leftContainerPanel: LeftContainerPanel<
-    Config["modules"]["leftContainerPanel"]
-  >;
   leftPanel: ContentLeftPanel;
   searchLeftPanel: SearchLeftPanel;
   mobileFooterPanel: MobileFooterPanel;
   mode: Mode;
   multiSelectDialogue: MultiSelectDialogue;
   previousAnnotationRect: AnnotationRect | null;
-  rightContainerPanel: RightContainerPanel<
-    Config["modules"]["rightContainerPanel"]
-  >;
   rightPanel: MoreInfoRightPanel;
   textRightPanel: TextRightPanel;
   settingsDialogue: SettingsDialogue;
@@ -567,14 +559,6 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
       this.shell.$headerPanel.hide();
     }
 
-    if (this.isLeftContainerPanelEnabled()) {
-      this.leftContainerPanel = new LeftContainerPanel(
-        this.shell.$leftContainerPanel
-      );
-    } else {
-      this.shell.$leftContainerPanel.hide();
-    }
-
     if (this.isLeftPanelEnabled()) {
       this.leftPanel = new ContentLeftPanel(this.shell.$leftPanel);
     } else {
@@ -589,14 +573,6 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
 
     this.centerPanel = new OpenSeadragonCenterPanel(this.shell.$centerPanel);
 
-    if (this.isRightContainerPanelEnabled()) {
-      this.rightContainerPanel = new RightContainerPanel(
-        this.shell.$rightContainerPanel
-      );
-    } else {
-      this.shell.$rightContainerPanel.hide();
-    }
-
     if (this.isRightPanelEnabled()) {
       this.rightPanel = new MoreInfoRightPanel(this.shell.$rightPanel);
     } else {
@@ -604,10 +580,7 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
     }
 
     if (this.isTextRightPanelEnabled()) {
-      this.textRightPanel = new TextRightPanel(
-        this.shell.$textRightPanel,
-        this.shell
-      );
+      this.textRightPanel = new TextRightPanel(this.shell.$textRightPanel, this.shell);
     } else {
       this.shell.$textRightPanel.hide();
     }

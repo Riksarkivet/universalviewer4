@@ -43,8 +43,6 @@ type ContentLeftPanelOptions = ExpandPanelOptions & {
   tabOrder: string;
   /** Configuration for thumbs cache invalidation */
   thumbsCacheInvalidation: ThumbsCacheInvalidation;
-  /** Determines if thumbnails are enabled */
-  thumbsEnabled: boolean;
   /** Extra height for thumbnails */
   thumbsExtraHeight: number;
   /** Duration for thumbnails image fade in */

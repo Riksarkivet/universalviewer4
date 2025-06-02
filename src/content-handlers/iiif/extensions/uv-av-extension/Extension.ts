@@ -11,7 +11,6 @@ import { MoreInfoRightPanel } from "../../modules/uv-moreinforightpanel-module/M
 import { SettingsDialogue } from "./SettingsDialogue";
 import { ShareDialogue } from "./ShareDialogue";
 import { IIIFResourceType } from "@iiif/vocabulary/dist-commonjs/";
-import { Bools } from "@edsilv/utils";
 import { Thumb, TreeNode, Range } from "manifesto.js";
 import "./theme/theme.less";
 import defaultConfig from "./config/config.json";
@@ -138,10 +137,6 @@ export default class Extension
     if (this.isFooterPanelEnabled()) {
       this.footerPanel.init();
     }
-  }
-
-  isLeftPanelEnabled(): boolean {
-    return Bools.getBool(this.data.config!.options.leftPanelEnabled, true);
   }
 
   render(): void {

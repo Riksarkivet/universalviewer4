@@ -48,7 +48,8 @@
     "useArrowKeysToNavigate": false,
     "zoomToSearchResultEnabled": true,
     "zoomToBoundsEnabled": true,
-    "useRiksarkivetLegacyURLs": false
+    "useRiksarkivetLegacyURLs": false,
+    "thumbsEnabled": true
   },
   "modules": {
     "leftPanel": {
@@ -145,7 +146,6 @@
           "enabled": true,
           "paramType": "?"
         },
-        "thumbsEnabled": true,
         "thumbsExtraHeight": 8,
         "thumbsImageFadeInDuration": 300,
         "thumbsLoadRange": 15,
@@ -299,14 +299,6 @@
         "text": "$placeholder_text",
         "title": "$help"
       }
-    },
-    "rightContainerPanel": {
-      "options": {},
-      "content": {}
-    },
-    "leftContainerPanel": {
-      "options": {},
-      "content": {}
     },
     "moreInfoRightPanel": {
       "options": {

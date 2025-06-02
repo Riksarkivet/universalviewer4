@@ -26,6 +26,13 @@ export class FooterPanel extends BaseFooterPanel<
     // this.$spacer = $('<div class="spacer"></div>');
     // this.$options.prepend(this.$spacer);
 
+    this.$printButton = $(`
+            <button class="print btn imageBtn" title="${this.content.print}">
+              <i class="uv-icon uv-icon-print" aria-hidden="true"></i>${this.content.print}
+            </button>
+  `);
+    this.$mainOptions.prepend(this.$printButton);
+
     this.$rotateButton = $(`
             <button class="btn imageBtn rotate" title="${this.content.rotateRight}">
                 <i class="uv-icon-rotate" aria-hidden="true"></i>${this.content.rotateRight}
@@ -46,13 +53,6 @@ export class FooterPanel extends BaseFooterPanel<
             </button>
         `);
     this.$mainOptions.prepend(this.$zoomInButton);
-
-    this.$printButton = $(`
-            <button class="print btn imageBtn" title="${this.content.print}">
-              <i class="uv-icon uv-icon-print" aria-hidden="true"></i>${this.content.print}
-            </button>
-  `);
-    this.$printButton.insertAfter(this.$moreInfoButton);
 
     this.$helpButton = $(`
       <a class="btn imageBtn help" tabindex="0" title="${this.content.help}" role="button">

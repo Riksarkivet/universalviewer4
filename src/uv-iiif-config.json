@@ -3,13 +3,11 @@
     "dropEnabled": true,
     "footerPanelEnabled": true,
     "headerPanelEnabled": true,
-    "leftContainerPanelEnabled": true,
     "leftPanelEnabled": true,
     "searchLeftPanelEnabled": true,
     "limitLocales": false,
     "overrideFullScreen": false,
     "pagingEnabled": true,
-    "rightContainerPanelEnabled": true,
     "preferMediaElementExtension": false,
     "rightPanelEnabled": true,
     "textRightPanelEnabled": true,
@@ -19,7 +17,8 @@
     "useRiksarkivetLegacyURLs": false,
     "saveUserSettings": true,
     "zoomToSearchResultEnabled": false,
-    "animationDuration": 250
+    "animationDuration": 250,
+    "thumbsEnabled": false
   },
   "modules": {
     "avCenterPanel": {
@@ -87,6 +86,11 @@
         "panelOpen": true
       }
     },
+    "searchLeftPanel": {
+      "options": {
+        "panelExpandedWidth": 270
+      }
+    },
     "moreInfoRightPanel": {
       "options": {
         "copyToClipboardEnabled": true
@@ -94,8 +98,7 @@
     },
     "contentLeftPanel": {
       "options": {
-        "defaultToTreeEnabled": false,
-        "thumbsEnabled": false
+        "defaultToTreeEnabled": false
       }
     },
     "searchFooterPanel": {

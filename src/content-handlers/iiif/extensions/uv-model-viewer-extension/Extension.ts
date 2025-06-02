@@ -21,8 +21,6 @@ import defaultConfig from "./config/config.json";
 import { AnnotationGroup } from "@iiif/manifold";
 import { AnnotationResults } from "../../modules/uv-shared-module/AnnotationResults";
 import { Config } from "./config/Config";
-import { RightContainerPanel } from "../../modules/uv-shared-module/RightContainerPanel";
-import { LeftContainerPanel } from "../../modules/uv-shared-module/LeftContainerPanel";
 
 export default class ModelViewerExtension extends BaseExtension<Config> {
   $downloadDialogue: JQuery;
@@ -34,14 +32,8 @@ export default class ModelViewerExtension extends BaseExtension<Config> {
   footerPanel: FooterPanel<Config["modules"]["footerPanel"]>;
   headerPanel: HeaderPanel<Config["modules"]["headerPanel"]>;
   helpDialogue: HelpDialogue;
-  leftContainerPanel: LeftContainerPanel<
-    Config["modules"]["leftContainerPanel"]
-  >;
   leftPanel: ContentLeftPanel;
   mobileFooterPanel: FooterPanel<Config["modules"]["footerPanel"]>;
-  rightContainerPanel: RightContainerPanel<
-    Config["modules"]["rightContainerPanel"]
-  >;
   rightPanel: MoreInfoRightPanel;
   textRightPanel: TextRightPanel;
   settingsDialogue: SettingsDialogue;
@@ -86,23 +78,11 @@ export default class ModelViewerExtension extends BaseExtension<Config> {
       this.shell.$headerPanel.hide();
     }
 
-    if (this.isLeftContainerPanelEnabled()) {
-      this.leftContainerPanel = new LeftContainerPanel(
-        this.shell.$leftContainerPanel
-      );
-    }
-
     if (this.isLeftPanelEnabled()) {
       this.leftPanel = new ContentLeftPanel(this.shell.$leftPanel);
     }
 
     this.centerPanel = new ModelViewerCenterPanel(this.shell.$centerPanel);
-
-    if (this.isRightContainerPanelEnabled()) {
-      this.rightContainerPanel = new RightContainerPanel(
-        this.shell.$rightContainerPanel
-      );
-    }
 
     if (this.isRightPanelEnabled()) {
       this.rightPanel = new MoreInfoRightPanel(this.shell.$rightPanel);

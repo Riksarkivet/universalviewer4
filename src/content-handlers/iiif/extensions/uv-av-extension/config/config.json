@@ -36,8 +36,6 @@
     "pagingOptionEnabled": true,
     "pessimisticAccessControl": false,
     "preserveViewport": false,
-    "rightContainerPanelEnabled": true,
-    "leftContainerPanelEnabled": true,
     "rightPanelEnabled": true,
     "textRightPanelEnabled": true,
     "saveUserSettings": false,
@@ -47,7 +45,8 @@
     "theme": "uv-en-GB-theme",
     "tokenStorage": "session",
     "useArrowKeysToNavigate": false,
-    "zoomToSearchResultEnabled": true
+    "zoomToSearchResultEnabled": true,
+    "thumbsEnabled": true
   },
   "modules": {
     "leftPanel": {
@@ -140,7 +139,6 @@
         "panelExpandedWidth": 255,
         "panelOpen": true,
         "tabOrder": "",
-        "thumbsEnabled": true,
         "thumbsExtraHeight": 8,
         "thumbsImageFadeInDuration": 300,
         "thumbsLoadRange": 15,
@@ -271,14 +269,6 @@
         "text": "$placeholder_text",
         "title": "$help"
       }
-    },
-    "rightContainerPanel": {
-      "options": {},
-      "content": {}
-    },
-    "leftContainerPanel": {
-      "options": {},
-      "content": {}
     },
     "moreInfoRightPanel": {
       "options": {

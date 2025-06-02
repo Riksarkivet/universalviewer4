@@ -621,7 +621,7 @@ export class ContentLeftPanel extends LeftPanel<ContentLeftPanelConfig> {
         true
       );
       const thumbsEnabled: boolean = Bools.getBool(
-        this.config.options.thumbsEnabled,
+        this.extension.data.config!.options.thumbsEnabled,
         true
       );
 
@@ -633,10 +633,6 @@ export class ContentLeftPanel extends LeftPanel<ContentLeftPanelConfig> {
 
       // hide the tabs if either tree or thumbs are disabled
       if (!treeEnabled || !thumbsEnabled) this.$tabs.hide();
-
-      if (!treeEnabled && !thumbsEnabled) {
-        this.extension.shell.$leftPanel.hide();
-      }
 
       if (thumbsEnabled && this.defaultToThumbsView()) {
         this.openThumbsView();

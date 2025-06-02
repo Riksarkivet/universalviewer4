@@ -43,7 +43,8 @@
     "theme": "uv-en-GB-theme",
     "tokenStorage": "session",
     "useArrowKeysToNavigate": false,
-    "zoomToSearchResultEnabled": true
+    "zoomToSearchResultEnabled": true,
+    "thumbsEnabled": true
   },
   "modules": {
     "leftPanel": {
@@ -203,14 +204,6 @@
         "text": "$placeholder_text",
         "title": "$help"
       }
-    },
-    "leftContainerPanel": {
-      "options": {},
-      "content": {}
-    },
-    "rightContainerPanel": {
-      "options": {},
-      "content": {}
     },
     "moreInfoRightPanel": {
       "options": {

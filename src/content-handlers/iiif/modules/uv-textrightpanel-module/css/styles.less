@@ -1,10 +1,9 @@
 ﻿@import "@iiif/iiif-metadata-component/dist-css/styles.less";
 
 .uv {
-  .rightTextPanel {
+  .textRightPanel {
     .top {
-      display: flex;
-      
+  
       .copyText {
         position: absolute;
         background-image: data-uri('../img/copy.png') !important;
@@ -35,13 +34,54 @@
       }
     }
 
-    .content {
-      padding: @padding-medium;
-    }
-
     .main {
       overflow: auto;
       color: @text-color;
+
+      .transcribed-text {
+          width: 230px;
+          padding: 5px 5px 5px 7px;
+
+          div {
+              padding: 5px;
+              margin: 0;
+          }
+
+          p {
+              padding: 5px;
+          }
+
+          .lineAnnotation {
+              &.current {
+                  color: #000;
+                  @col: rgb(120, 251, 185);
+                  background-color: saturate(@col, 100%);
+              }
+
+              .searchHitSpan {
+                  font-weight: bold;
+                  background-color: #10819A;
+                  padding: 3px;
+
+                  &.current {
+                      background-color: #11d4ff;
+                      color: #000;
+                  }
+              }
+
+              &:hover {
+                  color: #000;
+                  @col: lighten(rgb(120, 251, 185), 20%);
+                  background-color: saturate(@col, 80%);
+              }
+          }
+
+          .label {
+              color: #9a9a9a;
+              border-bottom: 1px solid #343434;
+              margin: 0 10px 10px 0;
+          }
+      }      
 
       &.loading {
         .loading(@loader-black-bg);

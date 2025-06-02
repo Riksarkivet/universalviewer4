@@ -12,7 +12,7 @@ export class Metric {
   constructor(
     public type: MetricType,
     public minWidth: number
-  ) {}
+  ) { }
 }
 
 export type Options = {
@@ -36,9 +36,6 @@ export type Options = {
 
   /** Determines if the header panel is enabled */
   headerPanelEnabled?: boolean;
-
-  /** Determines if the left container panel is enabled */
-  leftContainerPanelEnabled?: boolean;
 
   /** Determines if the left panel is enabled */
   leftPanelEnabled?: boolean;
@@ -82,9 +79,6 @@ export type Options = {
   /** Determines if viewport is preserved */
   preserveViewport?: boolean;
 
-  /** Determines if the right container panel is enabled */
-  rightContainerPanelEnabled?: boolean;
-
   /** Determines if the more info right panel is enabled */
   rightPanelEnabled?: boolean;
 
@@ -126,6 +120,9 @@ export type Options = {
 
   /** A default animation duration */
   animationDuration?: number;
+
+  /** Determines if thumbnails are enabled */
+  thumbsEnabled: boolean;
 };
 
 type Locale = {
@@ -168,11 +165,6 @@ export type HeaderPanelContent = {
 type HeaderPanel = ModuleConfig & {
   options: HeaderPanelOptions;
   content: HeaderPanelContent;
-};
-
-export type LeftContainerPanel = ModuleConfig & {
-  options: ModuleOptions;
-  content: ModuleContent;
 };
 
 type LeftPanel = ExpandPanel & {};
@@ -593,11 +585,6 @@ export type TextRightPanel = ModuleConfig & {
   content: TextRightPanelContent;
 };
 
-export type RightContainerPanel = ModuleConfig & {
-  options: ModuleOptions;
-  content: ModuleContent;
-};
-
 export type Content = {
   authCORSError: string;
   authorisationFailedMessage: string;
@@ -623,12 +610,10 @@ export type BaseConfig = {
     genericDialogue: GenericDialogue;
     headerPanel: HeaderPanel;
     helpDialogue: HelpDialogue;
-    leftContainerPanel: LeftContainerPanel;
     leftPanel: LeftPanel;
     searchLeftPanel: SearchLeftPanel;
     loginDialogue: LoginDialogue;
     mobileFooterPanel: FooterPanel;
-    rightContainerPanel: RightContainerPanel;
     moreInfoRightPanel: MoreInfoRightPanel;
     textRightPanel: TextRightPanel;
     restrictedDialogue: RestrictedDialogue;

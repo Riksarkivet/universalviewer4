@@ -43,7 +43,8 @@
     "theme": "uv-en-GB-theme",
     "tokenStorage": "session",
     "useArrowKeysToNavigate": false,
-    "zoomToSearchResultEnabled": true
+    "zoomToSearchResultEnabled": true,
+    "thumbsEnabled": true
   },
   "modules": {
     "leftPanel": {
@@ -211,14 +212,6 @@
         "title": "$help"
       }
     },
-    "leftContainerPanel": {
-      "options": {},
-      "content": {}
-    },
-    "rightContainerPanel": {
-      "options": {},
-      "content": {}
-    },
     "adjustImageDialogue": {
       "options": {
         "topCloseButtonEnabled": false
@@ -363,7 +356,6 @@
         "panelCollapsedWidth": 30,
         "panelExpandedWidth": 255,
         "panelOpen": true,
-        "thumbsEnabled": true,
         "thumbsExtraHeight": 8,
         "thumbsImageFadeInDuration": 300,
         "thumbsLoadRange": 15,

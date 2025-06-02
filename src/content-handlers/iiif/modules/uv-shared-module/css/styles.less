@@ -7,9 +7,7 @@
 @import 'range';
 @import 'button-groups';
 @import 'header-panel';
-@import 'left-container-panel';
 @import 'left-panel';
-@import 'right-container-panel';
 @import 'right-panel';
 @import 'center-panel';
 @import 'footer-panel';
@@ -22,11 +20,17 @@
 
 :root {
     --uv-grid-left-width-open: 271px;
+    --uv-grid-search-left-width-open: 271px;
     --uv-grid-right-width-open: 271px;
+    --uv-grid-text-right-width-open: 271px;
 
     --uv-grid-left-width: 30px;
+    --uv-grid-search-left-width: 30px;
     --uv-grid-main-width: minmax(0, 1fr);
     --uv-grid-right-width: 30px;
+    --uv-grid-text-right-width: 30px;
+
+    --uv-panel-width-closed: 30px;
 }
 
 .hidden {
@@ -121,9 +125,12 @@
             display: grid;
             grid-template-columns: 
                 [left] var(--uv-grid-left-width) 
+                [search-left] var(--uv-grid-search-left-width)
                 [center] var(--uv-grid-main-width)
+                [text-right] var(--uv-grid-text-right-width)
                 [right] var(--uv-grid-right-width);
-            grid-template-areas: "left center right";
+            grid-template-areas: "left search-left center text-right right";
+            column-gap: 1px;
 
             transition-property: grid-template-columns;
             transition-timing-function: linear;
@@ -136,8 +143,16 @@
             --uv-grid-left-width: auto;
         }
 
+        &:has(.searchLeftPanel:empty) {
+            --uv-grid-search-left-width: auto;
+        }
+        
         &:has(.rightPanel:empty) {
             --uv-grid-right-width: auto;
+        }
+
+        &:has(.textRightPanel:empty) {
+            --uv-grid-text-right-width: auto;
         }
     }
 
@@ -145,10 +160,18 @@
         --uv-grid-left-width: var(--uv-grid-left-width-open);
     }
 
+    .mainPanel.searchLeftPanelOpen {
+        --uv-grid-search-left-width: var(--uv-grid-search-left-width-open);
+    }
+
     .mainPanel.rightPanelOpen {
         --uv-grid-right-width: var(--uv-grid-right-width-open);
     }
 
+    .mainPanel.textRightPanelOpen {
+        --uv-grid-text-right-width: var(--uv-grid-text-right-width-open);
+    }
+        
     .mainPanel.leftPanelOpenFull {
         --uv-grid-left-width: 100%;
         --uv-grid-main-width: 0;
@@ -170,7 +193,7 @@
         });
     }
 
-    .leftPanel, .rightPanel {
+    .leftPanel, .rightPanel, .searchLeftPanel, .textRightPanel {
         position: absolute;
         background: @panel-dark-bg;
         border: @panel-border;
@@ -192,6 +215,10 @@
         width: 100%;
         height: auto;
 
+        &:empty {
+            visibility: hidden;
+        }
+    
         .md-mediaquery({
             display: block;
             position: relative;
@@ -253,7 +280,7 @@
         }
     }
 
-    .leftPanel {
+    .leftPanel, .searchLeftPanel {
         right: auto;
         left: 0;
         transform: translateX(-100%);
@@ -264,7 +291,13 @@
         });
     }
 
-    .leftPanel.open {
+    .searchLeftPanel {
+        .md-mediaquery({
+            grid-area: search-left;
+        });
+    }
+
+    .leftPanel.open, .searchLeftPanel.open {
         left: 0;
         transform: none;
         width: min(95%, 25rem);
@@ -277,7 +310,7 @@
         });
     }
 
-    .rightPanel {
+    .rightPanel, .textRightPanel {
         right: 0;
         left: auto;
         transform: translateX(100%);
@@ -288,7 +321,13 @@
         });
     }
 
-    .rightPanel.open {
+    .textRightPanel {
+        .md-mediaquery({
+            grid-area: text-right;
+        });
+    }
+
+    .rightPanel.open, .textRightPanel.open {
         transform: none;
         width: min(95%, 30rem);
 
@@ -320,7 +359,15 @@
            display: none;
        }
 
+       .searchLeftPanel {
+           display: none;
+       }
+
        .rightPanel {
+           display: none;
+       }
+
+       .textRightPanel {
            display: none;
        }
 

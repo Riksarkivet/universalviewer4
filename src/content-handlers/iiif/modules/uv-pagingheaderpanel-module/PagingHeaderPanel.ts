@@ -558,7 +558,8 @@ export class PagingHeaderPanel extends HeaderPanel<
   galleryIsVisible(): boolean {
     return (
       Bools.getBool(this.options.galleryButtonEnabled, true) &&
-      this.extension.isLeftPanelEnabled()
+      this.extension.isLeftPanelEnabled() &&
+      Bools.getBool(this.extension.data.config!.options.thumbsEnabled, true)
     );
   }
 

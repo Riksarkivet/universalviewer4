@@ -60,7 +60,6 @@ export interface IExtension {
   isLoggedIn: boolean;
   isMobile(): boolean;
   isOverlayActive(): boolean;
-  isRightContainerPanelEnabled(): boolean;
   isRightPanelEnabled(): boolean;
   isTextRightPanelEnabled(): boolean;
   isSeeAlsoEnabled(): boolean;

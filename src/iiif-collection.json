@@ -41,14 +41,9 @@
           "label": "Ådals-Lidens kyrkoarkiv C:4"
         },
         {
-          "@id": "https://lbiiif-acc.riksarkivet.se/arkis!T0000013/manifest",
+          "@id": "https://lbiiif-acc.riksarkivet.se/arkis!T0000245/manifest ",
           "@type": "sc:Manifest",
-          "label": "Big Buck Bunny (Video)"
-        },
-        {
-          "@id": "https://lbiiif-acc.riksarkivet.se/arkis!T0000235/manifest",
-          "@type": "sc:Manifest",
-          "label": "T0000235, en_daares_foersvarstal.mp3 (1 öppen ljudfil)"
+          "label": "Alkoholförsök. Del 1 (video)"
         }
       ]
     },
