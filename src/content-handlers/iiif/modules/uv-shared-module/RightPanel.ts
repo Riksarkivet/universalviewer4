@@ -20,8 +20,7 @@ export class RightPanel<T extends ExpandPanel> extends BaseExpandPanel<T> {
       this.options.panelOpen
     );
 
-    if (this.extension.isSmMetric())
-      shouldOpenPanel = false;
+    if (this.extension.isSmMetric()) shouldOpenPanel = false;
 
     if (shouldOpenPanel) {
       this.toggle(true);
@@ -92,12 +91,14 @@ export class RightPanel<T extends ExpandPanel> extends BaseExpandPanel<T> {
       if (this.$element.hasClass("textRightPanel")) {
         document.documentElement.style.setProperty(
           "--uv-grid-text-right-width-open",
-          `${panelWidth}px`);
+          `${panelWidth}px`
+        );
         this.$element.parent().addClass("textRightPanelOpen");
       } else {
         document.documentElement.style.setProperty(
           "--uv-grid-right-width-open",
-          `${panelWidth}px`);
+          `${panelWidth}px`
+        );
         this.$element.parent().addClass("rightPanelOpen");
       }
     }

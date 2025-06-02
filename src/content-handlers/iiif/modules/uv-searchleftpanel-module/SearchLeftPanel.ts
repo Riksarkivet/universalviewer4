@@ -175,8 +175,8 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
       if (
         $(
           'div.searchHit[data-index="0"][data-canvas-index="' +
-          e.data.index +
-          '"]'
+            e.data.index +
+            '"]'
         )[0] !== undefined
       ) {
         let canvasIndex: number = e.data.index;
@@ -235,8 +235,8 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
 
     this.$searchLabel = $(
       '<label class="label" for="searchLeftPanelInput">' +
-      this.content.searchWithin +
-      "</label>"
+        this.content.searchWithin +
+        "</label>"
     );
     this.$searchOptions.append(this.$searchLabel);
 
@@ -245,10 +245,10 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
 
     this.$searchText = $(
       '<input class="searchText" id="searchLeftPanelInput" autocomplete="off" type="text" maxlength="100" placeholder="' +
-      this.content.enterKeyword +
-      '" value="" aria-label="' +
-      this.content.searchWithin +
-      '"/>'
+        this.content.enterKeyword +
+        '" value="" aria-label="' +
+        this.content.searchWithin +
+        '"/>'
     );
 
     this.$searchTextContainer.append(this.$searchText);
@@ -261,15 +261,15 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
 
     this.$clearButton = $(
       '<button class="clearButton" title="' +
-      this.content.clearSearch +
-      '"></button>'
+        this.content.clearSearch +
+        '"></button>'
     );
     this.$clearButton.hide();
 
     this.$searchButton = $(
       '<button class="searchButton"title="' +
-      this.content.doSearch +
-      '"></button>'
+        this.content.doSearch +
+        '"></button>'
     );
 
     this.$searchHitsContainer = $('<div class="searchHitsContainer"></div>');
@@ -282,8 +282,8 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
     this.$searchPagerContainer = $('<div class="searchPagerContainer"></div>');
     this.$searchPagerPrevButton = $(
       '<button class="prev" title="' +
-      this.content.previousResult +
-      '"></button>'
+        this.content.previousResult +
+        '"></button>'
     );
     this.$searchPagerPrevButton.prop("disabled", true);
     this.$searchPagerLabel = $("<span>0 of 100</span>");
@@ -359,7 +359,8 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
           (<OpenSeadragonExtension>this.extension).centerPanel.queryBounds =
             XYWHFragment.fromString(this.urlAdapter.get("xywh") as string);
         }
-        if (!this.extension.isSmMetric()) { 	  // this should be removed when we have a search button in mobile view
+        if (!this.extension.isSmMetric()) {
+          // this should be removed when we have a search button in mobile view
           this.$expandButton.trigger("click");
         }
         this.$searchText.val(this.q);
@@ -409,26 +410,26 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
     if (
       $(
         'div.searchHit[data-index="' +
-        index +
-        '"][data-canvas-index="' +
-        canvasIndex +
-        '"]'
+          index +
+          '"][data-canvas-index="' +
+          canvasIndex +
+          '"]'
       )[0] !== undefined
     ) {
       this.setCurrentAnnotation(canvasIndex, index);
       $(
         'div.searchHit[data-index="' +
-        index +
-        '"][data-canvas-index="' +
-        canvasIndex +
-        '"]'
+          index +
+          '"][data-canvas-index="' +
+          canvasIndex +
+          '"]'
       ).addClass("current");
       $(
         'div.searchHit[data-index="' +
-        index +
-        '"][data-canvas-index="' +
-        canvasIndex +
-        '"]'
+          index +
+          '"][data-canvas-index="' +
+          canvasIndex +
+          '"]'
       )[0].scrollIntoView({
         behavior: "instant",
         block: "end",
@@ -442,14 +443,14 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
       searchHits.forEach((searchHit, i) => {
         let div = $(
           '<div id="searchhit-' +
-          searchHit.canvasIndex +
-          "-" +
-          searchHit.index +
-          '" class="searchHit" data-canvas-index="' +
-          searchHit.canvasIndex +
-          '" data-index="' +
-          searchHit.index +
-          '" tabindex="0"></div>'
+            searchHit.canvasIndex +
+            "-" +
+            searchHit.index +
+            '" class="searchHit" data-canvas-index="' +
+            searchHit.canvasIndex +
+            '" data-index="' +
+            searchHit.index +
+            '" tabindex="0"></div>'
         );
         let canvasTitle = this.extension.helper
           .getCanvasByIndex(searchHit.canvasIndex)
@@ -457,8 +458,8 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
           .getValue();
         let hitNumberSpan = $(
           '<span class="searchHitNumberSpan" data-index="' +
-          (i + 1) +
-          '"></div>'
+            (i + 1) +
+            '"></div>'
         );
         hitNumberSpan.append(i + 1);
         let searchHitSpan = $(
@@ -467,9 +468,9 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
 
         div.append(
           hitNumberSpan[0].outerHTML +
-          searchHit.before +
-          searchHitSpan[0].outerHTML +
-          searchHit.after
+            searchHit.before +
+            searchHitSpan[0].outerHTML +
+            searchHit.after
         );
         $(div).on("keydown", (e: any) => {
           const originalEvent: KeyboardEvent = <KeyboardEvent>e.originalEvent;

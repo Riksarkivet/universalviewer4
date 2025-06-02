@@ -1102,12 +1102,18 @@ export class BaseExtension<T extends BaseConfig> implements IExtension {
     if (Bools.getBool(this.data.config!.options.leftPanelEnabled, true)) {
       if (this.helper.hasParentCollection()) {
         return true;
-      } else if (!this.helper.getRanges().length && !Bools.getBool(this.data.config!.options.thumbsEnabled, true)) {
+      } else if (
+        !this.helper.getRanges().length &&
+        !Bools.getBool(this.data.config!.options.thumbsEnabled, true)
+      ) {
         return false;
       } else if (this.helper.isMultiCanvas()) {
         const viewingHint: ViewingHint | null = this.helper.getViewingHint();
 
-        if (!viewingHint || (viewingHint && viewingHint !== ViewingHint.CONTINUOUS)) {
+        if (
+          !viewingHint ||
+          (viewingHint && viewingHint !== ViewingHint.CONTINUOUS)
+        ) {
           return true;
         }
       }

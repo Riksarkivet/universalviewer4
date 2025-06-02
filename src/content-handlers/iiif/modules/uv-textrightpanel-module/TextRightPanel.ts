@@ -42,8 +42,7 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
       this.options.panelOpen
     );
 
-    if (this.extension.isSmMetric())
-      shouldOpenPanel = false;
+    if (this.extension.isSmMetric()) shouldOpenPanel = false;
 
     if (shouldOpenPanel) {
       this.toggle(true);
