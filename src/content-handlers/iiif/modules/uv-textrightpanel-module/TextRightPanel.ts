@@ -208,6 +208,11 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
           }
         }
 
+        if (this.offsetX === 0 && this.$transcribedText) {
+          // Clear transcribedText when switching between one or more pages
+          this.$transcribedText.html("");
+        }
+
         // We need to see if seeAlso contains an ALTO file and maybe allow for other HTR/OCR formats in the future
         // and make sure which version of IIIF Presentation API is used
         if (seeAlso.length === undefined) {
@@ -356,7 +361,7 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
           this.offsetX +
           (this.index > 0 ? this.centerPanel.config.options.pageGap : 0);
         let text = t.join(" ");
-        this.clipboardText += text;
+        this.clipboardText += text + " ";
 
         let line = $(
           '<div id="line-annotation-' +
@@ -431,10 +436,10 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
         }
         return line;
       });
-      if (this.$transcribedText) {
-        this.$transcribedText.html("");
+
+      if (!this.$transcribedText) {
+        this.$transcribedText = $('<div class="transcribed-text"></div>');
       }
-      this.$transcribedText = $('<div class="transcribed-text"></div>');
       if (header) {
         this.$transcribedText.append(
           $('<div class="label">' + header + "</div>")
@@ -442,7 +447,7 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
       }
       if (lines.length > 0) {
         this.$transcribedText.append(lines);
-        this.$transcribedText.attr("data-text", this.clipboardText);
+        this.$transcribedText.attr("data-text", this.clipboardText.trimEnd());
       } else {
         this.$transcribedText.append(
           $("<div>" + this.content.textNotFound + "</div>")
