@@ -225,7 +225,7 @@ export class URLAdapter extends UVAdapter {
     uv.on(
       Events.SEARCH_HIT_CHANGED,
       (searchHit) => {
-        let hitIndex = searchHit[0].hitIndex;
+        const hitIndex = searchHit[0].hitIndex;
         if (hitIndex !== undefined) {
           this.set("hi", hitIndex); // search hit index
         }

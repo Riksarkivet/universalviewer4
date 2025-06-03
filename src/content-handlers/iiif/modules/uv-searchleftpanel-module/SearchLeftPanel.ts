@@ -77,8 +77,8 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
         this.$searchPagerContainer.show();
         if (annotationResults.annotations.length) {
           this.currentHits = Number(annotationResults.searchHits?.length);
-          let instanceFoundText: string = this.content.instanceFound;
-          let instancesFoundText: string = this.content.instancesFound;
+          const instanceFoundText: string = this.content.instanceFound;
+          const instancesFoundText: string = this.content.instancesFound;
           let text: string = "";
           if (
             annotationResults.searchHits?.length === 1 &&
@@ -110,14 +110,14 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
           // we have loaded the viewer with a search result and hit index
           // so make sure it's the hit shown
           if (this.hi !== undefined && this.hi !== null) {
-            let div = $(
+            const div = $(
               '.searchHitNumberSpan[data-index="' + this.hi + '"]'
             ).parent();
             div.trigger("click");
             hitIndex = this.hi;
-            let canvasIndex = $(div).attr("data-canvas-index");
-            let index = $(div).attr("data-index");
-            let currentRect = (<OpenSeadragonExtension>(
+            const canvasIndex = $(div).attr("data-canvas-index");
+            const index = $(div).attr("data-index");
+            const currentRect = (<OpenSeadragonExtension>(
               this.extension
             )).annotations.find((e) => {
               return e["canvasIndex"] == canvasIndex;
@@ -154,8 +154,8 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
     });
 
     this.extensionHost.subscribe(IIIFEvents.CANVAS_INDEX_CHANGE, (e) => {
-      let canvasIndex = e;
-      let index = this.currentAnnotationRect?.index ?? 0;
+      const canvasIndex = e;
+      const index = this.currentAnnotationRect?.index ?? 0;
       this.extensionHost.publish(Events.SEARCH_HIT_CHANGED, [
         {
           hitIndex: this.currentHitIndex,
@@ -179,7 +179,7 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
             '"]'
         )[0] !== undefined
       ) {
-        let canvasIndex: number = e.data.index;
+        const canvasIndex: number = e.data.index;
         this.currentAnnotationRect = (<OpenSeadragonExtension>(
           this.extension
         )).annotations.find((e) => {
@@ -208,7 +208,7 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
     });
 
     this.extensionHost.subscribe(Events.SEARCH_HIT_CHANGED, (e) => {
-      let searchHitOf: string = this.content.searchHitOf;
+      const searchHitOf: string = this.content.searchHitOf;
       this.currentHitIndex = e[0].hitIndex;
       this.$searchPagerLabel.html(
         Strings.format(
@@ -441,7 +441,7 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
   displaySearchResults(searchHits?: SearchHit[]): void {
     if (searchHits !== undefined) {
       searchHits.forEach((searchHit, i) => {
-        let div = $(
+        const div = $(
           '<div id="searchhit-' +
             searchHit.canvasIndex +
             "-" +
@@ -452,17 +452,17 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
             searchHit.index +
             '" tabindex="0"></div>'
         );
-        let canvasTitle = this.extension.helper
+        const canvasTitle = this.extension.helper
           .getCanvasByIndex(searchHit.canvasIndex)
           .getLabel()
           .getValue();
-        let hitNumberSpan = $(
+        const hitNumberSpan = $(
           '<span class="searchHitNumberSpan" data-index="' +
             (i + 1) +
             '"></div>'
         );
         hitNumberSpan.append(i + 1);
-        let searchHitSpan = $(
+        const searchHitSpan = $(
           '<span class="searchHitSpan">' + searchHit.match + "</span>"
         );
 
@@ -500,7 +500,7 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
               .find(".searchHitNumberSpan")
               .attr("data-index");
           }
-          let currentRect = (<OpenSeadragonExtension>(
+          const currentRect = (<OpenSeadragonExtension>(
             this.extension
           )).annotations.find((e) => {
             return e["canvasIndex"] == canvasIndex;

@@ -1,22 +1,20 @@
 @import "icons";
 
 .uv {
+  .headerPanel {
+    color: @text-secondary-color;
 
-    .headerPanel {
-
-        color: @text-secondary-color;
-
-        .options {
-            .sm-mediaquery ({
+    .options {
+      .sm-mediaquery ({
                 background-image: none;
-            });
+            });;
 
-            .md-mediaquery ({
+      .md-mediaquery ({
                 background-image: url('../img/logo.svg');
                 background-repeat: no-repeat;
                 background-size: contain;
-            });
-        }
+            });;
+    }
 
     button.btn.imageBtn {
       padding-left: 2px;
@@ -42,27 +40,26 @@
       }
     }
 
-        .centerOptions {
+    .centerOptions {
+      .image-selectionbox-options {
+        float: left;
+        margin: 6px 0 6px 0;
+      }
 
-            .image-selectionbox-options {
-                float: left;
-                margin: 6px 0 6px 0;
-            }
-
-            .image-selectionbox {
-                height: 30px;
-                padding-right: 1.7rem;
-            }
+      .image-selectionbox {
+        height: 30px;
+        padding-right: 1.7rem;
+      }
 
       .prevOptions {
         float: left;
         margin: 0 15px 0 0;
       }
 
-            .mode {
-                float: left;
-                margin: 12px 6px 0 0;
-            }
+      .mode {
+        float: left;
+        margin: 12px 6px 0 0;
+      }
 
       .search {
         float: left;
@@ -101,9 +98,9 @@
         }
       }
 
-            &.modeOptionsDisabled {
-                width: auto;
-            }
+      &.modeOptionsDisabled {
+        width: auto;
+      }
 
       .autocompleteText {
         width: 30px;

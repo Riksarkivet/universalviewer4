@@ -1,9 +1,10 @@
 .uv {
   @expandFullEnabled: false;
 
-    .rightPanel, .textRightPanel {
-        display: inline-block;
-        z-index: 10;
+  .rightPanel,
+  .textRightPanel {
+    display: inline-block;
+    z-index: 10;
 
     .top {
       height: 35px;
@@ -72,11 +73,11 @@
       }
     }
 
-        .main {
-            margin-right: @margin-medium-horizontal;
-            margin-bottom: @margin-medium-vertical;
-        }
+    .main {
+      margin-right: @margin-medium-horizontal;
+      margin-bottom: @margin-medium-vertical;
     }
+  }
 
   .expandFull() when (@expandFullEnabled =true) {
     .title {

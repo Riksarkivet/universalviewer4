@@ -1141,7 +1141,7 @@ export class OpenSeadragonCenterPanel extends CenterPanel<
     // we need to readd our line annotation rects after a clear.
     this.viewer.clearOverlays();
     let parentNodeName = "";
-    let lineAnnotationRects = $("div > div.lineAnnotationRect");
+    const lineAnnotationRects = $("div > div.lineAnnotationRect");
     if (lineAnnotationRects[0]) {
       parentNodeName = lineAnnotationRects[0].parentNode.nodeName.toLowerCase();
       if (parentNodeName === "body") {
