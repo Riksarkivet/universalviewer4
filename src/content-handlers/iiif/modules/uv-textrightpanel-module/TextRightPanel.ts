@@ -26,6 +26,7 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
   clipboardText: string = "";
   shell: Shell;
   centerPanel: OpenSeadragonCenterPanel;
+  isProcessingLoad: boolean = false;
 
   constructor($element: JQuery, shell: Shell) {
     super($element);
@@ -163,6 +164,9 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
     );
 
     this.extensionHost.on(Events.LOAD, async (e) => {
+      if (this.isProcessingLoad) return;
+
+      this.isProcessingLoad = true;
       this.centerPanel = (<OpenSeadragonExtension>this.extension).centerPanel;
       const canvases = this.extension.getCurrentCanvases();
       canvases.sort((a, b) => ((a.index as number) - b.index) as number);
@@ -308,6 +312,7 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
           );
         }
       }
+      this.isProcessingLoad = false;
     });
 
     this.setTitle(this.config.content.title);
