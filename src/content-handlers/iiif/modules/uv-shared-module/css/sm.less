@@ -1,31 +1,27 @@
 .uv {
-
-    #debug {
-
-        #sm {
-            .sm-mediaquery({
+  #debug {
+    #sm {
+      .sm-mediaquery({
                 display: block !important;
                 visibility: visible !important;
             });
-        }
     }
+  }
 
-    .sm-mediaquery({
+  .sm-mediaquery({
         .headerPanel {
             display: block;
             visibility: visible;
         }
-    });
 
-    .mainPanel {
-        .sm-mediaquery({
-            .leftPanel {
-                display: block;
-                visibility: visible;
-            }
-            .leftPanel.searchLeftPanel {
-                .only-desktop();
-            }
-        });
-    }
+        .footerPanel {
+            display: none;
+            visibility: hidden;
+        }
+
+        .mobileFooterPanel {
+            display: block;
+            visibility: visible;
+        }
+    });
 }

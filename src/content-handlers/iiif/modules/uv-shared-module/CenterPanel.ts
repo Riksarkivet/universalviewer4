@@ -8,7 +8,7 @@ import { Bools } from "@edsilv/utils";
 import { BaseConfig } from "../../BaseConfig";
 
 export class CenterPanel<
-  T extends BaseConfig["modules"]["centerPanel"]
+  T extends BaseConfig["modules"]["centerPanel"],
 > extends BaseView<T> {
   title: string | null;
   subtitle: string | null;
@@ -22,6 +22,7 @@ export class CenterPanel<
   $subtitleExpand: JQuery;
   $subtitleText: JQuery;
   isAttributionOpen: boolean = false;
+  attributionExplicitlyClosed: boolean = false;
   attributionPosition: Position = Position.BOTTOM_LEFT;
   isAttributionLoaded: boolean = false;
 
@@ -79,7 +80,7 @@ export class CenterPanel<
     );
     this.$closeAttributionButton.on("click", (e) => {
       e.preventDefault();
-      this.closeAttribution();
+      this.closeAttribution(true);
     });
 
     this.$subtitleExpand.on("click", (e) => {
@@ -126,11 +127,19 @@ export class CenterPanel<
   }
 
   openAttribution(): void {
+    // If the user explicitly closed the box, don't reopen it:
+    if (this.attributionExplicitlyClosed) {
+      return;
+    }
     this.$attribution.show();
     this.isAttributionOpen = true;
   }
 
-  closeAttribution(): void {
+  closeAttribution(explicitlyClosed: boolean = false): void {
+    // If the user explicitly closes the box once, remember that state; this
+    // will get reset in the viewer reload when a different manifest is loaded.
+    this.attributionExplicitlyClosed =
+      this.attributionExplicitlyClosed || explicitlyClosed;
     this.$attribution.hide();
     this.isAttributionOpen = false;
   }
@@ -228,39 +237,6 @@ export class CenterPanel<
 
   resize(): void {
     super.resize();
-
-    const leftPanelWidth: number = isVisible(this.extension.shell.$leftPanel)
-      ? Math.floor(this.extension.shell.$leftPanel.width())
-      : 0;
-
-    const searchLeftPanelWidth: number = isVisible(
-      this.extension.shell.$searchLeftPanel
-    )
-      ? Math.floor(this.extension.shell.$searchLeftPanel.width())
-      : 0;
-
-    const rightPanelWidth: number = isVisible(this.extension.shell.$rightPanel)
-      ? Math.floor(this.extension.shell.$rightPanel.width())
-      : 0;
-
-    const textRightPanelWidth: number = isVisible(
-      this.extension.shell.$textRightPanel
-    )
-      ? Math.floor(this.extension.shell.$textRightPanel.width())
-      : 0;
-
-    const width: number = Math.floor(
-      this.$element.parent().width() -
-        leftPanelWidth -
-        searchLeftPanelWidth -
-        rightPanelWidth -
-        textRightPanelWidth
-    );
-
-    this.$element.css({
-      left: leftPanelWidth + searchLeftPanelWidth,
-      width: width,
-    });
 
     let titleHeight: number;
     let subtitleHeight: number;

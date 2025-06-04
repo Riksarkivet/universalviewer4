@@ -9,7 +9,10 @@ export { StorageType } from "@edsilv/utils";
 export type MetricType = string | "sm" | "md" | "lg" | "xl";
 
 export class Metric {
-  constructor(public type: MetricType, public minWidth: number) {}
+  constructor(
+    public type: MetricType,
+    public minWidth: number
+  ) {}
 }
 
 export type Options = {
@@ -33,9 +36,6 @@ export type Options = {
 
   /** Determines if the header panel is enabled */
   headerPanelEnabled?: boolean;
-
-  /** Determines if the left container panel is enabled */
-  leftContainerPanelEnabled?: boolean;
 
   /** Determines if the left panel is enabled */
   leftPanelEnabled?: boolean;
@@ -79,9 +79,6 @@ export type Options = {
   /** Determines if viewport is preserved */
   preserveViewport?: boolean;
 
-  /** Determines if the right container panel is enabled */
-  rightContainerPanelEnabled?: boolean;
-
   /** Determines if the more info right panel is enabled */
   rightPanelEnabled?: boolean;
 
@@ -120,6 +117,12 @@ export type Options = {
 
   /** Controls whether to have animations or not */
   reducedAnimation?: boolean;
+
+  /** A default animation duration */
+  animationDuration?: number;
+
+  /** Determines if thumbnails are enabled */
+  thumbsEnabled: boolean;
 };
 
 type Locale = {
@@ -148,21 +151,20 @@ export type HeaderPanelOptions = {
   localeToggleEnabled: boolean;
   /** Determines if settings button is enabled */
   settingsButtonEnabled: boolean;
+  /** Determines if help is enabled */
+  helpEnabled?: boolean;
+  helpUrl?: string;
 };
 
 export type HeaderPanelContent = {
   close: string;
   settings: string;
+  help: string;
 };
 
 type HeaderPanel = ModuleConfig & {
   options: HeaderPanelOptions;
   content: HeaderPanelContent;
-};
-
-export type LeftContainerPanel = ModuleConfig & {
-  options: ModuleOptions;
-  content: ModuleContent;
 };
 
 type LeftPanel = ExpandPanel & {};
@@ -278,6 +280,10 @@ export type FooterPanelContent = {
   feedback: string;
   fullScreen: string;
   moreInfo: string;
+  openLeftPanel: string;
+  closeLeftPanel: string;
+  openRightPanel: string;
+  closeRightPanel: string;
   open: string;
   share: string;
 };
@@ -322,8 +328,16 @@ type SettingsDialogue = ModuleConfig & {
 };
 
 export type ShareDialogueOptions = DialogueOptions & {
+  /** Determines if copy buttons are enabled */
+  copyToClipboardEnabled: boolean;
   /** Determines if embed is enabled */
   embedEnabled: boolean;
+  /** Set host for embed code (default: window.location.hostname) */
+  embedHost?: string;
+  /** Set port for embed code (default: window.location.protocol) */
+  embedPort?: number;
+  /** Set path to uv.html on embed host (default: /uv.html) */
+  embedPath: string;
   /** Template for embedding */
   embedTemplate: string;
   /** Determines if instructions are enabled */
@@ -337,12 +351,15 @@ export type ShareDialogueOptions = DialogueOptions & {
 };
 
 export type ShareDialogueContent = DialogueContent & {
+  copyBtn: string;
+  copyToClipboard: string;
   customSize: string;
   embed: string;
   embedInstructions: string;
   height: string;
   iiif: string;
   share: string;
+  shareLink: string;
   shareInstructions: string;
   size: string;
   width: string;
@@ -568,11 +585,6 @@ export type TextRightPanel = ModuleConfig & {
   content: TextRightPanelContent;
 };
 
-export type RightContainerPanel = ModuleConfig & {
-  options: ModuleOptions;
-  content: ModuleContent;
-};
-
 export type Content = {
   authCORSError: string;
   authorisationFailedMessage: string;
@@ -598,12 +610,10 @@ export type BaseConfig = {
     genericDialogue: GenericDialogue;
     headerPanel: HeaderPanel;
     helpDialogue: HelpDialogue;
-    leftContainerPanel: LeftContainerPanel;
     leftPanel: LeftPanel;
     searchLeftPanel: SearchLeftPanel;
     loginDialogue: LoginDialogue;
     mobileFooterPanel: FooterPanel;
-    rightContainerPanel: RightContainerPanel;
     moreInfoRightPanel: MoreInfoRightPanel;
     textRightPanel: TextRightPanel;
     restrictedDialogue: RestrictedDialogue;

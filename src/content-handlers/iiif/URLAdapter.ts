@@ -46,7 +46,7 @@ export class URLAdapter extends UVAdapter {
     const locales = this.get<string>("locales", "");
     if (locales) {
       const names = locales.split(",");
-      for (let i in names) {
+      for (const i in names) {
         const parts = String(names[i]).split(":");
         formattedLocales[i] = { name: parts[0], label: parts[1] };
       }
@@ -225,7 +225,7 @@ export class URLAdapter extends UVAdapter {
     uv.on(
       Events.SEARCH_HIT_CHANGED,
       (searchHit) => {
-        let hitIndex = searchHit[0].hitIndex;
+        const hitIndex = searchHit[0].hitIndex;
         if (hitIndex !== undefined) {
           this.set("hi", hitIndex); // search hit index
         }

@@ -7,14 +7,12 @@ import { FooterPanel } from "../../modules/uv-shared-module/FooterPanel";
 import { FooterPanel as MobileFooterPanel } from "../../modules/uv-modelviewermobilefooterpanel-module/MobileFooter";
 import { HeaderPanel } from "../../modules/uv-shared-module/HeaderPanel";
 import { HelpDialogue } from "../../modules/uv-dialogues-module/HelpDialogue";
-import { MoreInfoDialogue } from "../../modules/uv-dialogues-module/MoreInfoDialogue";
 import { MoreInfoRightPanel } from "../../modules/uv-moreinforightpanel-module/MoreInfoRightPanel";
 import { TextRightPanel } from "../../modules/uv-textrightpanel-module/TextRightPanel";
 import { SettingsDialogue } from "./SettingsDialogue";
 import { ShareDialogue } from "./ShareDialogue";
 import { ModelViewerCenterPanel } from "../../modules/uv-modelviewercenterpanel-module/ModelViewerCenterPanel";
 import { ExternalResourceType } from "@iiif/vocabulary/dist-commonjs/";
-import { Strings } from "@edsilv/utils";
 import { Canvas, LanguageMap } from "manifesto.js";
 import { ModelViewerExtensionEvents } from "./Events";
 import { Orbit } from "./Orbit";
@@ -23,29 +21,19 @@ import defaultConfig from "./config/config.json";
 import { AnnotationGroup } from "@iiif/manifold";
 import { AnnotationResults } from "../../modules/uv-shared-module/AnnotationResults";
 import { Config } from "./config/Config";
-import { RightContainerPanel } from "../../modules/uv-shared-module/RightContainerPanel";
-import { LeftContainerPanel } from "../../modules/uv-shared-module/LeftContainerPanel";
 
 export default class ModelViewerExtension extends BaseExtension<Config> {
   $downloadDialogue: JQuery;
   $shareDialogue: JQuery;
   $helpDialogue: JQuery;
-  $moreInfoDialogue: JQuery;
   $settingsDialogue: JQuery;
   centerPanel: ModelViewerCenterPanel;
   downloadDialogue: DownloadDialogue;
   footerPanel: FooterPanel<Config["modules"]["footerPanel"]>;
   headerPanel: HeaderPanel<Config["modules"]["headerPanel"]>;
   helpDialogue: HelpDialogue;
-  leftContainerPanel: LeftContainerPanel<
-    Config["modules"]["leftContainerPanel"]
-  >;
   leftPanel: ContentLeftPanel;
   mobileFooterPanel: FooterPanel<Config["modules"]["footerPanel"]>;
-  moreInfoDialogue: MoreInfoDialogue;
-  rightContainerPanel: RightContainerPanel<
-    Config["modules"]["rightContainerPanel"]
-  >;
   rightPanel: MoreInfoRightPanel;
   textRightPanel: TextRightPanel;
   settingsDialogue: SettingsDialogue;
@@ -90,23 +78,11 @@ export default class ModelViewerExtension extends BaseExtension<Config> {
       this.shell.$headerPanel.hide();
     }
 
-    if (this.isLeftContainerPanelEnabled()) {
-      this.leftContainerPanel = new LeftContainerPanel(
-        this.shell.$leftContainerPanel
-      );
-    }
-
     if (this.isLeftPanelEnabled()) {
       this.leftPanel = new ContentLeftPanel(this.shell.$leftPanel);
     }
 
     this.centerPanel = new ModelViewerCenterPanel(this.shell.$centerPanel);
-
-    if (this.isRightContainerPanelEnabled()) {
-      this.rightContainerPanel = new RightContainerPanel(
-        this.shell.$rightContainerPanel
-      );
-    }
 
     if (this.isRightPanelEnabled()) {
       this.rightPanel = new MoreInfoRightPanel(this.shell.$rightPanel);
@@ -127,12 +103,6 @@ export default class ModelViewerExtension extends BaseExtension<Config> {
     } else {
       this.shell.$footerPanel.hide();
     }
-
-    this.$moreInfoDialogue = $(
-      '<div class="overlay moreInfo" aria-hidden="true"></div>'
-    );
-    this.shell.$overlays.append(this.$moreInfoDialogue);
-    this.moreInfoDialogue = new MoreInfoDialogue(this.$moreInfoDialogue);
 
     this.$downloadDialogue = $(
       '<div class="overlay download" aria-hidden="true"></div>'
@@ -284,16 +254,13 @@ export default class ModelViewerExtension extends BaseExtension<Config> {
   }
 
   getEmbedScript(template: string, width: number, height: number): string {
-    const appUri: string = this.getAppUri();
-    const title: string = this.helper.getLabel() || "";
-    const iframeSrc: string = `${appUri}#?manifest=${this.helper.manifestUri}&c=${this.helper.collectionIndex}&m=${this.helper.manifestIndex}&cv=${this.helper.canvasIndex}`;
-    const script: string = Strings.format(
-      template,
-      iframeSrc,
-      width.toString(),
-      height.toString(),
-      title
-    );
-    return script;
+    const hashParams = new URLSearchParams({
+      manifest: this.helper.manifestUri,
+      c: this.helper.collectionIndex.toString(),
+      m: this.helper.manifestIndex.toString(),
+      cv: this.helper.canvasIndex.toString(),
+    });
+
+    return super.buildEmbedScript(template, width, height, hashParams);
   }
 }

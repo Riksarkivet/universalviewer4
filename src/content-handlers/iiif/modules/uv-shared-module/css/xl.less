@@ -1,41 +1,49 @@
 .uv {
-    #debug {
-        #xl {
-            .xl-mediaquery({
+  #debug {
+    #xl {
+      .xl-mediaquery({
                 display: block !important;
                 visibility: visible !important;
             });
-        }
     }
+  }
 
-    .xl-mediaquery({
+  .xl-mediaquery({
         .headerPanel {
             display: block;
             visibility: visible;
         }
-    });
 
-    .mainPanel {
-        .xl-mediaquery({
+        .mainPanel {
             .leftPanel {
                 display: block;
                 visibility: visible;
             }
-            .leftPanel.searchLeftPanel {
-                .only-desktop();
+
+            .searchLeftPanel {
+                display: block;
+                visibility: visible;
             }
-        });
 
-        .rightPanel {
-            .only-desktop();
+            .textRightPanel {
+              display: block;
+              visibility: visible;
+            }
+
+            .rightPanel {
+                display: block;
+                visibility: visible;
+            }
         }
-    }
 
-    .footerPanel {
-        .only-desktop();
-    }
+        .footerPanel {
+            display: block;
+            visibility: visible;
+        }
 
-    .mobileFooterPanel {
-        .only-mobile();
-    }
+        .mobileFooterPanel {
+            display: none;
+            visibility: hidden;
+        }
+    });
 }

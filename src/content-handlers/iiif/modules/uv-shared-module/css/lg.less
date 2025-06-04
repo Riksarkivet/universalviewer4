@@ -1,32 +1,48 @@
 .uv {
-
-    #debug {
-
-        #lg {
-
-            .lg-mediaquery({
+  #debug {
+    #lg {
+      .lg-mediaquery({
                 display: block !important;
             });
-
-        }
     }
+  }
 
-    .lg-mediaquery({
+  .lg-mediaquery({
         .headerPanel {
             display: block;
             visibility: visible;
         }
-    });
 
-    .mainPanel {
-        .lg-mediaquery({
+        .mainPanel {
             .leftPanel {
                 display: block;
                 visibility: visible;
             }
-            .leftPanel.searchLeftPanel {
-                .only-desktop();
+
+            .searchLeftPanel {
+                display: block;
+                visibility: visible;
             }
-        });
-    }
+
+            .textRightPanel {
+              display: block;
+              visibility: visible;
+            }
+
+            .rightPanel {
+                display: block;
+                visibility: visible;
+            }
+        }
+
+        .footerPanel {
+            display: block;
+            visibility: visible;
+        }
+
+        .mobileFooterPanel {
+            display: none;
+            visibility: hidden;
+        }
+    });
 }

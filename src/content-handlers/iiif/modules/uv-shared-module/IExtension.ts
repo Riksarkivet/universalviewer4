@@ -60,10 +60,10 @@ export interface IExtension {
   isLoggedIn: boolean;
   isMobile(): boolean;
   isOverlayActive(): boolean;
-  isRightContainerPanelEnabled(): boolean;
   isRightPanelEnabled(): boolean;
   isTextRightPanelEnabled(): boolean;
   isSeeAlsoEnabled(): boolean;
+  isMetric(metric: string | string[]): boolean;
   isMobileMetric(): boolean;
   isSmMetric(): boolean;
   lastCanvasIndex: number;

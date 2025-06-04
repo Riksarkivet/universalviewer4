@@ -370,9 +370,7 @@ export class OpenSeadragonCenterPanel extends CenterPanel<
       ],
     });
 
-    let $oldZoomIn = this.$viewer.find('div[title="Zoom in"]');
-    // set z-index on parent insted of on buttons
-    $oldZoomIn.parent().css("z-index", "1000");
+    const $oldZoomIn = this.$viewer.find('div[title="Zoom in"]');
     this.$zoomInButton = $("<button />").append($oldZoomIn.contents());
     this.$zoomInButton.insertAfter($oldZoomIn);
     $oldZoomIn.remove();
@@ -385,7 +383,7 @@ export class OpenSeadragonCenterPanel extends CenterPanel<
       this.zoomIn();
     });
 
-    let $oldZoomOut = this.$viewer.find('div[title="Zoom out"]');
+    const $oldZoomOut = this.$viewer.find('div[title="Zoom out"]');
     this.$zoomOutButton = $("<button />").append($oldZoomOut.contents());
     this.$zoomOutButton.insertAfter($oldZoomOut);
     $oldZoomIn.remove();
@@ -398,7 +396,7 @@ export class OpenSeadragonCenterPanel extends CenterPanel<
       this.zoomOut();
     });
 
-    let $oldGoHome = this.$viewer.find('div[title="Go home"]');
+    const $oldGoHome = this.$viewer.find('div[title="Go home"]');
     this.$goHomeButton = $("<button />").append($oldGoHome.contents());
     this.$goHomeButton.insertAfter($oldGoHome);
     $oldGoHome.remove();
@@ -411,7 +409,7 @@ export class OpenSeadragonCenterPanel extends CenterPanel<
       this.goHome();
     });
 
-    let $oldRotate = this.$viewer.find('div[title="Rotate right"]');
+    const $oldRotate = this.$viewer.find('div[title="Rotate right"]');
     this.$rotateButton = $("<button />").append($oldRotate.contents());
     this.$rotateButton.insertAfter($oldRotate);
     $oldRotate.remove();
@@ -469,17 +467,16 @@ export class OpenSeadragonCenterPanel extends CenterPanel<
     this.$canvas = $(this.viewer.canvas);
 
     // Check if we have saved settings for image adjustment
-    let settings = this.extension.getSettings();
+    const settings = this.extension.getSettings();
     if (
       this.extension.data.config?.options.saveUserSettings &&
       settings.rememberSettings
     ) {
-      let contrastPercent = settings.contrastPercent;
-      let brightnessPercent = settings.brightnessPercent;
-      let saturationPercent = settings.saturationPercent;
-      (<HTMLCanvasElement>(
-        this.$canvas[0].children[0]
-      )).style.filter = `contrast(${contrastPercent}%) brightness(${brightnessPercent}%) saturate(${saturationPercent}%)`;
+      const contrastPercent = settings.contrastPercent;
+      const brightnessPercent = settings.brightnessPercent;
+      const saturationPercent = settings.saturationPercent;
+      (<HTMLCanvasElement>this.$canvas[0].children[0]).style.filter =
+        `contrast(${contrastPercent}%) brightness(${brightnessPercent}%) saturate(${saturationPercent}%)`;
     }
 
     // disable right click on canvas
@@ -699,7 +696,7 @@ export class OpenSeadragonCenterPanel extends CenterPanel<
 
   async getGirderTileSource(): Promise<any> {
     return new Promise<any>((resolve) => {
-      let canvas: Canvas = this.extension.helper.getCurrentCanvas();
+      const canvas: Canvas = this.extension.helper.getCurrentCanvas();
       const annotations: Annotation[] = canvas.getContent();
 
       if (annotations.length) {
@@ -943,7 +940,8 @@ export class OpenSeadragonCenterPanel extends CenterPanel<
   }
 
   zoomToInitialAnnotation(): void {
-    let annotationRect: AnnotationRect | null = this.getInitialAnnotationRect();
+    const annotationRect: AnnotationRect | null =
+      this.getInitialAnnotationRect();
 
     (this.extension as OpenSeadragonExtension).previousAnnotationRect = null;
     (this.extension as OpenSeadragonExtension).currentAnnotationRect = null;
@@ -1143,7 +1141,7 @@ export class OpenSeadragonCenterPanel extends CenterPanel<
     // we need to readd our line annotation rects after a clear.
     this.viewer.clearOverlays();
     let parentNodeName = "";
-    let lineAnnotationRects = $("div > div.lineAnnotationRect");
+    const lineAnnotationRects = $("div > div.lineAnnotationRect");
     if (lineAnnotationRects[0]) {
       parentNodeName = lineAnnotationRects[0].parentNode.nodeName.toLowerCase();
       if (parentNodeName === "body") {
@@ -1163,7 +1161,7 @@ export class OpenSeadragonCenterPanel extends CenterPanel<
   }
 
   getAnnotationsForCurrentImages(): AnnotationGroup[] {
-    let annotationsForCurrentImages: AnnotationGroup[] = [];
+    const annotationsForCurrentImages: AnnotationGroup[] = [];
     const annotations: AnnotationGroup[] | null = (
       this.extension as OpenSeadragonExtension
     ).annotations;
@@ -1207,8 +1205,8 @@ export class OpenSeadragonCenterPanel extends CenterPanel<
       this.getAnnotationRectsForCurrentImages();
 
     for (let i = 0; i < annotationRects.length; i++) {
-      let rect: AnnotationRect = annotationRects[i];
-      let viewportBounds: any = this.viewer.viewport.getBounds();
+      const rect: AnnotationRect = annotationRects[i];
+      const viewportBounds: any = this.viewer.viewport.getBounds();
 
       rect.isVisible = Dimensions.hitRect(
         viewportBounds.x,
@@ -1425,16 +1423,16 @@ export class OpenSeadragonCenterPanel extends CenterPanel<
   }
 
   getAnnotationOverlayRects(annotationGroup: AnnotationGroup): any[] {
-    let newRects: any[] = [];
+    const newRects: any[] = [];
 
     if (!this.extension.resources) {
       return newRects;
     }
 
-    let resource: any = this.extension.resources.filter(
+    const resource: any = this.extension.resources.filter(
       (x) => x.index === annotationGroup.canvasIndex
     )[0];
-    let index: number = this.extension.resources.indexOf(resource);
+    const index: number = this.extension.resources.indexOf(resource);
     let offsetX: number = 0;
 
     if (index > 0) {

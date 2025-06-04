@@ -1,77 +1,72 @@
 .uv {
+  .headerPanel {
+    .hidden();
+  }
 
-    .headerPanel {
-        .hidden();
-    }
+  .footerPanel {
+    .hidden();
+  }
 
-    .mainPanel {
+  .mobileFooterPanel {
+    .visible();
+    position: relative;
+    height: 42px;
 
-        .leftPanel {
-            .hidden();
+    .options {
+      position: absolute;
+      /*width: 315px;*/
+      height: 42px;
+
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+
+      .spacer {
+        float: left;
+        width: 30px;
+        height: 41px;
+      }
+
+      .btn {
+        margin-right: @margin-small-horizontal;
+
+        color: white;
+        font-size: 0;
+
+        &.moreInfo {
+          display: inline-block;
         }
 
-        .rightPanel {
-            .hidden();
+        &.toggleLeftPanelButton {
+          display: inline-block;
         }
-    }
 
-    .footerPanel {
-        .hidden();
-    }
-
-    .mobileFooterPanel {
-
-        .visible();
-        position: relative;
-        height: 42px;
-
-        .options {
-
-            position: absolute;
-            /*width: 315px;*/
-            height: 42px;
-
-            .spacer {
-                float: left;
-                width: 30px;
-                height: 41px;
-            }
-
-            .btn {
-
-                margin-right: @margin-small-horizontal;
-
-                color: white;
-              	font-size: 0;
-
-                &.moreInfo {
-                    display: inline-block;
-                }
-
-                &.bookmark {
-                    display: none;
-                }
-
-                &.open {
-                    display: none;
-                }
-
-                &.feedback {
-                    display: none;
-                }
-
-                &.embed {
-                    display: none;
-                }
-                
-                &.fullScreen {
-                    display: inline-block;
-                }
-            }
+        &.bookmark {
+          display: none;
         }
+
+        &.open {
+          display: none;
+        }
+
+        &.feedback {
+          display: none;
+        }
+
+        &.embed {
+          display: none;
+        }
+
+        &.fullScreen {
+          display: inline-block;
+        }
+      }
     }
+  }
 }
 
 .uv.loaded .uv-iiif-extension-host {
-    background-color: #000;
+  background-color: #000;
 }

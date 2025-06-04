@@ -12,7 +12,6 @@ import { FooterPanel } from "../../modules/uv-searchfooterpanel-module/FooterPan
 import { HelpDialogue } from "../../modules/uv-dialogues-module/HelpDialogue";
 import { IOpenSeadragonExtensionData } from "./IOpenSeadragonExtensionData";
 import { Mode } from "./Mode";
-import { MoreInfoDialogue } from "../../modules/uv-dialogues-module/MoreInfoDialogue";
 import { MoreInfoRightPanel } from "../../modules/uv-moreinforightpanel-module/MoreInfoRightPanel";
 import { MultiSelectDialogue } from "../../modules/uv-multiselectdialogue-module/MultiSelectDialogue";
 import { MultiSelectionArgs } from "./MultiSelectionArgs";
@@ -57,8 +56,6 @@ import defaultConfig from "./config/config.json";
 import { Config } from "./config/Config";
 import { TextRightPanel } from "../../modules/uv-textrightpanel-module/TextRightPanel";
 import { SearchLeftPanel } from "../../modules/uv-searchleftpanel-module/SearchLeftPanel";
-import { RightContainerPanel } from "../../modules/uv-shared-module/RightContainerPanel";
-import { LeftContainerPanel } from "../../modules/uv-shared-module/LeftContainerPanel";
 import { SearchHit } from "../../modules/uv-shared-module/SearchHit";
 import { Print } from "../../modules/uv-shared-module/Print";
 import { AdjustImageDialogue } from "../../modules/uv-dialogues-module/AdjustImageDialogue";
@@ -67,7 +64,6 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
   $downloadDialogue: JQuery;
   $externalContentDialogue: JQuery;
   $helpDialogue: JQuery;
-  $moreInfoDialogue: JQuery;
   $multiSelectDialogue: JQuery;
   $settingsDialogue: JQuery;
   $shareDialogue: JQuery;
@@ -82,19 +78,12 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
   helpDialogue: HelpDialogue;
   adjustImageDialogue: AdjustImageDialogue;
   isAnnotating: boolean = false;
-  leftContainerPanel: LeftContainerPanel<
-    Config["modules"]["leftContainerPanel"]
-  >;
   leftPanel: ContentLeftPanel;
   searchLeftPanel: SearchLeftPanel;
   mobileFooterPanel: MobileFooterPanel;
   mode: Mode;
-  moreInfoDialogue: MoreInfoDialogue;
   multiSelectDialogue: MultiSelectDialogue;
   previousAnnotationRect: AnnotationRect | null;
-  rightContainerPanel: RightContainerPanel<
-    Config["modules"]["rightContainerPanel"]
-  >;
   rightPanel: MoreInfoRightPanel;
   textRightPanel: TextRightPanel;
   settingsDialogue: SettingsDialogue;
@@ -133,7 +122,7 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
         this.changeCanvas(canvasIndex);
         if (this.getSettings().useRiksarkivetLegacyURLs) {
           // This is a special for us at Riksarkivet, and it's set to false as default.
-          let canvas = this.helper.getCanvasByIndex(canvasIndex);
+          const canvas = this.helper.getCanvasByIndex(canvasIndex);
           this.riksarkivet.UpdateUrl(canvas);
         }
       }
@@ -570,14 +559,6 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
       this.shell.$headerPanel.hide();
     }
 
-    if (this.isLeftContainerPanelEnabled()) {
-      this.leftContainerPanel = new LeftContainerPanel(
-        this.shell.$leftContainerPanel
-      );
-    } else {
-      this.shell.$leftContainerPanel.hide();
-    }
-
     if (this.isLeftPanelEnabled()) {
       this.leftPanel = new ContentLeftPanel(this.shell.$leftPanel);
     } else {
@@ -591,14 +572,6 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
     }
 
     this.centerPanel = new OpenSeadragonCenterPanel(this.shell.$centerPanel);
-
-    if (this.isRightContainerPanelEnabled()) {
-      this.rightContainerPanel = new RightContainerPanel(
-        this.shell.$rightContainerPanel
-      );
-    } else {
-      this.shell.$rightContainerPanel.hide();
-    }
 
     if (this.isRightPanelEnabled()) {
       this.rightPanel = new MoreInfoRightPanel(this.shell.$rightPanel);
@@ -629,12 +602,6 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
     );
     this.shell.$overlays.append(this.$helpDialogue);
     this.helpDialogue = new HelpDialogue(this.$helpDialogue);
-
-    this.$moreInfoDialogue = $(
-      '<div class="overlay moreInfo" aria-hidden="true"></div>'
-    );
-    this.shell.$overlays.append(this.$moreInfoDialogue);
-    this.moreInfoDialogue = new MoreInfoDialogue(this.$moreInfoDialogue);
 
     this.$multiSelectDialogue = $(
       '<div class="overlay multiSelect" aria-hidden="true"></div>'
@@ -707,8 +674,12 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
     // todo: can this be added to store?
     const paged = this.isPagingSettingEnabled();
 
-    const { downloadDialogueOpen, dialogueTriggerButton } =
-      this.store.getState() as OpenSeadragonExtensionState;
+    // Try to initialize using the stored state; exit early if the state is not ready yet:
+    const state: null | OpenSeadragonExtensionState = this.store.getState();
+    if (state === null) {
+      return;
+    }
+    const { downloadDialogueOpen, dialogueTriggerButton } = state;
 
     // todo: can the overlay visibility be added to the store?
     if (downloadDialogueOpen) {
@@ -959,7 +930,7 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
       const hit: any = searchHits.hits[i];
 
       for (let x = 0; x < hit.annotations.length; x++) {
-        let canvasId = searchHits.resources
+        const canvasId = searchHits.resources
           .find((e) => {
             return e["@id"] == hit.annotations[x];
           })
@@ -974,7 +945,7 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
           currentIndex++;
         }
 
-        let matches = hit.match.split(" ");
+        const matches = hit.match.split(" ");
         const searchHit: SearchHit = new SearchHit();
         searchHit.canvasId = canvasId;
         searchHit.canvasIndex = canvasIndex as number;
@@ -1317,20 +1288,20 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
 
     width = Math.min(width, resourceWidth);
     height = Math.min(height, resourceHeight);
-    let regionWidth: number = width;
-    let regionHeight: number = height;
+    const regionWidth: number = width;
+    const regionHeight: number = height;
 
     const maxDimensions: Size | null = canvas.getMaxDimensions();
 
     if (maxDimensions) {
       if (width > maxDimensions.width) {
-        let newWidth: number = maxDimensions.width;
+        const newWidth: number = maxDimensions.width;
         height = Math.round(newWidth * (height / width));
         width = newWidth;
       }
 
       if (height > maxDimensions.height) {
-        let newHeight: number = maxDimensions.height;
+        const newHeight: number = maxDimensions.height;
         width = Math.round((width / height) * newHeight);
         height = newHeight;
       }
@@ -1575,19 +1546,20 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
     zoom: string,
     rotation: number
   ): string {
-    const config: string = this.data.config!.uri || "";
-    const locales: string | null = this.getSerializedLocales();
-    const appUri: string = this.getAppUri();
-    const title: string = this.helper.getLabel() || "";
-    const iframeSrc: string = `${appUri}#?manifest=${this.helper.manifestUri}&c=${this.helper.collectionIndex}&m=${this.helper.manifestIndex}&cv=${this.helper.canvasIndex}&config=${config}&locales=${locales}&xywh=${zoom}&r=${rotation}`;
-    const script: string = Strings.format(
-      template,
-      iframeSrc,
-      width.toString(),
-      height.toString(),
-      title
-    );
-    return script;
+    const config: string = this.data.config?.uri ?? "";
+    const locales: string = this.getSerializedLocales() ?? "";
+    const hashParams = new URLSearchParams({
+      manifest: this.helper.manifestUri,
+      c: this.helper.collectionIndex.toString(),
+      m: this.helper.manifestIndex.toString(),
+      cv: this.helper.canvasIndex.toString(),
+      config: config,
+      locales: locales,
+      xywh: zoom,
+      r: rotation.toString(),
+    });
+
+    return super.buildEmbedScript(template, width, height, hashParams);
   }
 
   isSearchEnabled(): boolean {
@@ -1746,7 +1718,7 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
     let index: number;
 
     if (this.isPagingSettingEnabled()) {
-      let indices: number[] = this.getPagedIndices(canvasIndex);
+      const indices: number[] = this.getPagedIndices(canvasIndex);
 
       if (this.helper.isRightToLeft()) {
         index = indices[indices.length - 1] - 1;
@@ -1766,7 +1738,7 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
     // const canvas: Canvas | null = this.helper.getCanvasByIndex(canvasIndex);
 
     if (this.isPagingSettingEnabled()) {
-      let indices: number[] = this.getPagedIndices(canvasIndex);
+      const indices: number[] = this.getPagedIndices(canvasIndex);
 
       if (this.helper.isRightToLeft()) {
         index = indices[0] + 1;

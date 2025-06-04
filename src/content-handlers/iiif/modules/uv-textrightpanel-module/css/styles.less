@@ -1,13 +1,11 @@
 ﻿@import "@iiif/iiif-metadata-component/dist-css/styles.less";
 
 .uv {
-  .rightTextPanel {
+  .textRightPanel {
     .top {
-      display: flex;
-      
       .copyText {
         position: absolute;
-        background-image: data-uri('../img/copy.png') !important;
+        background-image: data-uri("../img/copy.png") !important;
         width: 15px;
         height: 15px;
         right: 40px;
@@ -35,24 +33,67 @@
       }
     }
 
-    .content {
-      padding: @padding-medium;
-    }
-
     .main {
       overflow: auto;
       color: @text-color;
+
+      .transcribed-text {
+        width: 230px;
+        padding: 5px 5px 5px 7px;
+
+        div {
+          padding: 5px;
+          margin: 0;
+        }
+
+        p {
+          padding: 5px;
+        }
+
+        .lineAnnotation {
+          &.current {
+            color: #000;
+            @col: rgb(120, 251, 185);
+            background-color: saturate(@col, 100%);
+          }
+
+          .searchHitSpan {
+            font-weight: bold;
+            background-color: #10819a;
+            padding: 3px;
+
+            &.current {
+              background-color: #11d4ff;
+              color: #000;
+            }
+          }
+
+          &:hover {
+            color: #000;
+            @col: lighten(rgb(120, 251, 185), 20%);
+            background-color: saturate(@col, 80%);
+          }
+        }
+
+        .label {
+          color: #9a9a9a;
+          border-bottom: 1px solid #343434;
+          margin: 0 10px 10px 0;
+        }
+      }
 
       &.loading {
         .loading(@loader-black-bg);
       }
 
       .noData {
-        padding: 0 @padding-medium-horizontal (@padding-medium-vertical * 2) @padding-medium-horizontal;
+        padding: 0 @padding-medium-horizontal (@padding-medium-vertical * 2)
+          @padding-medium-horizontal;
       }
 
       .groups {
-        padding: @padding-medium-vertical @padding-medium-horizontal (@padding-medium-vertical * 2) @padding-medium-horizontal;
+        padding: @padding-medium-vertical @padding-medium-horizontal
+          (@padding-medium-vertical * 2) @padding-medium-horizontal;
 
         .group {
           .header {
@@ -100,13 +141,16 @@
         border-right-color: transparent;
         box-shadow: 1px 2px 0px @gray-light;
         animation: cssload-spin 690ms infinite linear;
-          -o-animation: cssload-spin 690ms infinite linear;
-          -ms-animation: cssload-spin 690ms infinite linear;
-          -webkit-animation: cssload-spin 690ms infinite linear;
-          -moz-animation: cssload-spin 690ms infinite linear;
+        -o-animation: cssload-spin 690ms infinite linear;
+        -ms-animation: cssload-spin 690ms infinite linear;
+        -webkit-animation: cssload-spin 690ms infinite linear;
+        -moz-animation: cssload-spin 690ms infinite linear;
       }
       @keyframes cssload-spin {
-        100%{ transform: rotate(360deg); transform: rotate(360deg); }
+        100% {
+          transform: rotate(360deg);
+          transform: rotate(360deg);
+        }
       }
     }
   }

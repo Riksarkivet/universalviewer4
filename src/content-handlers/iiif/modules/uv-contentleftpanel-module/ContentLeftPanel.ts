@@ -125,6 +125,16 @@ export class ContentLeftPanel extends LeftPanel<ContentLeftPanelConfig> {
       this.updateTreeTabBySelection();
     });
 
+    this.extensionHost.subscribe(IIIFEvents.TREE_NODE_SELECTED, () => {
+      if (this.extension.isMetric("sm")) {
+        this.toggle(true);
+      }
+    });
+
+    this.extensionHost.subscribe(IIIFEvents.TOGGLE_EXPAND_LEFT_PANEL, () => {
+      this.openThumbsView();
+    });
+
     // this.extensionHost.subscribe(
     //   OpenSeadragonExtensionEvents.PAGING_TOGGLED,
     //   (_paged: boolean) => {
@@ -267,7 +277,7 @@ export class ContentLeftPanel extends LeftPanel<ContentLeftPanelConfig> {
   // }
 
   createTreeView(): void {
-    this.treeView = new TreeView(this.$treeView);
+    this.treeView = new TreeView(this.$treeView, false);
     this.treeView.treeData = this.getTreeData();
     this.treeView.setup();
     this.renderTree();
@@ -494,13 +504,13 @@ export class ContentLeftPanel extends LeftPanel<ContentLeftPanelConfig> {
         const searchResult: AnnotationGroup = searchResults[i];
 
         // find the thumb with the same canvasIndex and add the searchResult
-        let thumb: Thumb = thumbs.filter(
+        const thumb: Thumb = thumbs.filter(
           (t) => t.index === searchResult.canvasIndex
         )[0];
 
         if (thumb) {
           // clone the data so searchResults isn't persisted on the canvas.
-          let data = Object.assign({}, thumb.data);
+          const data = Object.assign({}, thumb.data);
           data.searchResults = searchResult.rects.length;
           thumb.data = data;
         }
@@ -537,7 +547,7 @@ export class ContentLeftPanel extends LeftPanel<ContentLeftPanelConfig> {
     );
   }
   createGalleryView(): void {
-    this.galleryView = new GalleryView(this.$galleryView);
+    this.galleryView = new GalleryView(this.$galleryView, false);
     this.galleryView.galleryData = this.getGalleryData();
     this.galleryView.setup();
     this.renderGallery();
@@ -611,7 +621,7 @@ export class ContentLeftPanel extends LeftPanel<ContentLeftPanelConfig> {
         true
       );
       const thumbsEnabled: boolean = Bools.getBool(
-        this.config.options.thumbsEnabled,
+        this.extension.data.config!.options.thumbsEnabled,
         true
       );
 
@@ -623,10 +633,6 @@ export class ContentLeftPanel extends LeftPanel<ContentLeftPanelConfig> {
 
       // hide the tabs if either tree or thumbs are disabled
       if (!treeEnabled || !thumbsEnabled) this.$tabs.hide();
-
-      if (!treeEnabled && !thumbsEnabled) {
-        this.extension.shell.$leftPanel.hide();
-      }
 
       if (thumbsEnabled && this.defaultToThumbsView()) {
         this.openThumbsView();
@@ -752,9 +758,11 @@ export class ContentLeftPanel extends LeftPanel<ContentLeftPanelConfig> {
     this.resize();
 
     if (this.isFullyExpanded) {
-      this.$thumbsView.hide();
-      if (this.galleryView) this.galleryView.show();
-      if (this.galleryView) this.galleryView.resize();
+      setTimeout(() => {
+        this.$thumbsView.hide();
+        if (this.galleryView) this.galleryView.show();
+        if (this.galleryView) this.galleryView.resize();
+      }, 1);
     } else {
       if (this.galleryView) this.galleryView.hide();
       this.$thumbsView.show();
@@ -879,13 +887,19 @@ export class ContentLeftPanel extends LeftPanel<ContentLeftPanelConfig> {
   resize(): void {
     super.resize();
 
-    this.$tabsContent.height(
-      this.$main.height() -
-        (isVisible(this.$tabs) ? this.$tabs.height() : 0) -
-        this.$tabsContent.verticalPadding()
-    );
-    this.$views.height(
-      this.$tabsContent.height() - this.$options.outerHeight()
-    );
+    // bit of a race condition happening
+    // timeout gives tabs time to appear and be counted
+    // so the correct height is calc'd
+    setTimeout(() => {
+      this.$tabsContent.height(
+        this.$main.height() -
+          (isVisible(this.$tabs) ? this.$tabs.height() : 0) -
+          this.$tabsContent.verticalPadding()
+      );
+
+      this.$views.height(
+        this.$tabsContent.height() - this.$options.outerHeight()
+      );
+    }, 1);
   }
 }

@@ -317,7 +317,7 @@ export class PagingHeaderPanel extends HeaderPanel<
     this.setNavigationTitles();
     this.setTotal();
 
-    let viewingDirection: ViewingDirection =
+    const viewingDirection: ViewingDirection =
       this.extension.helper.getViewingDirection() ||
       ViewingDirection.LEFT_TO_RIGHT;
 
@@ -436,10 +436,6 @@ export class PagingHeaderPanel extends HeaderPanel<
       this.options.autoCompleteBoxEnabled !== true
     ) {
       this.$search.hide();
-    }
-
-    if (this.options.helpEnabled === false) {
-      this.$helpButton.hide();
     }
 
     // todo: discuss on community call
@@ -562,7 +558,8 @@ export class PagingHeaderPanel extends HeaderPanel<
   galleryIsVisible(): boolean {
     return (
       Bools.getBool(this.options.galleryButtonEnabled, true) &&
-      this.extension.isLeftPanelEnabled()
+      this.extension.isLeftPanelEnabled() &&
+      Bools.getBool(this.extension.data.config!.options.thumbsEnabled, true)
     );
   }
 

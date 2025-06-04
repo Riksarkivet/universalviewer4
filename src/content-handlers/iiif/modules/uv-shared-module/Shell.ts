@@ -11,13 +11,11 @@ export class Shell extends BaseView<BaseConfig> {
   public $footerPanel: JQuery;
   public $genericDialogue: JQuery;
   public $headerPanel: JQuery;
-  public $leftContainerPanel: JQuery;
   public $leftPanel: JQuery;
   public $searchLeftPanel: JQuery;
   public $mainPanel: JQuery;
   public $mobileFooterPanel: JQuery;
   public $overlays: JQuery;
-  public $rightContainerPanel: JQuery;
   public $rightPanel: JQuery;
   public $textRightPanel: JQuery;
 
@@ -57,23 +55,17 @@ export class Shell extends BaseView<BaseConfig> {
     );
     this.$mainPanel.append(this.$centerPanel);
 
-    this.$leftContainerPanel = $('<div class="leftContainerPanel"></div>');
-    this.$mainPanel.append(this.$leftContainerPanel);
-
     this.$leftPanel = $('<div class="leftPanel"></div>');
-    this.$leftContainerPanel.append(this.$leftPanel);
+    this.$mainPanel.append(this.$leftPanel);
 
-    this.$searchLeftPanel = $('<div class="leftPanel searchLeftPanel"></div>');
-    this.$leftContainerPanel.append(this.$searchLeftPanel);
+    this.$searchLeftPanel = $('<div class="searchLeftPanel"></div>');
+    this.$mainPanel.append(this.$searchLeftPanel);
 
-    this.$rightContainerPanel = $('<div class="rightContainerPanel"></div>');
-    this.$mainPanel.append(this.$rightContainerPanel);
-
-    this.$textRightPanel = $('<div class="rightPanel"></div>');
-    this.$rightContainerPanel.append(this.$textRightPanel);
+    this.$textRightPanel = $('<div class="textRightPanel"></div>');
+    this.$mainPanel.append(this.$textRightPanel);
 
     this.$rightPanel = $('<div class="rightPanel"></div>');
-    this.$rightContainerPanel.append(this.$rightPanel);
+    this.$mainPanel.append(this.$rightPanel);
 
     this.$footerPanel = $('<div class="footerPanel"></div>');
     this.$element.append(this.$footerPanel);

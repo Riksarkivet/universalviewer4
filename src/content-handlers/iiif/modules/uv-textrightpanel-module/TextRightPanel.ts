@@ -37,10 +37,12 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
 
     super.create();
 
-    const shouldOpenPanel: boolean = Bools.getBool(
+    let shouldOpenPanel: boolean = Bools.getBool(
       this.extension.getSettings().textRightPanelOpen,
       this.options.panelOpen
     );
+
+    if (this.extension.isSmMetric()) shouldOpenPanel = false;
 
     if (shouldOpenPanel) {
       this.toggle(true);
@@ -80,7 +82,7 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
       });
 
       this.$copyButton.on("click", () => {
-        let text = that.$transcribedText.attr("data-text");
+        const text = that.$transcribedText.attr("data-text");
         this.copyText(text);
       });
 
@@ -109,7 +111,7 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
 
     this.extensionHost.on(Events.SEARCH_HIT_CHANGED, (e) => {
       this.currentRectIndex = e[0].rectIndex;
-      let canvasIndex = this.extension.helper.canvasIndex;
+      const canvasIndex = this.extension.helper.canvasIndex;
       this.currentHitIndex = e[0].hitIndex;
       $(".transcribed-text .searchHitSpan").each(
         (i: Number, searchHit: any) => {
@@ -162,10 +164,10 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
 
     this.extensionHost.on(Events.LOAD, async (e) => {
       this.centerPanel = (<OpenSeadragonExtension>this.extension).centerPanel;
-      let canvases = this.extension.getCurrentCanvases();
+      const canvases = this.extension.getCurrentCanvases();
       canvases.sort((a, b) => ((a.index as number) - b.index) as number);
 
-      let canvasExists = canvases.some(
+      const canvasExists = canvases.some(
         (x) => x.index === this.currentCanvasIndex
       );
 
@@ -181,7 +183,7 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
       this.removeLineAnnotationRects();
       for (let i = 0; i < canvases.length; i++) {
         const c = canvases[i];
-        let seeAlso = c.getProperty("seeAlso");
+        const seeAlso = c.getProperty("seeAlso");
         let header;
 
         if (i === 0 && canvases.length > 1) {
@@ -191,11 +193,11 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
         }
 
         // Find offset if showing more pages than one
-        let res = this.extension.resources;
+        const res = this.extension.resources;
         this.offsetX = -1;
         this.index = -1;
         if (res !== null && res !== undefined) {
-          let resource: any = res.filter((x) => x.index === c.index)[0];
+          const resource: any = res.filter((x) => x.index === c.index)[0];
           this.index = res.indexOf(resource);
           this.offsetX = 0;
 
@@ -204,6 +206,11 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
               res[this.index - 1]
             )).width;
           }
+        }
+
+        if (this.offsetX === 0 && this.$transcribedText) {
+          // Clear transcribedText when switching between one or more pages
+          this.$transcribedText.html("");
         }
 
         // We need to see if seeAlso contains an ALTO file and maybe allow for other HTR/OCR formats in the future
@@ -220,13 +227,13 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
           }
         }
 
-        let annotationRects = (<OpenSeadragonExtension>this.extension)
+        const annotationRects = (<OpenSeadragonExtension>this.extension)
           .getAnnotationRects()
           .filter((rect) => {
             return rect["canvasIndex"] == c.index;
           });
         annotationRects.forEach((annotationRect) => {
-          let rect = {
+          const rect = {
             x: annotationRect.x,
             y: annotationRect.y,
             width: annotationRect.width,
@@ -234,13 +241,13 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
           };
           $("div.lineAnnotationRect").each(
             (i: Number, lineAnnotationRect: any) => {
-              let x = $(lineAnnotationRect).data("x");
-              let y = $(lineAnnotationRect).data("y");
-              let width = $(lineAnnotationRect).data("width");
-              let height = $(lineAnnotationRect).data("height");
-              let lineRect = { x: x, y: y, width: width, height: height };
+              const x = $(lineAnnotationRect).data("x");
+              const y = $(lineAnnotationRect).data("y");
+              const width = $(lineAnnotationRect).data("width");
+              const height = $(lineAnnotationRect).data("height");
+              const lineRect = { x: x, y: y, width: width, height: height };
 
-              let p = getIntersectionPercentage(rect, lineRect);
+              const p = getIntersectionPercentage(rect, lineRect);
               if (p > 50) {
                 let text = $(
                   "div#" + $(lineAnnotationRect).attr("id") + ".lineAnnotation"
@@ -304,7 +311,7 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
     });
 
     this.setTitle(this.config.content.title);
-    this.$top.parent().addClass("rightTextPanel");
+    this.$top.parent().addClass("textRightPanel");
   }
 
   toggleFinish(): void {
@@ -340,9 +347,9 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
       const altoDoc = new DOMParser().parseFromString(data, "application/xml");
       const textLines = altoDoc.querySelectorAll("TextLine");
 
-      let lines = Array.from(textLines).map((e, i) => {
+      const lines = Array.from(textLines).map((e, i) => {
         const strings = e.querySelectorAll("String");
-        let t = Array.from(strings).map((e, i) => {
+        const t = Array.from(strings).map((e, i) => {
           return e.getAttribute("CONTENT");
         });
         let x = Number(e.getAttribute("HPOS"));
@@ -353,10 +360,10 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
           x +
           this.offsetX +
           (this.index > 0 ? this.centerPanel.config.options.pageGap : 0);
-        let text = t.join(" ");
-        this.clipboardText += text;
+        const text = t.join(" ");
+        this.clipboardText += text + " ";
 
-        let line = $(
+        const line = $(
           '<div id="line-annotation-' +
             canvasIndex +
             "-" +
@@ -367,7 +374,7 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
         );
 
         if (!this.extension.isMobile()) {
-          let div = $(
+          const div = $(
             '<div id="line-annotation-' +
               canvasIndex +
               "-" +
@@ -390,7 +397,9 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
             }
           });
           $(div).on("click", (e: any) => {
-            let canvasIndex = Number(e.target.getAttribute("id").split("-")[2]);
+            const canvasIndex = Number(
+              e.target.getAttribute("id").split("-")[2]
+            );
             // We change the current canvas index to the clicked page (if we're in two page view)
             if (canvasIndex !== this.currentCanvasIndex) {
               this.extension.helper.canvasIndex = canvasIndex;
@@ -414,8 +423,8 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
           });
           // Sync line click with line annotation
           line.on("click", (e: any) => {
-            let target = e.currentTarget;
-            let canvasIndex = Number(target.getAttribute("id").split("-")[2]);
+            const target = e.currentTarget;
+            const canvasIndex = Number(target.getAttribute("id").split("-")[2]);
             // We change the current canvas index to the clicked page (if we're in two page view)
             if (canvasIndex !== this.currentCanvasIndex) {
               this.extension.helper.canvasIndex = canvasIndex;
@@ -429,10 +438,10 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
         }
         return line;
       });
-      if (this.$transcribedText) {
-        this.$transcribedText.html("");
+
+      if (!this.$transcribedText) {
+        this.$transcribedText = $('<div class="transcribed-text"></div>');
       }
-      this.$transcribedText = $('<div class="transcribed-text"></div>');
       if (header) {
         this.$transcribedText.append(
           $('<div class="label">' + header + "</div>")
@@ -440,7 +449,7 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
       }
       if (lines.length > 0) {
         this.$transcribedText.append(lines);
-        this.$transcribedText.attr("data-text", this.clipboardText);
+        this.$transcribedText.attr("data-text", this.clipboardText.trimEnd());
       } else {
         this.$transcribedText.append(
           $("<div>" + this.content.textNotFound + "</div>")
@@ -459,7 +468,7 @@ export class TextRightPanel extends RightPanel<TextRightPanelConfig> {
 
       // If we already have a selected line annotation, make sure it's selected again after load
       if (this.$existingAnnotation[0] !== undefined) {
-        let id = $(this.$existingAnnotation).attr("id");
+        const id = $(this.$existingAnnotation).attr("id");
         if ($("div#" + id).length > 0) {
           // Make sure the line annotation exists in the DOM
           this.setCurrentLineAnnotation($("div#" + id)[0], true);

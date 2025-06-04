@@ -1,7 +1,7 @@
 ﻿@import "@iiif/iiif-metadata-component/dist-css/styles.less";
 
 .uv {
-  .leftPanel {
+  .searchLeftPanel {
     .top {
       .title {
         text-transform: uppercase;
@@ -21,11 +21,13 @@
       }
 
       .noData {
-        padding: 0 @padding-medium-horizontal (@padding-medium-vertical * 2) @padding-medium-horizontal;
+        padding: 0 @padding-medium-horizontal (@padding-medium-vertical * 2)
+          @padding-medium-horizontal;
       }
 
       .groups {
-        padding: @padding-medium-vertical @padding-medium-horizontal (@padding-medium-vertical * 2) @padding-medium-horizontal;
+        padding: @padding-medium-vertical @padding-medium-horizontal
+          (@padding-medium-vertical * 2) @padding-medium-horizontal;
 
         .group {
           .header {
@@ -102,8 +104,9 @@
             align-items: center;
             border: none;
 
-            &.prev::before, &.next::before {
-              content: '';
+            &.prev::before,
+            &.next::before {
+              content: "";
               position: absolute;
               top: 50%;
               transform: translateY(-50%);
@@ -203,7 +206,7 @@
             border: none;
             box-shadow: none;
           }
-          
+
           .spinner {
             width: 14px;
             height: 14px;
@@ -217,30 +220,45 @@
             border-right-color: transparent;
             box-shadow: 1px 2px 0px @gray-light;
             animation: cssload-spin 690ms infinite linear;
-              -o-animation: cssload-spin 690ms infinite linear;
-              -ms-animation: cssload-spin 690ms infinite linear;
-              -webkit-animation: cssload-spin 690ms infinite linear;
-              -moz-animation: cssload-spin 690ms infinite linear;
+            -o-animation: cssload-spin 690ms infinite linear;
+            -ms-animation: cssload-spin 690ms infinite linear;
+            -webkit-animation: cssload-spin 690ms infinite linear;
+            -moz-animation: cssload-spin 690ms infinite linear;
           }
-                    
+
           @keyframes cssload-spin {
-            100%{ transform: rotate(360deg); transform: rotate(360deg); }
+            100% {
+              transform: rotate(360deg);
+              transform: rotate(360deg);
+            }
           }
-          
+
           @-o-keyframes cssload-spin {
-            100%{ -o-transform: rotate(360deg); transform: rotate(360deg); }
+            100% {
+              -o-transform: rotate(360deg);
+              transform: rotate(360deg);
+            }
           }
-          
+
           @-ms-keyframes cssload-spin {
-            100%{ -ms-transform: rotate(360deg); transform: rotate(360deg); }
+            100% {
+              -ms-transform: rotate(360deg);
+              transform: rotate(360deg);
+            }
           }
-          
+
           @-webkit-keyframes cssload-spin {
-            100%{ -webkit-transform: rotate(360deg); transform: rotate(360deg); }
+            100% {
+              -webkit-transform: rotate(360deg);
+              transform: rotate(360deg);
+            }
           }
-          
+
           @-moz-keyframes cssload-spin {
-            100%{ -moz-transform: rotate(360deg); transform: rotate(360deg); }
+            100% {
+              -moz-transform: rotate(360deg);
+              transform: rotate(360deg);
+            }
           }
 
           .clearButton {
@@ -263,7 +281,7 @@
             background-color: @gray-light;
             transform: rotate(45deg) translate(-50%, -50%);
             transform-origin: top left;
-            content: '';
+            content: "";
           }
 
           .clearButton::after {
@@ -290,11 +308,11 @@
             background-color: @gray-light;
             transform: rotate(-35deg);
             transform-origin: top left;
-            content: '';
+            content: "";
           }
 
           .searchButton::after {
-            content: '';
+            content: "";
             position: absolute;
             width: 11px;
             height: 11px;
@@ -336,7 +354,7 @@
 
           .searchHitSpan {
             font-weight: bold;
-            background-color: #10819A;
+            background-color: #10819a;
             padding: 3px;
           }
 
@@ -349,7 +367,6 @@
           }
         }
       }
-
     }
   }
 }

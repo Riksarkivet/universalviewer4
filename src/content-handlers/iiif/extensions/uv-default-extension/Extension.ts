@@ -11,12 +11,10 @@ import { SearchLeftPanel } from "../../modules/uv-searchleftpanel-module/SearchL
 import { ResourcesLeftPanel } from "../../modules/uv-resourcesleftpanel-module/ResourcesLeftPanel";
 import { SettingsDialogue } from "./SettingsDialogue";
 import { ShareDialogue } from "./ShareDialogue";
-import { Bools, Strings } from "@edsilv/utils";
+import { Bools } from "@edsilv/utils";
 import "./theme/theme.less";
 import defaultConfig from "./config/config.json";
 import { Config } from "./config/Config";
-import { RightContainerPanel } from "../../modules/uv-shared-module/RightContainerPanel";
-import { LeftContainerPanel } from "../../modules/uv-shared-module/LeftContainerPanel";
 
 export default class Extension
   extends BaseExtension<Config>
@@ -33,12 +31,6 @@ export default class Extension
   helpDialogue: HelpDialogue;
   leftPanel: ResourcesLeftPanel;
   searchLeftPanel: SearchLeftPanel;
-  rightContainerPanel: RightContainerPanel<
-    Config["modules"]["rightContainerPanel"]
-  >;
-  leftContainerPanel: LeftContainerPanel<
-    Config["modules"]["leftContainerPanel"]
-  >;
   rightPanel: MoreInfoRightPanel;
   textRightPanel: TextRightPanel;
   settingsDialogue: SettingsDialogue;
@@ -71,12 +63,6 @@ export default class Extension
       this.shell.$headerPanel.hide();
     }
 
-    if (this.isLeftContainerPanelEnabled()) {
-      this.leftContainerPanel = new LeftContainerPanel(
-        this.shell.$leftContainerPanel
-      );
-    }
-
     if (this.isLeftPanelEnabled()) {
       this.leftPanel = new ResourcesLeftPanel(this.shell.$leftPanel);
     }
@@ -86,12 +72,6 @@ export default class Extension
     }
 
     this.centerPanel = new FileLinkCenterPanel(this.shell.$centerPanel);
-
-    if (this.isRightContainerPanelEnabled()) {
-      this.rightContainerPanel = new RightContainerPanel(
-        this.shell.$rightContainerPanel
-      );
-    }
 
     if (this.isRightPanelEnabled()) {
       this.rightPanel = new MoreInfoRightPanel(this.shell.$rightPanel);
@@ -128,20 +108,12 @@ export default class Extension
     this.shell.$overlays.append(this.$settingsDialogue);
     this.settingsDialogue = new SettingsDialogue(this.$settingsDialogue);
 
-    if (this.isLeftContainerPanelEnabled()) {
-      this.leftContainerPanel.init();
-    }
-
     if (this.isLeftPanelEnabled()) {
       this.leftPanel.init();
     }
 
     if (this.isSearchLeftPanelEnabled()) {
       this.searchLeftPanel.init();
-    }
-
-    if (this.isRightContainerPanelEnabled()) {
-      this.rightContainerPanel.init();
     }
 
     if (this.isRightPanelEnabled()) {
@@ -167,16 +139,13 @@ export default class Extension
   }
 
   getEmbedScript(template: string, width: number, height: number): string {
-    const appUri: string = this.getAppUri();
-    const title: string = this.helper.getLabel() || "";
-    const iframeSrc: string = `${appUri}#?manifest=${this.helper.manifestUri}&c=${this.helper.collectionIndex}&m=${this.helper.manifestIndex}&cv=${this.helper.canvasIndex}`;
-    const script: string = Strings.format(
-      template,
-      iframeSrc,
-      width.toString(),
-      height.toString(),
-      title
-    );
-    return script;
+    const hashParams = new URLSearchParams({
+      manifest: this.helper.manifestUri,
+      c: this.helper.collectionIndex.toString(),
+      m: this.helper.manifestIndex.toString(),
+      cv: this.helper.canvasIndex.toString(),
+    });
+
+    return super.buildEmbedScript(template, width, height, hashParams);
   }
 }

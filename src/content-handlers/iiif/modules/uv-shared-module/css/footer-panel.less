@@ -1,27 +1,33 @@
 .uv {
-
-    .footerPanel {
-
-        .searchOptions {
-            width: 425px;
-        }
-
-        .options {
-            height: 42px;
-
-            .btn {
-              	color: white;
-                font-size: auto;
-
-                &.moreInfo {
-                    display: none;
-                }
-
-				&.fullScreen,
-				&.exitFullscreen {
-					float: right;
-              	}
-            }
-        }
+  .footerPanel {
+    .searchOptions {
+      width: 425px;
     }
+
+    .options {
+      height: 42px;
+
+      .left-options {
+        min-width: 30px;
+      }
+
+      .btn {
+        color: white;
+        font-size: auto;
+
+        &.moreInfo {
+          display: none;
+        }
+
+        &.toggleLeftPanelButton {
+          display: none;
+        }
+
+        &.fullScreen,
+        &.exitFullscreen {
+          float: right;
+        }
+      }
+    }
+  }
 }
