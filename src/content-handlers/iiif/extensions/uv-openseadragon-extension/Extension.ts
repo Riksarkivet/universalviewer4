@@ -342,7 +342,7 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
         IIIFEvents.CANVAS_INDEX_CHANGE,
         this.getPrevPageIndex()
       );
-      let range: Range | null = this.helper.getCanvasRange(
+      const range: Range | null = this.helper.getCanvasRange(
         this.helper.getCurrentCanvas()
       );
 
