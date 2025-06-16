@@ -823,7 +823,7 @@ export class ContentLeftPanel extends LeftPanel<ContentLeftPanelConfig> {
       const usingCorrectTree: boolean =
         currentCanvasTopRangeIndex === selectedTopRangeIndex;
       let range: Range | null = null;
-      this.treeView.databind();
+      //this.treeView.databind();
 
       if (currentCanvasTopRangeIndex !== -1) {
         range = this.extension.getCurrentCanvasRange();
@@ -843,13 +843,11 @@ export class ContentLeftPanel extends LeftPanel<ContentLeftPanelConfig> {
         this.treeView.selectNode(node);
       } else {
         range = this.extension.helper.getCurrentRange();
-
         if (range && range.treeNode) {
           node = this.treeView.getNodeById(range.treeNode.id);
         }
-
         if (node) {
-          this.treeView.selectNode(node);
+          this.treeView.expandParents(node);
         } else {
           this.selectTreeNodeByManifest();
         }

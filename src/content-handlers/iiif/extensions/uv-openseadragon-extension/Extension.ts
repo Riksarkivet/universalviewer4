@@ -345,12 +345,6 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
       let range: Range | null = this.helper.getCanvasRange(
         this.helper.getCurrentCanvas()
       );
-      if (
-        range === undefined &&
-        this.helper.getPreviousRange()?.getBehavior() === "sequence"
-      ) {
-        range = this.helper.getPreviousRange();
-      }
 
       if (range) {
         this.extensionHost.publish(IIIFEvents.RANGE_CHANGE, range);
@@ -1088,7 +1082,6 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
 
   treeNodeSelected(node: TreeNode): void {
     const data: any = node.data;
-
     if (!data.type) return;
 
     switch (data.type) {
