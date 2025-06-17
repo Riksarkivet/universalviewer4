@@ -105,6 +105,10 @@ export class TreeView extends BaseView<ContentLeftPanel> {
     this.treeComponent.expandNode(node, expanded);
   }
 
+  public expandParents(node: TreeNode) {
+    this.treeComponent.expandParents(node, true);
+  }
+
   public getAllNodes(): TreeNode[] {
     return this.treeComponent.getAllNodes();
   }
