@@ -57,7 +57,8 @@
         "autoCompleteBoxEnabled": false,
         "modeOptionsEnabled": false,
         "galleryButtonEnabled": false,
-        "showLogo": true
+        "showLogo": true,
+        "prevNextFiveButtonsEnabled": true
       }
     },
     "openSeadragonCenterPanel": {

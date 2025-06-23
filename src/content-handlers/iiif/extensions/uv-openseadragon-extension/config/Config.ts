@@ -61,6 +61,8 @@ type PagingHeaderPanelOptions = HeaderPanelOptions & {
   pageModeEnabled: boolean;
   /** Determines if paging toggle is enabled */
   pagingToggleEnabled: boolean;
+  /** Determines if previous 5 and next 5 buttons are enabled */
+  prevNextFiveButtonsEnabled: boolean;
   /** Determines if logotype (in left upper corner of header) is set to visible */
   showLogo: boolean;
 };
@@ -79,6 +81,8 @@ type PagingHeaderPanelContent = HeaderPanelContent & {
   lastImage: string;
   lastPage: string;
   next: string;
+  nextFiveImages: string;
+  nextFivePages: string;
   nextImage: string;
   nextPage: string;
   of: string;
@@ -86,6 +90,8 @@ type PagingHeaderPanelContent = HeaderPanelContent & {
   page: string;
   pageSearchLabel: string;
   previous: string;
+  previousFiveImages: string;
+  previousFivePages: string;
   previousImage: string;
   previousPage: string;
   twoUp: string;
