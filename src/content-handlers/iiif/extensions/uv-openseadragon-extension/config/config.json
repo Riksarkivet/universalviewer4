@@ -420,7 +420,8 @@
         "helpEnabled": false,
         "helpUrl": "https://universalviewer.io/",
         "modeOptionsEnabled": true,
-        "showLogo": true
+        "showLogo": true,
+        "prevNextFiveButtonsEnabled": false
       },
       "content": {
         "close": "$close",
@@ -437,6 +438,8 @@
         "lastImage": "$lastImage",
         "lastPage": "$lastPage",
         "next": "$next",
+        "nextFiveImages": "$nextFiveImages",
+        "nextFivePages": "$nextFivePages",
         "nextImage": "$nextImage",
         "nextPage": "$nextPage",
         "of": "$of",
@@ -444,6 +447,8 @@
         "page": "$page",
         "pageSearchLabel": "$searchByPageNumber",
         "previous": "$previous",
+        "previousFiveImages": "$previousFiveImages",
+        "previousFivePages": "$previousFivePages",
         "previousImage": "$previousImage",
         "previousPage": "$previousPage",
         "settings": "$settings",

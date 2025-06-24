@@ -60,6 +60,7 @@ export class IIIFEvents {
   static MULTISELECT_CHANGE: string = "multiSelectChange";
   static MULTISELECTION_MADE: string = "multiSelectionMade";
   static NEXT: string = "next";
+  static NEXT_FIVE: string = "nextFive";
   static NOT_FOUND: string = "notFound";
   static OPEN_EXTERNAL_RESOURCE: string = "openExternalResource";
   static OPEN_LEFT_PANEL: string = "openLeftPanel";
@@ -74,6 +75,7 @@ export class IIIFEvents {
   static PINPOINT_ANNOTATION_CLICKED: string = "pinpointAnnotationClicked";
   static PLUS: string = "plus";
   static PREV: string = "prev";
+  static PREV_FIVE: string = "prevFive";
   static RANGE_CHANGE: string = "rangeChange";
   static REDIRECT: string = "redirect";
   static REFRESH: string = "refresh";

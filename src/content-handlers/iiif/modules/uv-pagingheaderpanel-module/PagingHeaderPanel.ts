@@ -24,12 +24,14 @@ export class PagingHeaderPanel extends HeaderPanel<
   $lastButton: JQuery;
   $modeOptions: JQuery;
   $nextButton: JQuery;
+  $nextFiveButton: JQuery;
   $nextOptions: JQuery;
   $oneUpButton: JQuery;
   $pageModeLabel: JQuery;
   $pageModeOption: JQuery;
   $pagingToggleButtons: JQuery;
   $prevButton: JQuery;
+  $prevFiveButton: JQuery;
   $prevOptions: JQuery;
   $search: JQuery;
   $searchButton: JQuery;
@@ -41,7 +43,9 @@ export class PagingHeaderPanel extends HeaderPanel<
   firstButtonEnabled: boolean = false;
   lastButtonEnabled: boolean = false;
   nextButtonEnabled: boolean = false;
+  nextFiveButtonEnabled: boolean = false;
   prevButtonEnabled: boolean = false;
+  prevFiveButtonEnabled: boolean = false;
 
   constructor($element: JQuery) {
     super($element);
@@ -91,6 +95,14 @@ export class PagingHeaderPanel extends HeaderPanel<
           </button>
         `);
     this.$prevOptions.append(this.$firstButton);
+
+    this.$prevFiveButton = $(`
+      <button class="btn imageBtn prev-five" tabindex="0" title="${this.content.previousFiveImages}">
+      <i class="uv-icon-prev-five" aria-hidden="true"></i>
+      <span class="sr-only">${this.content.first}</span>
+      </button>
+       `);
+    this.$prevOptions.append(this.$prevFiveButton);
 
     this.$prevButton = $(`
           <button class="btn imageBtn prev" tabindex="0" title="${this.content.previous}">
@@ -238,6 +250,14 @@ export class PagingHeaderPanel extends HeaderPanel<
         `);
     this.$nextOptions.append(this.$nextButton);
 
+    this.$nextFiveButton = $(`
+      <button class="btn imageBtn next-five" tabindex="0" title="${this.content.nextFiveImages}">
+      <i class="uv-icon-next-five" aria-hidden="true"></i>
+      <span class="sr-only">${this.content.first}</span>
+      </button>
+       `);
+    this.$nextOptions.append(this.$nextFiveButton);
+
     this.$lastButton = $(`
           <button class="btn imageBtn last" tabindex="0" title="${this.content.last}">
             <i class="uv-icon-last" aria-hidden="true"></i>
@@ -366,6 +386,32 @@ export class PagingHeaderPanel extends HeaderPanel<
       }
     });
 
+    this.$prevFiveButton.onPressed(() => {
+      switch (viewingDirection.toString()) {
+        case ViewingDirection.LEFT_TO_RIGHT:
+        case ViewingDirection.BOTTOM_TO_TOP:
+        case ViewingDirection.TOP_TO_BOTTOM:
+          this.extensionHost.publish(IIIFEvents.PREV_FIVE);
+          break;
+        case ViewingDirection.RIGHT_TO_LEFT:
+          this.extensionHost.publish(IIIFEvents.NEXT_FIVE);
+          break;
+      }
+    });
+
+    this.$nextFiveButton.onPressed(() => {
+      switch (viewingDirection.toString()) {
+        case ViewingDirection.LEFT_TO_RIGHT:
+        case ViewingDirection.BOTTOM_TO_TOP:
+        case ViewingDirection.TOP_TO_BOTTOM:
+          this.extensionHost.publish(IIIFEvents.NEXT_FIVE);
+          break;
+        case ViewingDirection.RIGHT_TO_LEFT:
+          this.extensionHost.publish(IIIFEvents.PREV_FIVE);
+          break;
+      }
+    });
+
     this.$lastButton.onPressed(() => {
       switch (viewingDirection.toString()) {
         case ViewingDirection.LEFT_TO_RIGHT:
@@ -430,6 +476,11 @@ export class PagingHeaderPanel extends HeaderPanel<
       this.$logoElement.css("background-image", "none");
     }
 
+    if (this.options.prevNextFiveButtonsEnabled === false) {
+      this.$prevFiveButton.hide();
+      this.$nextFiveButton.hide();
+    }
+
     // Search is shown as default
     if (
       this.options.imageSelectionBoxEnabled === true &&
@@ -490,8 +541,12 @@ export class PagingHeaderPanel extends HeaderPanel<
         this.$firstButton.find("span").text(this.content.lastPage);
         this.$prevButton.prop("title", this.content.nextPage);
         this.$prevButton.find("span").text(this.content.nextPage);
+        this.$prevFiveButton.prop("title", this.content.nextFivePages);
+        this.$prevFiveButton.find("span").text(this.content.nextFivePages);
         this.$nextButton.prop("title", this.content.previousPage);
         this.$nextButton.find("span").text(this.content.previousPage);
+        this.$nextFiveButton.prop("title", this.content.previousFivePages);
+        this.$nextFiveButton.find("span").text(this.content.previousFivePages);
         this.$lastButton.prop("title", this.content.firstPage);
         this.$lastButton.find("span").text(this.content.firstPage);
       } else {
@@ -499,8 +554,12 @@ export class PagingHeaderPanel extends HeaderPanel<
         this.$firstButton.find("span").text(this.content.firstPage);
         this.$prevButton.prop("title", this.content.previousPage);
         this.$prevButton.find("span").text(this.content.previousPage);
+        this.$prevFiveButton.prop("title", this.content.previousFivePages);
+        this.$prevFiveButton.find("span").text(this.content.previousFivePages);
         this.$nextButton.prop("title", this.content.nextPage);
         this.$nextButton.find("span").text(this.content.nextPage);
+        this.$nextFiveButton.prop("title", this.content.nextFivePages);
+        this.$nextFiveButton.find("span").text(this.content.nextFivePages);
         this.$lastButton.prop("title", this.content.lastPage);
         this.$lastButton.find("span").text(this.content.lastPage);
       }
@@ -510,8 +569,12 @@ export class PagingHeaderPanel extends HeaderPanel<
         this.$firstButton.find("span").text(this.content.lastPage);
         this.$prevButton.prop("title", this.content.nextImage);
         this.$prevButton.find("span").text(this.content.nextImage);
+        this.$prevFiveButton.prop("title", this.content.nextFiveImages);
+        this.$prevFiveButton.find("span").text(this.content.nextFiveImages);
         this.$nextButton.prop("title", this.content.previousImage);
         this.$nextButton.find("span").text(this.content.previousImage);
+        this.$nextFiveButton.prop("title", this.content.previousFiveImages);
+        this.$nextFiveButton.find("span").text(this.content.previousFiveImages);
         this.$lastButton.prop("title", this.content.firstImage);
         this.$lastButton.find("span").text(this.content.firstImage);
       } else {
@@ -519,8 +582,12 @@ export class PagingHeaderPanel extends HeaderPanel<
         this.$firstButton.find("span").text(this.content.firstImage);
         this.$prevButton.prop("title", this.content.previousImage);
         this.$prevButton.find("span").text(this.content.previousImage);
+        this.$prevFiveButton.prop("title", this.content.previousFiveImages);
+        this.$prevFiveButton.find("span").text(this.content.previousFiveImages);
         this.$nextButton.prop("title", this.content.nextImage);
         this.$nextButton.find("span").text(this.content.nextImage);
+        this.$nextFiveButton.prop("title", this.content.nextFiveImages);
+        this.$nextFiveButton.find("span").text(this.content.nextFiveImages);
         this.$lastButton.prop("title", this.content.lastImage);
         this.$lastButton.find("span").text(this.content.lastImage);
       }
@@ -672,33 +739,41 @@ export class PagingHeaderPanel extends HeaderPanel<
       if (this.extension.helper.isFirstCanvas()) {
         this.disableLastButton();
         this.disableNextButton();
+        this.disableNextFiveButton();
       } else {
         this.enableLastButton();
         this.enableNextButton();
+        this.enableNextFiveButton();
       }
 
       if (this.extension.helper.isLastCanvas()) {
         this.disableFirstButton();
         this.disablePrevButton();
+        this.disablePrevFiveButton();
       } else {
         this.enableFirstButton();
         this.enablePrevButton();
+        this.enablePrevFiveButton();
       }
     } else {
       if (this.extension.helper.isFirstCanvas()) {
         this.disableFirstButton();
         this.disablePrevButton();
+        this.disablePrevFiveButton();
       } else {
         this.enableFirstButton();
         this.enablePrevButton();
+        this.enablePrevFiveButton();
       }
 
       if (this.extension.helper.isLastCanvas()) {
         this.disableLastButton();
         this.disableNextButton();
+        this.disableNextFiveButton();
       } else {
         this.enableLastButton();
         this.enableNextButton();
+        this.enableNextFiveButton();
       }
     }
   }
@@ -749,6 +824,30 @@ export class PagingHeaderPanel extends HeaderPanel<
     this.nextButtonEnabled = true;
     this.$nextButton.enable();
     this.$nextButton.removeAttr("disabled");
+  }
+
+  disablePrevFiveButton(): void {
+    this.prevFiveButtonEnabled = false;
+    this.$prevFiveButton.disable();
+    this.$prevFiveButton.attr("disabled", "disabled");
+  }
+
+  enablePrevFiveButton(): void {
+    this.prevFiveButtonEnabled = true;
+    this.$prevFiveButton.enable();
+    this.$prevFiveButton.removeAttr("disabled");
+  }
+
+  disableNextFiveButton(): void {
+    this.nextFiveButtonEnabled = false;
+    this.$nextFiveButton.disable();
+    this.$nextFiveButton.attr("disabled", "disabled");
+  }
+
+  enableNextFiveButton(): void {
+    this.nextFiveButtonEnabled = true;
+    this.$nextFiveButton.enable();
+    this.$nextFiveButton.removeAttr("disabled");
   }
 
   modeChanged(): void {

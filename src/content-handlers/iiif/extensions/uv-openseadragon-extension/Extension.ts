@@ -268,6 +268,20 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
       }
     });
 
+    this.extensionHost.subscribe(IIIFEvents.NEXT_FIVE, () => {
+      this.fire(IIIFEvents.NEXT_FIVE);
+      this.extensionHost.publish(
+        IIIFEvents.CANVAS_INDEX_CHANGE,
+        this.getNextFivePageIndex()
+      );
+      const range: Range | null = this.helper.getCanvasRange(
+        this.helper.getCurrentCanvas()
+      );
+      if (range) {
+        this.extensionHost.publish(IIIFEvents.RANGE_CHANGE, range);
+      }
+    });
+
     this.extensionHost.subscribe(
       OpenSeadragonExtensionEvents.NEXT_SEARCH_RESULT,
       () => {
@@ -341,6 +355,21 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
       this.extensionHost.publish(
         IIIFEvents.CANVAS_INDEX_CHANGE,
         this.getPrevPageIndex()
+      );
+      const range: Range | null = this.helper.getCanvasRange(
+        this.helper.getCurrentCanvas()
+      );
+
+      if (range) {
+        this.extensionHost.publish(IIIFEvents.RANGE_CHANGE, range);
+      }
+    });
+
+    this.extensionHost.subscribe(IIIFEvents.PREV_FIVE, () => {
+      this.fire(IIIFEvents.PREV_FIVE);
+      this.extensionHost.publish(
+        IIIFEvents.CANVAS_INDEX_CHANGE,
+        this.getPrevFivePageIndex()
       );
       const range: Range | null = this.helper.getCanvasRange(
         this.helper.getCurrentCanvas()
@@ -1826,5 +1855,68 @@ export default class OpenSeadragonExtension extends BaseExtension<Config> {
     }
 
     return indices;
+  }
+
+  getPrevFivePageIndex(canvasIndex: number = this.helper.canvasIndex): number {
+    let index: number;
+
+    if (this.isPagingSettingEnabled()) {
+      const indices: number[] = this.getPagedIndices(canvasIndex);
+
+      if (this.helper.isRightToLeft()) {
+        index = this.tryDecrementIndex(indices[indices.length - 1], 5);
+      } else {
+        index = this.tryDecrementIndex(indices[0], 5);
+      }
+    } else {
+      index = this.tryDecrementIndex(canvasIndex, 5);
+    }
+
+    return index;
+  }
+
+  getNextFivePageIndex(canvasIndex: number = this.helper.canvasIndex): number {
+    let index: number;
+
+    if (this.isPagingSettingEnabled()) {
+      const indices: number[] = this.getPagedIndices(canvasIndex);
+
+      if (this.helper.isRightToLeft()) {
+        index = this.tryIncrementIndex(indices[0], 5);
+      } else {
+        index = this.tryIncrementIndex(indices[indices.length - 1], 5);
+      }
+    } else {
+      index = this.tryIncrementIndex(canvasIndex, 5);
+    }
+
+    if (canvasIndex === index) {
+      return -1;
+    }
+
+    return index;
+  }
+
+  tryDecrementIndex(currentIndex: number, numberToIncrement: number): number {
+    for (let i = 0; i < numberToIncrement; i++) {
+      if (currentIndex > 0) {
+        currentIndex--;
+      } else {
+        break;
+      }
+    }
+    return currentIndex;
+  }
+
+  tryIncrementIndex(currentIndex: number, numberToIncrement: number): number {
+    const totalCanvases = this.helper.getTotalCanvases();
+    for (let i = 0; i < numberToIncrement; i++) {
+      if (currentIndex < totalCanvases - 1) {
+        currentIndex++;
+      } else {
+        break;
+      }
+    }
+    return currentIndex;
   }
 }
