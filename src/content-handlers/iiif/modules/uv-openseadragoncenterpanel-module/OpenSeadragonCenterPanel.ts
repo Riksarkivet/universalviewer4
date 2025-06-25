@@ -371,6 +371,7 @@ export class OpenSeadragonCenterPanel extends CenterPanel<
     });
 
     const $oldZoomIn = this.$viewer.find('div[title="Zoom in"]');
+    $oldZoomIn.parent().css("z-index", "1000");
     this.$zoomInButton = $("<button />").append($oldZoomIn.contents());
     this.$zoomInButton.insertAfter($oldZoomIn);
     $oldZoomIn.remove();
