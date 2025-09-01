@@ -1,6 +1,6 @@
 const $ = require("jquery");
 import { RightPanel } from "../uv-shared-module/RightPanel";
-import { TextRightPanel as TextRightPanelConfig } from "../../BaseConfig";
+import { TextRightPanel as TextRightPanelConfig } from "../../extensions/uv-openseadragon-extension/config/Config";
 import { Events } from "../../../../Events";
 import OpenSeadragonExtension from "../../extensions/uv-openseadragon-extension/Extension";
 import OpenSeadragon from "openseadragon";

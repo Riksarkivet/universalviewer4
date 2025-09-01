@@ -326,10 +326,6 @@ export class BaseExtension<T extends BaseConfig> implements IExtension {
       this.resize();
     });
 
-    this.extensionHost.subscribe(IIIFEvents.CLOSE_TEXT_RIGHT_PANEL, () => {
-      this.resize();
-    });
-
     this.extensionHost.subscribe(
       IIIFEvents.COLLECTION_INDEX_CHANGE,
       (collectionIndex: number) => {

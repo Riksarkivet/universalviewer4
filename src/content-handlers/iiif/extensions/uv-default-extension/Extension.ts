@@ -6,8 +6,6 @@ import { HeaderPanel } from "../../modules/uv-shared-module/HeaderPanel";
 import { HelpDialogue } from "../../modules/uv-dialogues-module/HelpDialogue";
 import { IDefaultExtension } from "./IDefaultExtension";
 import { MoreInfoRightPanel } from "../../modules/uv-moreinforightpanel-module/MoreInfoRightPanel";
-import { TextRightPanel } from "../../modules/uv-textrightpanel-module/TextRightPanel";
-import { SearchLeftPanel } from "../../modules/uv-searchleftpanel-module/SearchLeftPanel";
 import { ResourcesLeftPanel } from "../../modules/uv-resourcesleftpanel-module/ResourcesLeftPanel";
 import { SettingsDialogue } from "./SettingsDialogue";
 import { ShareDialogue } from "./ShareDialogue";
@@ -30,9 +28,7 @@ export default class Extension
   headerPanel: HeaderPanel<Config["modules"]["headerPanel"]>;
   helpDialogue: HelpDialogue;
   leftPanel: ResourcesLeftPanel;
-  searchLeftPanel: SearchLeftPanel;
   rightPanel: MoreInfoRightPanel;
-  textRightPanel: TextRightPanel;
   settingsDialogue: SettingsDialogue;
   defaultConfig: Config = defaultConfig;
 
@@ -67,21 +63,12 @@ export default class Extension
       this.leftPanel = new ResourcesLeftPanel(this.shell.$leftPanel);
     }
 
-    if (this.isSearchLeftPanelEnabled()) {
-      this.searchLeftPanel = new SearchLeftPanel(this.shell.$searchLeftPanel);
-    }
-
     this.centerPanel = new FileLinkCenterPanel(this.shell.$centerPanel);
 
     if (this.isRightPanelEnabled()) {
       this.rightPanel = new MoreInfoRightPanel(this.shell.$rightPanel);
-    }
-
-    if (this.isTextRightPanelEnabled()) {
-      this.textRightPanel = new TextRightPanel(
-        this.shell.$textRightPanel,
-        this.shell
-      );
+    } else {
+      this.shell.$rightPanel.hide();
     }
 
     if (this.isFooterPanelEnabled()) {
@@ -112,16 +99,8 @@ export default class Extension
       this.leftPanel.init();
     }
 
-    if (this.isSearchLeftPanelEnabled()) {
-      this.searchLeftPanel.init();
-    }
-
     if (this.isRightPanelEnabled()) {
       this.rightPanel.init();
-    }
-
-    if (this.isTextRightPanelEnabled()) {
-      this.textRightPanel.init();
     }
   }
 

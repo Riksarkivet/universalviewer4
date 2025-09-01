@@ -55,8 +55,6 @@ export default class Extension
     this.extensionHost.subscribe(IIIFEvents.LEFTPANEL_EXPAND_FULL_START, () => {
       this.shell.$centerPanel.hide();
       this.shell.$rightPanel.hide();
-      this.shell.$textRightPanel.hide();
-      this.shell.$searchLeftPanel.hide();
     });
 
     this.extensionHost.subscribe(
@@ -64,8 +62,6 @@ export default class Extension
       () => {
         this.shell.$centerPanel.show();
         this.shell.$rightPanel.show();
-        this.shell.$textRightPanel.show();
-        this.shell.$searchLeftPanel.show();
         this.resize();
       }
     );
