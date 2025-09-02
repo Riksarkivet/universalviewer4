@@ -8,7 +8,6 @@ import { FooterPanel as MobileFooterPanel } from "../../modules/uv-modelviewermo
 import { HeaderPanel } from "../../modules/uv-shared-module/HeaderPanel";
 import { HelpDialogue } from "../../modules/uv-dialogues-module/HelpDialogue";
 import { MoreInfoRightPanel } from "../../modules/uv-moreinforightpanel-module/MoreInfoRightPanel";
-import { TextRightPanel } from "../../modules/uv-textrightpanel-module/TextRightPanel";
 import { SettingsDialogue } from "./SettingsDialogue";
 import { ShareDialogue } from "./ShareDialogue";
 import { ModelViewerCenterPanel } from "../../modules/uv-modelviewercenterpanel-module/ModelViewerCenterPanel";
@@ -35,7 +34,6 @@ export default class ModelViewerExtension extends BaseExtension<Config> {
   leftPanel: ContentLeftPanel;
   mobileFooterPanel: FooterPanel<Config["modules"]["footerPanel"]>;
   rightPanel: MoreInfoRightPanel;
-  textRightPanel: TextRightPanel;
   settingsDialogue: SettingsDialogue;
   shareDialogue: ShareDialogue;
   defaultConfig: Config = defaultConfig;
@@ -86,13 +84,6 @@ export default class ModelViewerExtension extends BaseExtension<Config> {
 
     if (this.isRightPanelEnabled()) {
       this.rightPanel = new MoreInfoRightPanel(this.shell.$rightPanel);
-    }
-
-    if (this.isTextRightPanelEnabled()) {
-      this.textRightPanel = new TextRightPanel(
-        this.shell.$textRightPanel,
-        this.shell
-      );
     }
 
     if (this.isFooterPanelEnabled()) {

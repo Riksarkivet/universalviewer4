@@ -1,6 +1,6 @@
 const $ = require("jquery");
 import { LeftPanel } from "../uv-shared-module/LeftPanel";
-import { SearchLeftPanel as SearchLeftPanelConfig } from "../../BaseConfig";
+import { SearchLeftPanel as SearchLeftPanelConfig } from "../../extensions/uv-openseadragon-extension/config/Config";
 import { Events } from "../../../../Events";
 import { OpenSeadragonExtensionEvents } from "../../extensions/uv-openseadragon-extension/Events";
 import { IIIFEvents } from "../../IIIFEvents";
