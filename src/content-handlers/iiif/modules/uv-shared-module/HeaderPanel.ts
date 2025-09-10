@@ -241,7 +241,10 @@ export class HeaderPanel<
 
     if (this.extension.isSmMetric()) {
       this.$settingsButton.hide();
-      if (pos < 0 || this.$centerOptions.height() >= 2 * this.$options.height()) {
+      if (
+        pos < 0 ||
+        this.$centerOptions.height() >= 2 * this.$options.height()
+      ) {
         this.$centerOptions.css({
           left: 0,
         });
