@@ -767,6 +767,13 @@ export class BaseExtension<T extends BaseConfig> implements IExtension {
     if (Bools.getBool(this.data.config!.options.saveUserSettings, false)) {
       const settings: any = Storage.get("uv.settings", StorageType.LOCAL);
 
+      if (
+        !this.data.config!.options.clickToZoomEnabled &&
+        settings?.value?.clickToZoomEnabled
+      ) {
+        this.updateSettings({ clickToZoomEnabled: false });
+      }
+
       if (settings) {
         return $.extend(this.data.config!.options, settings.value);
       }
