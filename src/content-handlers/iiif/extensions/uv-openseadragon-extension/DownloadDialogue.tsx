@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import cx from "classnames";
-import { Files, Maths, Strings } from "@edsilv/utils";
+import { Files, Maths, Strings } from "../../Utils";
 import {
   Canvas,
   Size,
@@ -37,6 +37,7 @@ const DownloadDialogue = ({
   maxImageWidth,
   mediaDownloadEnabled,
   onClose,
+  onDownload,
   onDownloadCurrentView,
   onDownloadSelection,
   onShowTermsOfUse,
@@ -67,6 +68,7 @@ const DownloadDialogue = ({
   maxImageWidth: number;
   mediaDownloadEnabled: boolean;
   onClose: () => void;
+  onDownload: (type: DownloadOption, label: string) => void;
   onDownloadCurrentView: (canvas: Canvas) => void;
   onDownloadSelection: () => void;
   onShowTermsOfUse: () => void;
@@ -267,13 +269,13 @@ const DownloadDialogue = ({
         }
 
         return !paged;
-      case DownloadOption.CANVAS_RENDERINGS:
-      case DownloadOption.IMAGE_RENDERINGS:
       case DownloadOption.WHOLE_IMAGE_HIGH_RES:
+        // If high-res download is disabled, bail out now; otherwise drop into cases below.
         if (!downloadWholeImageHighResEnabled) {
           return false;
         }
-
+      case DownloadOption.CANVAS_RENDERINGS:
+      case DownloadOption.IMAGE_RENDERINGS:
         const maxDimensions: Size | null = canvas.getMaxDimensions();
 
         if (maxDimensions) {
@@ -544,9 +546,11 @@ const DownloadDialogue = ({
   function Renderings({
     resource,
     defaultLabel,
+    type,
   }: {
     resource: ManifestResource;
     defaultLabel: string;
+    type: DownloadOption;
   }) {
     const renderings: Rendering[] = resource.getRenderings();
 
@@ -574,6 +578,7 @@ const DownloadDialogue = ({
             <li key={index}>
               <button
                 onClick={() => {
+                  onDownload(type, label);
                   window.open(rendering.id, "_blank");
                 }}
               >
@@ -600,6 +605,7 @@ const DownloadDialogue = ({
             resource={range}
             defaultLabel={content.entireFileAsOriginal}
             key={`range-rendering-${String(index)}`}
+            type={DownloadOption.RANGE_RENDERINGS}
           />
         ))}
       </>
@@ -617,6 +623,7 @@ const DownloadDialogue = ({
             resource={image.getResource()}
             defaultLabel={content.entireFileAsOriginal}
             key={`image-rendering-${String(index)}`}
+            type={DownloadOption.IMAGE_RENDERINGS}
           />
         ))}
       </>
@@ -630,6 +637,7 @@ const DownloadDialogue = ({
       <Renderings
         resource={canvas}
         defaultLabel={content.entireFileAsOriginal}
+        type={DownloadOption.CANVAS_RENDERINGS}
       />
     );
   }
@@ -646,10 +654,12 @@ const DownloadDialogue = ({
         <Renderings
           resource={sequence}
           defaultLabel={content.entireFileAsOriginal}
+          type={DownloadOption.MANIFEST_RENDERINGS}
         />
         <Renderings
           resource={manifest}
           defaultLabel={content.entireFileAsOriginal}
+          type={DownloadOption.MANIFEST_RENDERINGS}
         />
       </>
     );
@@ -711,6 +721,10 @@ const DownloadDialogue = ({
               <li className="option single">
                 <button
                   onClick={() => {
+                    onDownload(
+                      DownloadOption.CURRENT_VIEW,
+                      getCurrentViewLabel()
+                    );
                     onDownloadCurrentView(getSelectedCanvas());
                   }}
                 >
@@ -722,6 +736,10 @@ const DownloadDialogue = ({
               <li className="option single">
                 <button
                   onClick={() => {
+                    onDownload(
+                      DownloadOption.WHOLE_IMAGES_HIGH_RES,
+                      getWholeImageHighResLabel()
+                    );
                     window.open(getCanvasHighResImageUri(getSelectedCanvas()));
                   }}
                 >
@@ -733,6 +751,10 @@ const DownloadDialogue = ({
               <li className="option single">
                 <button
                   onClick={() => {
+                    onDownload(
+                      DownloadOption.WHOLE_IMAGE_LOW_RES,
+                      getWholeImageLowResLabel()
+                    );
                     const imageUri: string | null =
                       getConfinedImageUri(getSelectedCanvas());
 
@@ -770,6 +792,7 @@ const DownloadDialogue = ({
               <li className="option single">
                 <button
                   onClick={() => {
+                    onDownload(DownloadOption.SELECTION, content.selection);
                     onDownloadSelection();
                   }}
                 >

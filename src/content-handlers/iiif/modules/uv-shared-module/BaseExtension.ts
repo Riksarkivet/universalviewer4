@@ -32,7 +32,7 @@ import {
   Range,
 } from "manifesto.js";
 import { ViewingHint } from "@iiif/vocabulary/dist-commonjs/";
-import * as KeyCodes from "@edsilv/key-codes";
+import * as KeyCodes from "../../KeyCodes";
 import {
   Bools,
   Documents,
@@ -41,7 +41,7 @@ import {
   StorageType,
   Urls,
   Strings,
-} from "@edsilv/utils";
+} from "../../Utils";
 import { defaultLocale, isVisible } from "../../../../Utils";
 import { IIIFEvents } from "../../IIIFEvents";
 import { Events } from "../../../../Events";
@@ -704,10 +704,6 @@ export class BaseExtension<T extends BaseConfig> implements IExtension {
     this.extensionHost.publish(Events.RELOAD, data);
   }
 
-  isSeeAlsoEnabled(): boolean {
-    return this.data.config!.options.seeAlsoEnabled !== false;
-  }
-
   getShareUrl(): string | null {
     // If not embedded on an external domain (this causes CORS errors when fetching parent url)
     if (!this.data.embedded) {
@@ -843,7 +839,7 @@ export class BaseExtension<T extends BaseConfig> implements IExtension {
     const title: string = this.helper.getLabel() ?? "";
 
     if ((hashParams?.size ?? 0) > 0) {
-      appUri += `#${hashParams.toString()}`;
+      appUri += `#?${hashParams.toString()}`;
     }
 
     const script: string = Strings.format(
