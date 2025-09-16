@@ -140,6 +140,10 @@ export default class Extension
     }
   }
 
+  isLeftPanelEnabled(): boolean {
+    return Bools.getBool(this.data.config!.options.leftPanelEnabled, true);
+  }
+
   render(): void {
     super.render();
   }
