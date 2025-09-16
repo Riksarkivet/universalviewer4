@@ -62,7 +62,6 @@ export interface IExtension {
   isOverlayActive(): boolean;
   isRightPanelEnabled(): boolean;
   isTextRightPanelEnabled(): boolean;
-  isSeeAlsoEnabled(): boolean;
   isMetric(metric: string | string[]): boolean;
   isMobileMetric(): boolean;
   isSmMetric(): boolean;
