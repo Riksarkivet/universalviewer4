@@ -391,20 +391,8 @@
     "label": "English (GB)",
     "locales": [
       {
-        "name": "cy-GB",
-        "label": "Cymraeg"
-      },
-      {
         "name": "en-GB",
         "label": "English (GB)"
-      },
-      {
-        "name": "fr-FR",
-        "label": "Français (FR)"
-      },
-      {
-        "name": "pl-PL",
-        "label": "Polski"
       },
       {
         "name": "sv-SE",
