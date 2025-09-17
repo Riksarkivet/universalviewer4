@@ -25,8 +25,6 @@ import {
 } from "../../config/ExpandPanel";
 
 type MultiSelectDialogueOptions = DialogueOptions & {
-  /** Determines if chunked resizing is enabled for gallery thumbnails */
-  galleryThumbChunkedResizingEnabled: boolean;
   /** Threshold for chunked resizing of gallery thumbnails */
   galleryThumbChunkedResizingThreshold: number;
   /** Height of the gallery thumbnail */
@@ -140,10 +138,10 @@ type OpenSeadragonCenterPanelOptions = CenterPanelOptions & {
   showHomeControl: boolean;
   /** Determines if adjust image control is shown */
   showAdjustImageControl: boolean;
-  /** Number of attributions to trim */
-  trimAttributionCount: number;
   /** Ratio of visibility */
   visibilityRatio: number;
+  /** The maximum amount of time in milliseconds an image operation can take */
+  tileTimeout: number;
   /** Whether to zoom in to first annotation on load */
   zoomToInitialAnnotation: boolean;
   /** Whether to preserve the viewport if we have a search query (q=xxxx) */
@@ -372,8 +370,6 @@ type OSDDownloadDialogueOptions = DownloadDialogueOptions & {
   };
   /** Maximum width of the image */
   maxImageWidth: number;
-  /** Determines if explanatory text for options is enabled */
-  optionsExplanatoryTextEnabled: boolean;
   /** Determines if selection is enabled */
   selectionEnabled: boolean;
 };

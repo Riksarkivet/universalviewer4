@@ -2,7 +2,7 @@ const $ = require("jquery");
 import { FooterPanel as BaseFooterPanel } from "../uv-shared-module/FooterPanel";
 import { OpenSeadragonExtensionEvents } from "../../extensions/uv-openseadragon-extension/Events";
 import { Config } from "../../extensions/uv-openseadragon-extension/config/Config";
-import { Bools } from "@edsilv/utils";
+import { Bools } from "../../Utils";
 
 export class FooterPanel extends BaseFooterPanel<
   Config["modules"]["mobileFooterPanel"]

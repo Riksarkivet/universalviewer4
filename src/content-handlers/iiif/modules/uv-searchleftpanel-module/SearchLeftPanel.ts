@@ -9,8 +9,8 @@ import { AnnotationRect } from "@iiif/manifold";
 //import { Strings } from "@edsilv/utils";
 import { AnnotationResults } from "../uv-shared-module/AnnotationResults";
 import { SearchHit } from "../uv-shared-module/SearchHit";
-import { Keyboard, Strings } from "@edsilv/utils";
-import * as KeyCodes from "@edsilv/key-codes";
+import { Keyboard, Strings } from "../../Utils";
+import * as KeyCodes from "../../KeyCodes";
 import { URLAdapter } from "../../URLAdapter";
 import { XYWHFragment } from "../uv-shared-module/XYWHFragment";
 
