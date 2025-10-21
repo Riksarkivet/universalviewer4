@@ -166,12 +166,16 @@
             z-index: 20;
 
             .result {
-              padding: 4px;
               width: 100%;
               overflow: hidden;
 
               a {
+                padding: 4px;
+                color: FieldText;
                 display: block;
+                &:hover {
+                  color: HighlightText;
+                }
               }
 
               &.loading {
@@ -183,8 +187,8 @@
 
               &.selected,
               &:hover {
-                color: SelectedItemText;
                 background: Highlight;
+                color: HighlightText;
               }
             }
           }
