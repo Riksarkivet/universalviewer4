@@ -89,7 +89,8 @@
     },
     "searchLeftPanel": {
       "options": {
-        "panelExpandedWidth": 270
+        "panelExpandedWidth": 270,
+        "autocompleteAllowWords": true
       }
     },
     "moreInfoRightPanel": {

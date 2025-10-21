@@ -151,8 +151,8 @@
 
           .autocomplete {
             position: absolute;
-            width: 270px;
-            border: 2px solid @brand-primary-lighter;
+            background-color: Field;
+            width: 100%;
             list-style-type: none;
             -webkit-margin-before: 0;
             -webkit-margin-after: 0;
@@ -163,21 +163,28 @@
             padding: 0;
             max-height: 300px;
             overflow: hidden auto;
+            z-index: 20;
 
             .result {
               padding: 4px;
-              width: 270px;
+              width: 100%;
               overflow: hidden;
 
+              a {
+                display: block;
+              }
+
               &.loading {
-                background-image: data-uri(@loader-white-bg);
+                background-image: data-uri(@loader-black-bg);
                 background-repeat: no-repeat;
                 background-position: 4px 4px;
                 height: 25px;
               }
 
-              &.selected {
-                background: @gray-lighter;
+              &.selected,
+              &:hover {
+                color: SelectedItemText;
+                background: Highlight;
               }
             }
           }
