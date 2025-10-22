@@ -9,10 +9,11 @@ import { AnnotationRect } from "@iiif/manifold";
 //import { Strings } from "@edsilv/utils";
 import { AnnotationResults } from "../uv-shared-module/AnnotationResults";
 import { SearchHit } from "../uv-shared-module/SearchHit";
-import { Keyboard, Strings } from "../../Utils";
+import { Bools, Keyboard, Strings } from "../../Utils";
 import * as KeyCodes from "../../KeyCodes";
 import { URLAdapter } from "../../URLAdapter";
 import { XYWHFragment } from "../uv-shared-module/XYWHFragment";
+import { AutoComplete } from "../uv-shared-module/AutoComplete";
 
 export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
   $searchButton: JQuery;
@@ -349,6 +350,45 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
 
     this.$searchTextContainer.append(this.$clearButton);
     this.$searchTextContainer.append(this.$searchButton);
+
+    // ui event handlers.
+    var that = this;
+
+    const autocompleteService: string | null = (<OpenSeadragonExtension>(
+      this.extension
+    )).getAutoCompleteUri();
+
+    if (autocompleteService) {
+      new AutoComplete(
+        this.$searchText,
+        (terms: string, cb: (results: string[]) => void) => {
+          fetch(Strings.format(autocompleteService, terms))
+            .then((response) => response.json())
+            .then((results) => {
+              cb(results);
+            });
+        },
+        (results: any) => {
+          return $.map(results.terms, (result: any) => {
+            return result.match;
+          });
+        },
+        (terms: string) => {
+          this.$searchText.val(terms);
+          this.search(terms);
+        },
+        300,
+        2,
+        false,
+        Bools.getBool(this.options.autocompleteAllowWords, false)
+      );
+    } else {
+      this.$searchText.on("keyup", (e) => {
+        if (e.key === "Enter") {
+          that.search(that.$searchText.val());
+        }
+      });
+    }
 
     setTimeout(() => {
       if (this.q !== null && this.q !== "" && this.q !== undefined) {

@@ -169,6 +169,8 @@ type OpenSeadragonCenterPanel = ModuleConfig & {
 
 type SearchLeftPanelOptions = DialogueOptions &
   ExpandPanelOptions & {
+    /** Determines if autocomplete for words is allowed */
+    autocompleteAllowWords: boolean;
     /** Order in which canvases are displayed */
     canvasDisplayOrder: string;
     /** Canvases to exclude from display */

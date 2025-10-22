@@ -65,6 +65,7 @@
     },
     "searchLeftPanel": {
       "options": {
+        "autocompleteAllowWords": false,
         "canvasDisplayOrder": "",
         "canvasExclude": "",
         "copyToClipboardEnabled": false,
