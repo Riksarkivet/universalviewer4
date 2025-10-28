@@ -123,8 +123,8 @@ export class FooterPanel extends BaseFooterPanel<
 
     this.$searchLabel = $(
       '<label class="label" for="searchWithinInput">' +
-      this.content.searchWithin +
-      "</label>"
+        this.content.searchWithin +
+        "</label>"
     );
     this.$searchOptions.append(this.$searchLabel);
 
@@ -133,10 +133,10 @@ export class FooterPanel extends BaseFooterPanel<
 
     this.$searchText = $(
       '<input class="searchText" id="searchWithinInput" autocomplete="off" type="text" maxlength="100" value="' +
-      this.content.enterKeyword +
-      '" aria-label="' +
-      this.content.searchWithin +
-      '"/>'
+        this.content.enterKeyword +
+        '" aria-label="' +
+        this.content.searchWithin +
+        '"/>'
     );
     this.$searchTextContainer.append(this.$searchText);
 
@@ -156,8 +156,8 @@ export class FooterPanel extends BaseFooterPanel<
 
     this.$previousResultButton = $(
       '<button class="previousResult">' +
-      this.content.previousResult +
-      "</button>"
+        this.content.previousResult +
+        "</button>"
     );
     this.$searchPagerControls.append(this.$previousResultButton);
 
@@ -510,8 +510,8 @@ export class FooterPanel extends BaseFooterPanel<
     placemarkers.parent().find(".current").removeClass("current");
     const $current: JQuery = $(
       '.searchResultPlacemarker[data-index="' +
-      this.extension.helper.canvasIndex +
-      '"]'
+        this.extension.helper.canvasIndex +
+        '"]'
     );
     $current.addClass("current");
   }
@@ -538,8 +538,8 @@ export class FooterPanel extends BaseFooterPanel<
       const distance: number = result.canvasIndex * pageWidth;
       const $placemarker: JQuery = $(
         '<div class="searchResultPlacemarker" tabindex="0" data-index="' +
-        result.canvasIndex +
-        '"></div>'
+          result.canvasIndex +
+          '"></div>'
       );
 
       ($placemarker[0] as any).ontouchstart = function (e: any) {
@@ -842,7 +842,7 @@ export class FooterPanel extends BaseFooterPanel<
     return (
       this.config.options.pageModeEnabled &&
       (<OpenSeadragonExtension>this.extension).getMode().toString() ===
-      Mode.page.toString() &&
+        Mode.page.toString() &&
       !Bools.getBool(this.config.options.forceImageMode, false)
     );
   }
