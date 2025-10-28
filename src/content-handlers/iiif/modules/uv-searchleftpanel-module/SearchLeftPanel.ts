@@ -106,8 +106,6 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
             (<OpenSeadragonExtension>this.extension).annotations[0].rects[0],
           ]);
 
-          let hitIndex = 1;
-
           // we have loaded the viewer with a search result and hit index
           // so make sure it's the hit shown
           if (this.hi !== undefined && this.hi !== null) {
@@ -115,7 +113,6 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
               '.searchHitNumberSpan[data-index="' + this.hi + '"]'
             ).parent();
             div.trigger("click");
-            hitIndex = this.hi;
             const canvasIndex = $(div).attr("data-canvas-index");
             const index = $(div).attr("data-index");
             const currentRect = (<OpenSeadragonExtension>(
@@ -130,13 +127,6 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
             this.hi = 0;
             this.q = "";
           }
-          this.extensionHost.publish(Events.SEARCH_HIT_CHANGED, [
-            {
-              hitIndex: hitIndex,
-              rectIndex: this.currentAnnotationRect.index,
-              canvasIndex: this.currentAnnotationRect.canvasIndex,
-            },
-          ]);
         } else {
           this.$searchHitsLabel.html(this.content.noMatches);
         }
@@ -368,7 +358,7 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
           this.$searchText.val(terms);
           this.search(terms);
         },
-        300,
+        100,
         2,
         false,
         Bools.getBool(this.options.autocompleteAllowWords, false)
@@ -420,6 +410,7 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
     this.$searchResultContainer.html("");
     this.$searchText.blur();
     this.showSearchSpinner();
+    $('.autocomplete').hide();
     this.extensionHost.publish(OpenSeadragonExtensionEvents.SEARCH, this.terms);
   }
 
