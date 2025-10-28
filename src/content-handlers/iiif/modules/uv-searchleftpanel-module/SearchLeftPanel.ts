@@ -410,7 +410,7 @@ export class SearchLeftPanel extends LeftPanel<SearchLeftPanelConfig> {
     this.$searchResultContainer.html("");
     this.$searchText.blur();
     this.showSearchSpinner();
-    $('.autocomplete').hide();
+    $(".autocomplete").hide();
     this.extensionHost.publish(OpenSeadragonExtensionEvents.SEARCH, this.terms);
   }
 
