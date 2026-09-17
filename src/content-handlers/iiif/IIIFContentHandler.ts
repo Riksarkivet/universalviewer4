@@ -304,6 +304,8 @@ export default class IIIFContentHandler
 
     let helper: Helper;
 
+    let stage = "loading manifest";
+
     try {
       helper = await loadManifest({
         manifestUri: data.iiifManifestId,
@@ -314,6 +316,8 @@ export default class IIIFContentHandler
         rangeId: data.rangeId,
         locale: data.locales ? data.locales[0].name : undefined,
       } as IManifoldOptions);
+
+      stage = "reading manifest";
 
       let trackingLabel: string | null = helper.getTrackingLabel();
 
@@ -331,6 +335,8 @@ export default class IIIFContentHandler
         that._error(`Canvas ${data.canvasIndex} not found.`);
         return;
       }
+
+      stage = "selecting extension";
 
       let extension: IExtension | undefined;
 
@@ -378,6 +384,8 @@ export default class IIIFContentHandler
         }
       }
 
+      stage = "loading extension config";
+
       await this._loadAndApplyConfigToExtension(that, data, extension);
 
       // if using uv-av-extension and there is no structure,
@@ -402,11 +410,20 @@ export default class IIIFContentHandler
         await this._loadAndApplyConfigToExtension(that, data, extension);
       }
 
+      stage = "creating extension";
+
       that._createExtension(extension, data, helper);
     } catch (e) {
       this.hideSpinner();
-      alert("Unable to load manifest");
-      console.error(e);
+      console.error(
+        `Unable to load manifest (stage: ${stage}, time: ${new Date().toISOString()}, manifest: ${data.iiifManifestId})`,
+        e
+      );
+      alert(
+        "Unable to load manifest.\n\n" +
+          "För att underlätta felsökning, vänligen tryck F12 för att öppna webbläsarkonsollen,\n" +
+          "välj Konsoll-fliken och bifoga innehållet i din felrapport."
+      );
     }
   }
 
