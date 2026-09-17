@@ -36,71 +36,70 @@ const Extension: IExtensionRegistry = {
     name: "uv-av-extension",
     loader: () =>
       /* webpackMode: "lazy" */ import(
-        "./extensions/uv-av-extension/Extension"
-      ),
+      "./extensions/uv-av-extension/Extension"
+    ),
   },
   ALEPH: {
     name: "uv-aleph-extension",
     loader: () =>
       /* webpackMode: "lazy" */ import(
-        "./extensions/uv-aleph-extension/Extension"
-      ),
+      "./extensions/uv-aleph-extension/Extension"
+    ),
   },
   DEFAULT: {
     name: "uv-default-extension",
     loader: () =>
       /* webpackMode: "lazy" */ import(
-        "./extensions/uv-default-extension/Extension"
-      ),
+      "./extensions/uv-default-extension/Extension"
+    ),
   },
   EBOOK: {
     name: "uv-ebook-extension",
     loader: () =>
       /* webpackMode: "lazy" */ import(
-        "./extensions/uv-ebook-extension/Extension"
-      ),
+      "./extensions/uv-ebook-extension/Extension"
+    ),
   },
   MEDIAELEMENT: {
     name: "uv-mediaelement-extension",
     loader: () =>
       /* webpackMode: "lazy" */ import(
-        "./extensions/uv-mediaelement-extension/Extension"
-      ),
+      "./extensions/uv-mediaelement-extension/Extension"
+    ),
   },
   MODELVIEWER: {
     name: "uv-model-viewer-extension",
     loader: () =>
       /* webpackMode: "lazy" */ import(
-        "./extensions/uv-model-viewer-extension/Extension"
-      ),
+      "./extensions/uv-model-viewer-extension/Extension"
+    ),
   },
   OSD: {
     name: "uv-openseadragon-extension",
     loader: () =>
       /* webpackMode: "lazy" */ import(
-        "./extensions/uv-openseadragon-extension/Extension"
-      ),
+      "./extensions/uv-openseadragon-extension/Extension"
+    ),
   },
   PDF: {
     name: "uv-pdf-extension",
     loader: () =>
       /* webpackMode: "lazy" */ import(
-        "./extensions/uv-pdf-extension/Extension"
-      ),
+      "./extensions/uv-pdf-extension/Extension"
+    ),
   },
   SLIDEATLAS: {
     name: "uv-openseadragon-extension",
     loader: () =>
       /* webpackMode: "lazy" */ import(
-        "./extensions/uv-openseadragon-extension/Extension"
-      ),
+      "./extensions/uv-openseadragon-extension/Extension"
+    ),
   },
 };
 
 export default class IIIFContentHandler
   extends BaseContentHandler<IIIFData>
-  implements IIIFExtensionHost, IContentHandler<IIIFData>
-{
+  implements IIIFExtensionHost, IContentHandler<IIIFData> {
   private _extensionRegistry: IExtensionRegistry;
   private _pubsub: PubSub;
   public extension: IExtension | undefined;
@@ -304,6 +303,8 @@ export default class IIIFContentHandler
 
     let helper: Helper;
 
+    let stage = "loading manifest";
+
     try {
       helper = await loadManifest({
         manifestUri: data.iiifManifestId,
@@ -314,6 +315,8 @@ export default class IIIFContentHandler
         rangeId: data.rangeId,
         locale: data.locales ? data.locales[0].name : undefined,
       } as IManifoldOptions);
+
+      stage = "reading manifest";
 
       let trackingLabel: string | null = helper.getTrackingLabel();
 
@@ -331,6 +334,8 @@ export default class IIIFContentHandler
         that._error(`Canvas ${data.canvasIndex} not found.`);
         return;
       }
+
+      stage = "selecting extension";
 
       let extension: IExtension | undefined;
 
@@ -378,6 +383,8 @@ export default class IIIFContentHandler
         }
       }
 
+      stage = "loading extension config";
+
       await this._loadAndApplyConfigToExtension(that, data, extension);
 
       // if using uv-av-extension and there is no structure,
@@ -402,11 +409,20 @@ export default class IIIFContentHandler
         await this._loadAndApplyConfigToExtension(that, data, extension);
       }
 
+      stage = "creating extension";
+
       that._createExtension(extension, data, helper);
     } catch (e) {
       this.hideSpinner();
-      alert("Unable to load manifest");
-      console.error(e);
+      console.error(
+        `Unable to load manifest (stage: ${stage}, time: ${new Date().toISOString()}, manifest: ${data.iiifManifestId})`,
+        e
+      );
+      alert(
+        "Unable to load manifest.\n\n" +
+        "För att underlätta felsökning, vänligen tryck F12 för att öppna webbläsarkonsollen,\n" +
+        "välj Konsoll-fliken och bifoga innehållet i din felrapport."
+      );
     }
   }
 
